@@ -1,5 +1,7 @@
 {
   "name": "monsterdex",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
