@@ -1,13 +1,28 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-title>list-attacken</ion-title>
+    <ion-title>Attacken</ion-title>
+
+		<ion-searchbar
+			showCancelButton="focus"
+			placeholder="Namen eingeben"
+			animated
+			color="primary"
+			(ionChange)="onChangeSearch($event)"
+		>
+		</ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
 	<ion-list>
-		<ion-item *ngFor="let a of attacken">
-			<ion-label>{{a.titel}}</ion-label>
+		<ion-item detail *ngFor="let a of attacken" [routerLink]="['/detail-attacke', a.id]" routerDirection="forward" color="light">
+			<ion-label>{{a.name}}</ion-label>
+			<ion-note slot="end">(Typen (coming soon))</ion-note>
 		</ion-item>
 	</ion-list>
+
+		<ion-infinite-scroll (ionInfinite)="loadAttacken(true, $event)">
+	    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more...">
+	    </ion-infinite-scroll-content>
+	  </ion-infinite-scroll>
 </ion-content>

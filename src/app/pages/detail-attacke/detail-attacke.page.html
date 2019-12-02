@@ -1,9 +1,80 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-title>detail-attacke</ion-title>
+		<ion-buttons slot="start">
+			<ion-back-button defaultHref="/list-attacken"></ion-back-button>
+		</ion-buttons>
+    <ion-title>{{ attacke.name }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+	<ion-grid fixed>
+		<ion-row>
 
+			<ion-col size-xs="12" size-sm="6" size-md="4" size-lg="3">
+			  <ion-list>
+			    <!-- Allgemeines -->
+			    <ion-item-group>
+			      <ion-item-divider>
+							<ion-item slot="end" color="secondary">
+			        	<ion-label>Allgemeines</ion-label>
+							</ion-item>
+			      </ion-item-divider>
+
+			      <ion-item color="light">
+			        <ion-label>Name</ion-label>
+			        <ion-note slot="end">{{ attacke.name }}</ion-note>
+			      </ion-item>
+						<ion-item color="light">
+			        <ion-label>Schaden</ion-label>
+			        <ion-note slot="end">{{ attacke.schaden }}</ion-note>
+			      </ion-item>
+						<ion-item color="light">
+			        <ion-label>Beschreibung</ion-label>
+			        <ion-note slot="end">{{ attacke.beschreibung }}</ion-note>
+			      </ion-item>
+					</ion-item-group>
+				</ion-list>
+			</ion-col>
+
+			<ion-col size-xs="12" size-sm="6" size-md="4" size-lg="3">
+				<ion-list>
+					<!-- Typen -->
+					<ion-item-group>
+						<ion-item-divider>
+							<ion-item slot="end" color="secondary">
+								<ion-label>Typen</ion-label>
+								<!-- TODO own as bubbles here -->
+							</ion-item>
+						</ion-item-divider>
+
+						<ion-item> <!-- for .. of list of effectiveeness -->
+							<ion-label>n-Mal gegen</ion-label>
+							<ion-note slot="end">bubbles here</ion-note>
+						</ion-item>
+					</ion-item-group>
+				</ion-list>
+			</ion-col>
+
+			<ion-col size-xs="12" size-sm="6" size-md="4" size-lg="3">
+				<ion-list>
+					<!-- Typen -->
+					<ion-item-group>
+						<ion-item-divider>
+							<ion-item slot="end" color="secondary">
+								<ion-label>bei Monster:</ion-label>
+								<!-- TODO own as bubbles here -->
+							</ion-item>
+						</ion-item-divider>
+
+						<ion-item> <!-- for .. of list of monsters -->
+							<ion-label>Monster</ion-label>
+							<ion-note slot="end">maybe rang</ion-note>
+						</ion-item>
+					</ion-item-group>
+				</ion-list>
+			</ion-col>
+
+		</ion-row>
+	</ion-grid>
 </ion-content>
