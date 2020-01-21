@@ -57,11 +57,13 @@ export class DbTypenService {
 
 		// TODO: delete because debug
 		this.allTypen.asObservable().subscribe(mon => {
-			let indices:number[] = [];
-			for (let i = 0; i < mon.length; i++) {
-				indices.push(mon[i].id);
+			try {
+				let indices:number[] = this.listIds(mon);
+				console.log("allTypen on Subscription, got ids:", indices);
+			} catch (e) {
+				console.log("error in allTypen sub:", e);
 			}
-		})
+		});
 
 		this.dbReady.next(true);
 	}
