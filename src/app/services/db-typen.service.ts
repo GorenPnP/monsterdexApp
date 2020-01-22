@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { InitDatabaseService } from "./init-db.service";
+import { DatabaseService } from "./database.service";
 import { MessageService } from "./message.service"
 import { BehaviorSubject, Observable } from 'rxjs';
 import { SQLiteObject } from '@ionic-native/sqlite/ngx';
@@ -22,33 +22,43 @@ export class DbTypenService {
 
 	private allTypen = new BehaviorSubject([]);
 
-  constructor(private databaseService: InitDatabaseService,
+  constructor(private databaseService: DatabaseService,
 							private messageService: MessageService,
 						) {
 		this.databaseService.getDatabaseState().subscribe(rdy => {
-		if (rdy) {
-			// get db from DatabaseService
-			this.db = this.databaseService.getDatabase();
-			if (!this.db) {
-				this.messageService.error("Die Datenbank fehlt", "in INIT TYPEN DB: got no db: ", JSON.stringify(this.db));
-			}
-
-			// get NUM_Typen
-			this.db.executeSql("SELECT COUNT(*) AS num FROM monster_typ", []).then(data => {
-				if (!data || !data.rows.length) {
-					this.messageService.error("Konnte Anzahl der Typen nicht ermitteln");
+			if (rdy) {
+				// get db from DatabaseService
+				this.db = this.databaseService.getDatabase();
+				if (!this.db) {
+					this.messageService.error("Die Datenbank fehlt", "in INIT TYPEN DB: got no db: ", JSON.stringify(this.db));
 				}
-				this.NUM_TYPEN = data.rows.item(0).num;
+				this.messageService.alert("DB:", this.db);
 
-				// init allTypen
-				let i = 0;
-				let emptyList = []
-				while (i++ < this.NUM_TYPEN) {emptyList.push(null);}
-				this.allTypen.next(emptyList);
+				// get NUM_Typen
+				this.db.executeSql("SELECT COUNT(*) AS num FROM monster_typ", []).then(data => {
+					if (!data || !data.rows.length) {
+						this.messageService.error("Konnte Anzahl der Typen nicht ermitteln");
+					}
+					this.NUM_TYPEN = data.rows.item(0).num;
 
-				// seed db and set this.dbReady to true
-				this.seedDatabase();
-			});
+					// init allTypen
+					let i = 0;
+					let emptyList = []
+					while (i++ < this.NUM_TYPEN) {emptyList.push(null);}
+					this.allTypen.next(emptyList);
+
+					// seed db and set this.dbReady to true
+					this.seedDatabase();
+				}).catch(err => {
+					this.messageService.error("Konnte Typen nicht finden", "Could not initiate TypenService.", err);
+					this.NUM_TYPEN = 21;
+
+					// init allTypen
+					let i = 0;
+					let emptyList = []
+					while (i++ < this.NUM_TYPEN) {emptyList.push(null);}
+					this.allTypen.next(emptyList);
+				});
 			}
 		});
 	}
@@ -97,55 +107,61 @@ export class DbTypenService {
 	 * @return           - the Typen found
 	 */
 	private async getTypenByIds(neededIds: number[]): Promise<Typ[]> {
-
+console.log("needed:", neededIds)
 		// build query and values
 		let query = `SELECT * FROM monster_typ WHERE id IN (`;
 		let values = [];
 
-		let prepopulatedMons: Typ[] = [];
+		let prepopulatedTypes: Typ[] = [];
 
-		let allMon = this.allTypen.getValue().slice();
-		let tempMon;
+		let allTypes = this.allTypen.getValue().slice();
+console.log("allTyps:", this.listIds(allTypes))
+
+		let tempType;
 		for (let i = 0; i < neededIds.length; i++) {
 			// dont go over allTyp's boundaries
 			if (neededIds[i] > this.NUM_TYPEN) {continue;}
 
-			tempMon = allMon[neededIds[i]-1];
+			tempType = allTypes[neededIds[i]-1];
 
-			// if no information about Typ in this.allMons, add to query
-			if (tempMon === null || tempMon.id === 0) {
+			// if no information about Typ in this.allTypes, add to query
+			if (tempType === null || tempType.id === 0) {
 				query += "?,";
 				values.push(`${neededIds[i]}`);
 			} else {
-				prepopulatedMons.push(tempMon);
+				prepopulatedTypes.push(tempType);
 			}
 		}
+console.log("not known, known", values, prepopulatedTypes);
 
 		// if all information already gathered, return it
-		if (values.length === 0) {return prepopulatedMons;}
+		if (values.length === 0) {return prepopulatedTypes;}
 
 		// exchange last comma with closing paenthesis
 		query = query.slice(0, -1) + ")";
 
 		return this.db.executeSql(query, values).then(async data => {
-			let mons = this.dataToTyp(data);
+			let types = this.dataToTyp(data);
 
-			if (mons === null || mons === []) {
+			if (types === null || types === []) {
 				this.messageService.error("Konnte Typ nicht finden", "in getTypen: could not get Typen with ids ", neededIds);
-				return [this.defaultTyp()];
+				return [];
 			}
 
 			// return rest prematurely, even though not all ids found (of course, if they do not exist!)
-			if (neededIds[neededIds.length-1] >= this.NUM_TYPEN) {return mons;}
+			if (neededIds[neededIds.length-1] >= this.NUM_TYPEN) {return types;}
 
-			if (mons.length != values.length) {
-				this.messageService.alert("Nicht alle Typ gefunden", "in GET Typ: could not get all Typ with ids: ", values, " found: ", this.listIds(mons));
-				return [this.defaultTyp()];
+			if (types.length != values.length) {
+				this.messageService.alert("Nicht alle Typ gefunden", "in GET Typ: could not get all Typ with ids: ", values, " found: ", this.listIds(types));
+				return [];
 			}
 
 			// sort concatenated lists in place
-			let returnList = prepopulatedMons.concat(mons).sort(function(a, b) {return a.id < b.id? -1 : 1;});
+			let returnList = prepopulatedTypes.concat(types).sort(function(a, b) {return a.id < b.id? -1 : 1;});
 			return returnList;
+		}).catch(err => {
+			this.messageService.error("Konnte Typen nicht laden", "GET TYPEN BY IDS: DB query didnt work", err);
+			return []
 		});
   }
 
@@ -199,13 +215,13 @@ export class DbTypenService {
 	 * @param  mons - list of Typen
 	 * @return      - list of Typen ids
 	 */
-	private listIds(mons: Typ[]): number[] {
+	private listIds(typen: Typ[]): number[] {
 		let ids: number[] = [];
-		for (let i = 0; i < mons.length; i++) {
-			if (mons[i] === null || mons[i].id === 0) {
+		for (let i = 0; i < typen.length; i++) {
+			if (typen[i] === null || typen[i].id === 0) {
 				ids.push(0);
 			} else {
-				ids.push(mons[i].id);
+				ids.push(typen[i].id);
 			}
 		}
 		return ids;

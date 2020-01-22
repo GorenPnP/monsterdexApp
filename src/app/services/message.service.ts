@@ -30,7 +30,7 @@ export class MessageService {
 	 * @param toastCtrl [description]
 	 */
   constructor(private toastCtrl: ToastController) {
-		this.inProd = environment.production;
+/**/		this.inProd = false//environment.production;
 	}
 
 	/**
