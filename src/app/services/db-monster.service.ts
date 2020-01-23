@@ -8,6 +8,7 @@ import { SQLiteObject } from '@ionic-native/sqlite/ngx';
 import { Monster } from "../interfaces/monster"
 import { Typ } from '../interfaces/typ';
 import { DbTypenService } from './db-typen.service';
+import { Attacke } from '../interfaces/attacke';
 
 @Injectable({
   providedIn: 'root'
@@ -363,5 +364,19 @@ console.log(nameValue, "\nfound:", slices);
 			}
 			return icons;
 		});
+	}
+
+	async getMonstersByAttacke(attId: number): Promise<Monster[]> {
+
+		let query = `SELECT monster_id FROM monster_monster_attacken WHERE attacke_id=?`;
+
+		return this.db.executeSql(query, [`${attId}`]).then(data => {
+			let ids: number[] = [];
+
+			for (let i = 0; i < data.rows.length; i++) {
+					ids.push(data.rows.item(i).monster_id);
+			}
+			return this.getMonstersByIds(ids).then(mons => {return mons});
+		}).catch(e => {console.log(e); return [];});
 	}
 }

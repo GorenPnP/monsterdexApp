@@ -16,7 +16,8 @@ export class DetailMonsterPage implements OnInit {
 
 	id: number;
 	monster: Monster;
-	attacken: Attacke[] = [];
+	att_typen = [];
+
 	mon_typen_icons: string[] = [];
 
   constructor(private aRoute: ActivatedRoute,
@@ -40,7 +41,13 @@ export class DetailMonsterPage implements OnInit {
 					this.db_att.getDatabaseState().subscribe(rdy => {
 			      if (rdy) {
 							this.db_att.getAttackenByList(this.monster.attacken).then(atts => {
-								this.attacken = atts;
+
+								for (let i = 0; i < atts.length; i++) {
+									this.db.typIcons(atts[i].id).then(icons => {this.att_typen.push([atts[i], icons])});
+								}
+
+								// get all icons of attacken typen
+
 							});
 						}
 					});
