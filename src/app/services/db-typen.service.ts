@@ -32,7 +32,6 @@ export class DbTypenService {
 				if (!this.db) {
 					this.messageService.error("Die Datenbank fehlt", "in INIT TYPEN DB: got no db: ", JSON.stringify(this.db));
 				}
-				this.messageService.alert("DB:", this.db);
 
 				// get NUM_Typen
 				this.db.executeSql("SELECT COUNT(*) AS num FROM monster_typ", []).then(data => {
@@ -66,7 +65,7 @@ export class DbTypenService {
 	private async seedDatabase() {
 
 		// TODO: delete because debug
-		this.allTypen.asObservable().subscribe(mon => {
+/*		this.allTypen.asObservable().subscribe(mon => {
 			try {
 				let indices:number[] = this.listIds(mon);
 				console.log("allTypen on Subscription, got ids:", indices);
@@ -74,7 +73,7 @@ export class DbTypenService {
 				console.log("error in allTypen sub:", e);
 			}
 		});
-
+*/
 		this.dbReady.next(true);
 	}
 
@@ -107,7 +106,6 @@ export class DbTypenService {
 	 * @return           - the Typen found
 	 */
 	private async getTypenByIds(neededIds: number[]): Promise<Typ[]> {
-console.log("needed:", neededIds)
 		// build query and values
 		let query = `SELECT * FROM monster_typ WHERE id IN (`;
 		let values = [];
@@ -115,7 +113,6 @@ console.log("needed:", neededIds)
 		let prepopulatedTypes: Typ[] = [];
 
 		let allTypes = this.allTypen.getValue().slice();
-console.log("allTyps:", this.listIds(allTypes))
 
 		let tempType;
 		for (let i = 0; i < neededIds.length; i++) {
@@ -132,7 +129,6 @@ console.log("allTyps:", this.listIds(allTypes))
 				prepopulatedTypes.push(tempType);
 			}
 		}
-console.log("not known, known", values, prepopulatedTypes);
 
 		// if all information already gathered, return it
 		if (values.length === 0) {return prepopulatedTypes;}
@@ -156,6 +152,9 @@ console.log("not known, known", values, prepopulatedTypes);
 				return [];
 			}
 
+			// sole place to update
+			this.updateTypen(types);
+
 			// sort concatenated lists in place
 			let returnList = prepopulatedTypes.concat(types).sort(function(a, b) {return a.id < b.id? -1 : 1;});
 			return returnList;
@@ -171,7 +170,6 @@ console.log("not known, known", values, prepopulatedTypes);
 				this.messageService.error("Konnte Typ nicht finden", "GET Typ: could not find Typ with id", id);
 				return this.defaultTyp();
 			}
-			this.updateTypen([mons[0]]);
 			return mons[0];
 		});
 	}

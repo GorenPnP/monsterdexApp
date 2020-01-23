@@ -20,14 +20,11 @@
 
 <ion-content>
 
+	<ion-text *ngIf="list_items.length === 0" class="ion-text-center"><h2>Hier ist nichts</h2></ion-text>
+
 	<ion-list>
 		<ion-item-sliding  *ngFor="let i of list_items">
 			<ion-item detail [routerLink]="['/detail-monster', i[0].id]" routerDirection="forward" color="light" lines="full">
-				<!--
-				<ion-avatar slot="start">
-					<img src="https://via.placeholder.com/300x300">
-				</ion-avatar>
-				-->
 				<ion-label slot="start">{{i[0].name}}</ion-label>
 				<ion-note>
 					<ion-button *ngFor="let icon of i[1]" size="small" shape="round" color="tertiary" disabled="true">

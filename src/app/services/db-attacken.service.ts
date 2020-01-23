@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { InitDatabaseService } from "./init-db.service";
+import { DatabaseService } from "./database.service";
 import { MessageService } from "./message.service"
 import { BehaviorSubject, Observable } from 'rxjs';
 import { SQLiteObject } from '@ionic-native/sqlite/ngx';
@@ -25,7 +25,7 @@ export class DbAttackenService {
 	private allAttacken = new BehaviorSubject([]);
 	private attacken = new BehaviorSubject([]);
 
-  constructor(private databaseService: InitDatabaseService,
+  constructor(private databaseService: DatabaseService,
 							private messageService: MessageService,
 						) {
 		this.databaseService.getDatabaseState().subscribe(rdy => {
@@ -58,24 +58,26 @@ export class DbAttackenService {
 
 	private async seedDatabase() {
 		// use allAttacken internal, Attacken external
-		this.allAttacken.asObservable().subscribe(mon => {
+		this.allAttacken.asObservable().subscribe(atts => {
 
 			// if changes in 'loaded' part occured
 			if (this.attacken.getValue().length < this.lastAttacke) {
-				let mons = mon.slice(0, this.lastAttacke);
-				this.attacken.next(mons);
+				let attacken = atts.slice(0, this.lastAttacke);
+				this.attacken.next(attacken);
 			}
 		});
 
 
-		// TODO: delete because debug
-		this.attacken.asObservable().subscribe(mon => {
-			let indices:number[] = [];
-			for (let i = 0; i < mon.length; i++) {
-				indices.push(mon[i].id);
-			}
-		})
-
+// TODO: delete this because debug
+/*this.attacken.asObservable().subscribe(atts => {
+	let indices:number[] = [];
+	for (let i = 0; i < atts.length; i++) {
+		if (atts[i] !== null)
+		indices.push(atts[i].id);
+	}
+	console.log(indices);
+})
+*/
 		this.dbReady.next(true);
 	}
 
@@ -89,21 +91,21 @@ export class DbAttackenService {
 	}
 
 	/**
-	 * add input list of Ḿonsters to this.attacken, access changes through ovservable
-	 * @param mons - contains all Attacken to be added
+	 * add input list of Attacken to this.attacken, access changes through ovservable
+	 * @param atts - contains all Attacken to be added
 	 */
-	private updateAttacken(mons: Attacke[], from_filter: boolean=false): void {
+	private updateAttacken(atts: Attacke[], from_filter: boolean=false): void {
 		if ( (this.filter_on && !from_filter) || (!this.filter_on && from_filter) ) {return;}
 
 		// filter is activated, ignore allAttacken
-		if (this.filter_on && from_filter) {this.attacken.next(mons); return;}
+		if (this.filter_on && from_filter) {this.attacken.next(atts); return;}
 
 		// filter is not active, use allAttacken and lastAttacke
-		let allMons: Attacke[] = this.allAttacken.getValue();
-		for (let i = 0; i < mons.length; i++) {
-			allMons[mons[i].id-1] = mons[i];
+		let allAtts: Attacke[] = this.allAttacken.getValue();
+		for (let i = 0; i < atts.length; i++) {
+			allAtts[atts[i].id-1] = atts[i];
 		}
-		this.allAttacken.next(allMons);
+		this.allAttacken.next(allAtts);
 	}
 
 	/**
@@ -117,71 +119,71 @@ export class DbAttackenService {
 		let query = `SELECT * FROM monster_attacke WHERE id IN (`;
 		let values = [];
 
-		let prepopulatedMons: Attacke[] = [];
+		let prepopulatedAtts: Attacke[] = [];
 
-		let allMon = this.allAttacken.getValue().slice();
-		let tempMon;
+		let allAtts = this.allAttacken.getValue().slice();
+		let tempAtt;
 		for (let i = 0; i < neededIds.length; i++) {
 			// dont go over allAttacke's boundaries
 			if (neededIds[i] > this.NUM_ATTACKEN) {continue;}
 
-			tempMon = allMon[neededIds[i]-1];
+			tempAtt = allAtts[neededIds[i]-1];
 
-			// if no information about Attacke in this.allMons, add to query
-			if (tempMon === null || tempMon.id === 0) {
+			// if no information about Attacke in this.allAtts, add to query
+			if (tempAtt === null || tempAtt.id === 0) {
 				query += "?,";
 				values.push(`${neededIds[i]}`);
 			} else {
-				prepopulatedMons.push(tempMon);
+				prepopulatedAtts.push(tempAtt);
 			}
 		}
 
 		// if all information already gathered, return it
 		if (values.length === 0) {
-			return prepopulatedMons;
+			return prepopulatedAtts;
 		}
 
 		// exchange last comma with closing paenthesis
 		query = query.slice(0, -1) + ")";
 
 		return this.db.executeSql(query, values).then(async data => {
-			let mons = this.dataToAttacke(data);
+			let atts = this.dataToAttacke(data);
 
-			if (mons === null || mons === []) {
+			if (atts === null || atts === []) {
 				this.messageService.error("Konnte Attacke nicht finden", "in getAttacken: could not get Attacken with ids ", neededIds);
-				return [this.defaultAttacke()];
+				return [];
 			}
 
 			// return rest prematurely, even though not all ids found (of course, if they do not exist!)
-			if (neededIds[neededIds.length-1] >= this.NUM_ATTACKEN) {return mons;}
+			if (neededIds[neededIds.length-1] >= this.NUM_ATTACKEN) {return atts;}
 
-			if (mons.length != values.length) {
-				this.messageService.alert("Nicht alle Attacke gefunden", "in GET Attacke: could not get all Attacke with ids: ", values, " found: ", this.listIds(mons));
-				return [this.defaultAttacke()];
+			if (atts.length != values.length) {
+				this.messageService.alert("Nicht alle Attacke gefunden", "in GET Attacke: could not get all Attacke with ids: ", values, " found: ", this.listIds(atts));
+				return [];
 			}
 
+			// sole place to update, if not searching
+			this.updateAttacken(atts);
+
 			// sort concatenated lists in place
-			let returnList = prepopulatedMons.concat(mons).sort(function(a, b) {return a.id < b.id? -1 : 1;});
+			let returnList = prepopulatedAtts.concat(atts).sort(function(a, b) {return a.id < b.id? -1 : 1;});
 			return returnList;
 		});
   }
 
 	async getAttacke(id: number): Promise<Attacke> {
-		return this.getAttackenByIds([id]).then(mons => {
-			if (!(mons && mons.length)) {
+		return this.getAttackenByIds([id]).then(atts => {
+			if (!(atts && atts.length)) {
 				this.messageService.error("Konnte Attacke nicht finden", "GET Attacke: could not find Attacke with id", id);
 				return this.defaultAttacke();
 			}
-			this.updateAttacken([mons[0]]);
-			return mons[0];
+			return atts[0];
 		});
 	}
 
 	async getAttackenByList(ids: number[]): Promise<Attacke[]> {
-		return this.getAttackenByIds(ids).then(mon => {
-			this.updateAttacken(mon);
-
-			return mon;
+		return this.getAttackenByIds(ids).then(atts => {
+			return atts;
 		});
 	}
 
@@ -189,9 +191,8 @@ export class DbAttackenService {
 		let idOffset = offset+1;	// Attacke ids start at 1, not 0
 		let neededList: number[] = [];
 		for (let i = idOffset; i < idOffset+this.LIMIT; i++) {neededList.push(i)}
-		return this.getAttackenByIds(neededList).then(mon => {
-			this.lastAttacke += this.LIMIT;
-			this.updateAttacken(mon);
+		return this.getAttackenByIds(neededList).then(atts => {
+			this.lastAttacke += atts.length;
 		});
 	}
 
@@ -203,8 +204,8 @@ export class DbAttackenService {
 			let query = `SELECT * FROM monster_attacke WHERE titel LIKE ?`;
 
 			return this.db.executeSql(query, [mask]).then(data => {
-				let mons = this.dataToAttacke(data);
-				this.updateAttacken(mons, true);
+				let atts = this.dataToAttacke(data);
+				this.updateAttacken(atts, true);
 			});
 		}
 		this.filter_on = false;
@@ -239,16 +240,16 @@ export class DbAttackenService {
 
 	/**
 	 * helper function for debug output
-	 * @param  mons - list of Attacken
+	 * @param  atts - list of Attacken
 	 * @return      - list of Attacken ids
 	 */
-	private listIds(mons: Attacke[]): number[] {
+	private listIds(atts: Attacke[]): number[] {
 		let ids: number[] = [];
-		for (let i = 0; i < mons.length; i++) {
-			if (mons[i] === null || mons[i].id === 0) {
+		for (let i = 0; i < atts.length; i++) {
+			if (atts[i] === null || atts[i].id === 0) {
 				ids.push(0);
 			} else {
-				ids.push(mons[i].id);
+				ids.push(atts[i].id);
 			}
 		}
 		return ids;

@@ -14,6 +14,8 @@
 </ion-header>
 
 <ion-content>
+	<ion-text *ngIf="attacken.length === 0" class="ion-text-center"><h2>Hier ist nichts</h2></ion-text>
+
 	<ion-list>
 		<ion-item detail *ngFor="let a of attacken" [routerLink]="['/detail-attacke', a.id]" routerDirection="forward" color="light">
 			<ion-label>{{a.name}}</ion-label>

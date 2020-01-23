@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { InitDatabaseService } from "./init-db.service";
+import { DatabaseService } from "./database.service";
 import { MessageService } from "./message.service"
 import { BehaviorSubject, Observable } from 'rxjs';
 import { SQLiteObject } from '@ionic-native/sqlite/ngx';
@@ -18,7 +18,6 @@ export class DbMonsterService {
 	NUM_MONSTER:number = 0;
 
 	private lastMonster: number = 0;
-	private filter_on: boolean = false;
 
 	private dbReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
@@ -28,7 +27,7 @@ export class DbMonsterService {
 	private monsters = new BehaviorSubject([]);
 	private selectedMonsters = new BehaviorSubject([]);
 
-  constructor(private databaseService: InitDatabaseService,
+  constructor(private databaseService: DatabaseService,
 							private messageService: MessageService,
 							private db_typen: DbTypenService
 							) {
@@ -48,7 +47,7 @@ export class DbMonsterService {
 
 				// init allMonster
 				let i = 0;
-				let emptyList = []
+				let emptyList = [];
 				while (i++ < this.NUM_MONSTER) {emptyList.push(null);}
 				this.allMonsters.next(emptyList);
 
@@ -83,7 +82,6 @@ export class DbMonsterService {
 						this.monsters.next(mons);
 					}
 				});
-
 				this.dbReady.next(true);
 			}
 		});
@@ -107,16 +105,17 @@ export class DbMonsterService {
 	 * @param mons - contains all monsters to be added
 	 */
 	private updateMonsters(mons: Monster[], from_filter: boolean=false): void {
-		if ( (this.filter_on && !from_filter) || (!this.filter_on && from_filter) ) {return;}
 
-		// filter is activated, ignore allMonsters
-		if (this.filter_on && from_filter) {this.monsters.next(mons); return;}
-
-		// filter is not active, use allMonsters and lastMonster
 		let allMons: Monster[] = this.allMonsters.getValue();
 		for (let i = 0; i < mons.length; i++) {
 			allMons[mons[i].id-1] = mons[i];
 		}
+
+		// filter is activated, ignore allMonsters
+		if (from_filter) {
+			this.monsters.next(mons); return;}
+
+		// filter is not active, use allMonsters and lastMonster
 		this.allMonsters.next(allMons);
 	}
 
@@ -185,7 +184,6 @@ export class DbMonsterService {
 				this.messageService.error("Konnte Monster nicht finden", "GET MONSTER: could not find monster with id", id);
 				return this.defaultMonster();
 			}
-			this.updateMonsters([mons[0]]);
 			return mons[0];
 		});
 	}
@@ -195,7 +193,7 @@ export class DbMonsterService {
 		let neededList: number[] = [];
 		for (let i = idOffset; i < idOffset+this.LIMIT; i++) {neededList.push(i)}
 		return this.getMonstersByIds(neededList).then(mon => {
-			this.lastMonster += this.LIMIT;
+			this.lastMonster += mon.length;
 			this.updateMonsters(mon);
 		});
 	}
@@ -252,21 +250,30 @@ export class DbMonsterService {
 
 	async findMonster(nameValue:string): Promise<void> {
 		if (nameValue && nameValue.length) {
-			this.filter_on = true;
 
 			let mask = "%"+nameValue+"%";
 			let query = `SELECT * FROM monster_monster WHERE name LIKE ? OR id=?`;
 
 			return this.db.executeSql(query, [mask, nameValue]).then(data => {
 				return this.dataToMonster(data).then(mons => {
+
+/**/
+let slices = [];
+for (let i = 0; i < mons.length; i++) {
+	slices.push((mons[i].id, mons[i].name));
+}
+console.log(nameValue, "\nfound:", slices);
+/**/
+
 					this.updateMonsters(mons, true);
 				});
 			});
+		} else {
+
+			// this.lastMonster seems to be 25 too far, subtract from it beforehand
+			this.lastMonster -= this.LIMIT;
+			return this.getMonsters(this.lastMonster);
 		}
-		this.filter_on = false;
-		// this.lastMonster seems to be 25 too far, subtract from it beforehand
-		this.lastMonster -= this.LIMIT;
-		return this.getMonsters(this.lastMonster);
 	}
 
 	private async getAttacken(monId: number): Promise<number[]> {
@@ -335,7 +342,7 @@ export class DbMonsterService {
 	 * @param  mons - list of monsters
 	 * @return      - list of monsters ids
 	 */
-	private listIds(mons: Monster[]): number[] {
+	private	listIds(mons: Monster[]): number[] {
 		let ids: number[] = [];
 		for (let i = 0; i < mons.length; i++) {
 			if (mons[i] === null || mons[i].id === 0) {

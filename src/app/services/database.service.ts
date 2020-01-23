@@ -43,7 +43,6 @@ export class DatabaseService {
 
 		let willDelete = !environment.production;
 
-		this.messageService.alert("in prod?", !willDelete);
 		// delete and copy db on debug
 		if (willDelete) {
 			// will delete db
