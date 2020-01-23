@@ -41,13 +41,9 @@ export class DetailAttackePage implements OnInit {
 
 								// get all monsters with typ icons capable of this attack
 								this.db_mon.getMonstersByAttacke(this.attacke.id).then(mons => {
-
 									for (let i = 0; i < mons.length; i++) {
-										this.db_mon.typIcons(mons[i].id).then(icons => {this.mon_typen.push([mons[i], icons])});
+										this.db_mon.typIcons(mons[i].id).then(icons => {this.mon_typen.push([mons[i], icons]);});
 									}
-
-
-
 								});
 							}
 						});
