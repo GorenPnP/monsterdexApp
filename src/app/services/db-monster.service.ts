@@ -160,7 +160,7 @@ export class DbMonsterService {
 
 				if (mons === null || mons === []) {
 					this.messageService.error("Konnte Monster nicht finden", "in getMonsters: could not get monsters with ids ", neededIds);
-					return [this.defaultMonster()];
+					return [];
 				}
 
 				// return rest prematurely, even though not all ids found (of course, if they do not exist!)
@@ -168,7 +168,7 @@ export class DbMonsterService {
 
 				if (mons.length != values.length) {
 					this.messageService.alert("Nicht alle Monster gefunden", "in GET MONSTER: could not get all monster with ids: ", values, " found: ", this.listIds(mons));
-					return [this.defaultMonster()];
+					return [];
 				}
 
 				// sort concatenated lists in place

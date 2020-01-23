@@ -30,7 +30,8 @@ export class DetailAttackePage implements OnInit {
 				id: 0,
 				name: "",
 				schaden: "",
-				beschreibung: ""
+				beschreibung: "",
+				typen: []
 			}
 		}
 	}

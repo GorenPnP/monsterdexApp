@@ -17,10 +17,14 @@
 	<ion-text *ngIf="attacken.length === 0" class="ion-text-center"><h2>Hier ist nichts</h2></ion-text>
 
 	<ion-list>
-		<ion-item detail *ngFor="let a of attacken" [routerLink]="['/detail-attacke', a.id]" routerDirection="forward" color="light">
-			<ion-label>{{a.name}}</ion-label>
-			<ion-note slot="end">(Typen (coming soon))</ion-note>
-		</ion-item>
+			<ion-item *ngFor="let i of list_items" detail [routerLink]="['/detail-attacke', i[0].id]" routerDirection="forward" color="light" lines="full">
+				<ion-label slot="start">{{i[0].name}}</ion-label>
+				<ion-note>
+					<ion-button *ngFor="let icon of i[1]" size="small" shape="round" color="tertiary" disabled="true">
+						<ion-icon [name]="icon" slot="icon-only"></ion-icon>
+					</ion-button>
+				</ion-note>
+			</ion-item>
 	</ion-list>
 
 		<ion-infinite-scroll (ionInfinite)="loadAttacken(true, $event)">

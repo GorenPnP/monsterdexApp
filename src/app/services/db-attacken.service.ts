@@ -6,6 +6,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { SQLiteObject } from '@ionic-native/sqlite/ngx';
 
 import { Attacke } from "../interfaces/attacke"
+import { Typ } from '../interfaces/typ';
+import { DbTypenService } from './db-typen.service';
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +28,7 @@ export class DbAttackenService {
 	private attacken = new BehaviorSubject([]);
 
   constructor(private databaseService: DatabaseService,
+							private db_typen: DbTypenService,
 							private messageService: MessageService,
 						) {
 		this.databaseService.getDatabaseState().subscribe(rdy => {
@@ -58,28 +61,22 @@ export class DbAttackenService {
 
 	private async seedDatabase() {
 		// use allAttacken internal, Attacken external
-		this.allAttacken.asObservable().subscribe(atts => {
+		this.db_typen.getDatabaseState().subscribe(rdy => {
+			if (rdy) {
+				// use allMonsters internal, monsters external
+				this.allAttacken.asObservable().subscribe(allAtts => {
 
-			// if changes in 'loaded' part occured
-			if (this.attacken.getValue().length < this.lastAttacke) {
-				let attacken = atts.slice(0, this.lastAttacke);
-				this.attacken.next(attacken);
+					// if changes in 'loaded' part occured
+					if (this.attacken.getValue().length < this.lastAttacke) {
+						let atts = allAtts.slice(0, this.lastAttacke);
+						this.attacken.next(atts);
+					}
+				});
+				this.dbReady.next(true);
 			}
 		});
-
-
-// TODO: delete this because debug
-/*this.attacken.asObservable().subscribe(atts => {
-	let indices:number[] = [];
-	for (let i = 0; i < atts.length; i++) {
-		if (atts[i] !== null)
-		indices.push(atts[i].id);
 	}
-	console.log(indices);
-})
-*/
-		this.dbReady.next(true);
-	}
+
 
 	getDatabaseState(): Observable<boolean> {
 		return this.dbReady.asObservable();
@@ -95,16 +92,16 @@ export class DbAttackenService {
 	 * @param atts - contains all Attacken to be added
 	 */
 	private updateAttacken(atts: Attacke[], from_filter: boolean=false): void {
-		if ( (this.filter_on && !from_filter) || (!this.filter_on && from_filter) ) {return;}
-
-		// filter is activated, ignore allAttacken
-		if (this.filter_on && from_filter) {this.attacken.next(atts); return;}
-
-		// filter is not active, use allAttacken and lastAttacke
 		let allAtts: Attacke[] = this.allAttacken.getValue();
 		for (let i = 0; i < atts.length; i++) {
 			allAtts[atts[i].id-1] = atts[i];
 		}
+
+		// filter is activated, ignore allMonsters
+		if (from_filter) {
+			this.attacken.next(atts); return;}
+
+		// filter is not active, use allMonsters and lastMonster
 		this.allAttacken.next(allAtts);
 	}
 
@@ -117,59 +114,55 @@ export class DbAttackenService {
 
 		// build query and values
 		let query = `SELECT * FROM monster_attacke WHERE id IN (`;
-		let values = [];
+			let values = [];
 
-		let prepopulatedAtts: Attacke[] = [];
+			let prepopulatedAtts: Attacke[] = [];
 
-		let allAtts = this.allAttacken.getValue().slice();
-		let tempAtt;
-		for (let i = 0; i < neededIds.length; i++) {
-			// dont go over allAttacke's boundaries
-			if (neededIds[i] > this.NUM_ATTACKEN) {continue;}
+			let allAtts = this.allAttacken.getValue().slice();
+			let tempAtt;
+			for (let i = 0; i < neededIds.length; i++) {
+				// dont go over allMonster's boundaries
+				if (neededIds[i] > this.NUM_ATTACKEN) {continue;}
 
-			tempAtt = allAtts[neededIds[i]-1];
+				tempAtt = allAtts[neededIds[i]-1];
 
-			// if no information about Attacke in this.allAtts, add to query
-			if (tempAtt === null || tempAtt.id === 0) {
-				query += "?,";
-				values.push(`${neededIds[i]}`);
-			} else {
-				prepopulatedAtts.push(tempAtt);
-			}
-		}
-
-		// if all information already gathered, return it
-		if (values.length === 0) {
-			return prepopulatedAtts;
-		}
-
-		// exchange last comma with closing paenthesis
-		query = query.slice(0, -1) + ")";
-
-		return this.db.executeSql(query, values).then(async data => {
-			let atts = this.dataToAttacke(data);
-
-			if (atts === null || atts === []) {
-				this.messageService.error("Konnte Attacke nicht finden", "in getAttacken: could not get Attacken with ids ", neededIds);
-				return [];
+				// if no information about monster in this.allMons, add to query
+				if (tempAtt === null || tempAtt.id === 0) {
+					query += "?,";
+					values.push(`${neededIds[i]}`);
+				} else {
+					prepopulatedAtts.push(tempAtt);
+				}
 			}
 
-			// return rest prematurely, even though not all ids found (of course, if they do not exist!)
-			if (neededIds[neededIds.length-1] >= this.NUM_ATTACKEN) {return atts;}
+			// if all information already gathered, return it
+			if (values.length === 0) {return prepopulatedAtts;}
 
-			if (atts.length != values.length) {
-				this.messageService.alert("Nicht alle Attacke gefunden", "in GET Attacke: could not get all Attacke with ids: ", values, " found: ", this.listIds(atts));
-				return [];
-			}
+			// exchange last comma with closing paenthesis
+			query = query.slice(0, -1) + ")";
 
-			// sole place to update, if not searching
-			this.updateAttacken(atts);
+			return this.db.executeSql(query, values).then(async data => {
+				return this.dataToAttacke(data).then(atts => {
 
-			// sort concatenated lists in place
-			let returnList = prepopulatedAtts.concat(atts).sort(function(a, b) {return a.id < b.id? -1 : 1;});
-			return returnList;
-		});
-  }
+					if (atts === null || atts === []) {
+						this.messageService.error("Konnte Attacken nicht finden", "in getAttackenByIds: could not get atts with ids ", neededIds);
+						return [];
+					}
+
+					// return rest prematurely, even though not all ids found (of course, if they do not exist!)
+					if (neededIds[neededIds.length-1] >= this.NUM_ATTACKEN) {return atts;}
+
+					if (atts.length != values.length) {
+						this.messageService.alert("Nicht alle Attacken gefunden", "in getAttackenByIds: could not get all atts with ids: ", values, " found: ", this.listIds(atts));
+						return [];
+					}
+
+					// sort concatenated lists in place
+					let returnList = prepopulatedAtts.concat(atts).sort(function(a, b) {return a.id < b.id? -1 : 1;});
+					return returnList;
+				});
+			});
+	  }
 
 	async getAttacke(id: number): Promise<Attacke> {
 		return this.getAttackenByIds([id]).then(atts => {
@@ -188,11 +181,12 @@ export class DbAttackenService {
 	}
 
 	async getAttacken(offset: number): Promise<void> {
-		let idOffset = offset+1;	// Attacke ids start at 1, not 0
+		let idOffset = offset+1;	// monster ids start at 1, not 0
 		let neededList: number[] = [];
 		for (let i = idOffset; i < idOffset+this.LIMIT; i++) {neededList.push(i)}
 		return this.getAttackenByIds(neededList).then(atts => {
 			this.lastAttacke += atts.length;
+			this.updateAttacken(atts);
 		});
 	}
 
@@ -204,8 +198,9 @@ export class DbAttackenService {
 			let query = `SELECT * FROM monster_attacke WHERE titel LIKE ?`;
 
 			return this.db.executeSql(query, [mask]).then(data => {
-				let atts = this.dataToAttacke(data);
-				this.updateAttacken(atts, true);
+				return this.dataToAttacke(data).then(atts => {
+					this.updateAttacken(atts, true);
+				});
 			});
 		}
 		this.filter_on = false;
@@ -214,16 +209,21 @@ export class DbAttackenService {
 		return this.getAttacken(this.lastAttacke);
 	}
 
-	dataToAttacke(data): Attacke[] {
+	private async dataToAttacke(data): Promise<Attacke[]> {
 		let attacken: Attacke[] = [];
 		let item;
+		let typen: Typ[] = [];
 		for (let i = 0; i < data.rows.length; i++) {
 			item = data.rows.item(i);
+
+			typen = await this.db_typen.getMonsterTypen(item.id);
+
 			attacken.push({
 				id: item.id,
 				name: item.titel,
 				schaden: item.schaden,
-				beschreibung: item.beschreibung
+				beschreibung: item.beschreibung,
+				typen: typen
 			});
 		}
 		return attacken;
@@ -234,7 +234,8 @@ export class DbAttackenService {
 			id: 0,
 			name: "",
 			schaden: "",
-			beschreibung: ""
+			beschreibung: "",
+			typen: []
 		}
 	}
 
@@ -253,5 +254,16 @@ export class DbAttackenService {
 			}
 		}
 		return ids;
+	}
+
+	async typIcons(attId: number): Promise<string[]> {
+		return this.getAttacke(attId).then(att => {
+			let icons: string[] = [];
+
+			for (let i = 0; i < att.typen.length; i++) {
+				icons.push(att.typen[i].icon);
+			}
+			return icons;
+		});
 	}
 }
