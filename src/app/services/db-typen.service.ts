@@ -6,7 +6,6 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { SQLiteObject } from '@ionic-native/sqlite/ngx';
 
 import { Typ, StrToTyp } from "../interfaces/typ";
-import { Monster } from "../interfaces/monster";
 
 @Injectable({
   providedIn: 'root'
@@ -91,7 +90,6 @@ export class DbTypenService {
 	 * @param mons - contains all Typen to be added
 	 */
 	private updateTypen(mons: Typ[]): void {
-
 		// filter is not active, use allTypen and lastTyp
 		let allMons: Typ[] = this.allTypen.getValue();
 		for (let i = 0; i < mons.length; i++) {
@@ -99,6 +97,18 @@ export class DbTypenService {
 		}
 		this.allTypen.next(allMons);
 	}
+
+
+	async getAllTypenIcons() {
+		let ids: number[] = [];
+		for (let i = 1; i <= this.NUM_TYPEN; i++) {ids.push(i);}
+
+		await this.getTypenByIds(ids);
+		let typen = this.allTypen.getValue();
+
+		return typen;
+	}
+
 
 	/**
 	 * only function to read Typ entries from the db
@@ -145,7 +155,7 @@ export class DbTypenService {
 			}
 
 			// return rest prematurely, even though not all ids found (of course, if they do not exist!)
-			if (neededIds[neededIds.length-1] >= this.NUM_TYPEN) {return types;}
+			if (neededIds[neededIds.length-1] > this.NUM_TYPEN) {return types;}
 
 			if (types.length != values.length) {
 				this.messageService.alert("Nicht alle Typ gefunden", "in GET Typ: could not get all Typ with ids: ", values, " found: ", this.listIds(types));

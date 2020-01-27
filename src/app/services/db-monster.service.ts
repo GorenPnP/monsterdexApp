@@ -258,13 +258,13 @@ export class DbMonsterService {
 			return this.db.executeSql(query, [mask, nameValue]).then(data => {
 				return this.dataToMonster(data).then(mons => {
 
-/**/
+/*
 let slices = [];
 for (let i = 0; i < mons.length; i++) {
 	slices.push((mons[i].id, mons[i].name));
 }
 console.log(nameValue, "\nfound:", slices);
-/**/
+*/
 
 					this.updateMonsters(mons, true);
 				});

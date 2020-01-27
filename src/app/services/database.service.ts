@@ -40,7 +40,7 @@ export class DatabaseService {
 							private sqlite: SQLite,
 							private dbCopy: SqliteDbCopy,
 							private messageService: MessageService) {
-
+//this.messageService.alert("Init DB")
 		let willDelete = !environment.production;
 
 		// delete and copy db on debug
@@ -79,6 +79,7 @@ export class DatabaseService {
 		// copy even if none to delete found or sth.
 		await this.dbCopy.copy(this.dbName, 0).then(_ => {
 			// db is copied
+//this.messageService.alert("copied DB");
 		}).catch((e) => {
 			if (e.code ===  516) {
 				// db already exists, did not copy
@@ -96,6 +97,7 @@ export class DatabaseService {
 				.then((db: SQLiteObject) => {
 					this.database = db;
 					this.dbReady.next(true);
+//this.messageService.alert("opened DB");
 				});
 		});
 	}
@@ -109,6 +111,7 @@ export class DatabaseService {
 	private async deleteDB(): Promise<void> {
 		this.dbCopy.remove(this.dbName, 0).then(_ => {
 			// db is deleted
+//this.messageService.alert("deleted DB");
 		}).catch((e) => {
 			this.messageService.error("Konnte die Datenbank nicht löschen", "ERROR: could not delete db: ", JSON.stringify(e));
 		});

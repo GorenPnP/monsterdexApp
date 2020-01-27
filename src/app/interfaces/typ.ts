@@ -51,3 +51,8 @@ export let StrToTyp = {
 	"Magie": {id: 0, icon: "color-wand", typ: TypEnum.magie},
 	"Psycho": {id: 0, icon: "eye", typ: TypEnum.psycho}
 }
+
+export function string_of_enum(enumInstance) {
+  let name: string = Object.keys(StrToTyp)[enumInstance.typ];
+	return name;
+}

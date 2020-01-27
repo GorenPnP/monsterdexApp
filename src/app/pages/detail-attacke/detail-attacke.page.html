@@ -3,6 +3,13 @@
 		<ion-buttons slot="start">
 			<ion-back-button defaultHref="/list-attacken"></ion-back-button>
 		</ion-buttons>
+
+		<ion-buttons slot="end">
+			<ion-button [routerLink]="['/list-typen']" routerDirection="forward">
+				<ion-icon  name="information-circle-outline"></ion-icon>
+			</ion-button>
+		</ion-buttons>
+
     <ion-title>{{ attacke.name }}</ion-title>
   </ion-toolbar>
 </ion-header>
