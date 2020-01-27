@@ -6,6 +6,8 @@ import { DbAttackenService } from '../../services/db-attacken.service';
 
 import { Monster } from "../../interfaces/monster";
 import { Attacke } from '../../interfaces/attacke';
+import { Image } from 'src/app/interfaces/image';
+import { DbImageService } from 'src/app/services/db-image.service';
 
 @Component({
   selector: 'app-detail-monster',
@@ -18,11 +20,14 @@ export class DetailMonsterPage implements OnInit {
 	monster: Monster;
 	att_typen = [];
 
+	image: Image;
+
 	mon_typen_icons: string[] = [];
 
   constructor(private aRoute: ActivatedRoute,
 							private db: DbMonsterService,
 							private db_att: DbAttackenService,
+							private db_img: DbImageService,
 						) {}
 
   ngOnInit() {
@@ -35,9 +40,13 @@ export class DetailMonsterPage implements OnInit {
 				this.db.getMonster(this.id).then(data => {
 					this.monster = data;
 
+					// get monster image
+					this.db_img.getImage(this.monster.id).then(image => {this.image = image;})
+
 					// get all icons of monster typen
 					this.db.typIcons(this.monster.id).then(icons => {this.mon_typen_icons = icons;});
 
+					// get all attacken of monster with their typen
 					this.db_att.getDatabaseState().subscribe(rdy => {
 			      if (rdy) {
 							this.db_att.getAttackenByList(this.monster.attacken).then(atts => {
@@ -45,9 +54,6 @@ export class DetailMonsterPage implements OnInit {
 								for (let i = 0; i < atts.length; i++) {
 									this.db.typIcons(atts[i].id).then(icons => {this.att_typen.push([atts[i], icons])});
 								}
-
-								// get all icons of attacken typen
-
 							});
 						}
 					});
