@@ -1,0 +1,57 @@
+<ion-header>
+  <ion-toolbar>
+		<ion-buttons slot="start">
+		 	<ion-back-button defaultHref="/list-monster"></ion-back-button>
+		 </ion-buttons>
+
+		<ion-buttons slot="end">
+			<ion-button [routerLink]="['/list-typen']" routerDirection="forward">
+				<ion-icon  name="information-circle-outline"></ion-icon>
+			</ion-button>
+		</ion-buttons>
+
+    <ion-title>Berechne Effektivität</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<ion-list>
+		<ion-item>
+			<ion-note slot="start">
+
+			<span *ngFor="let i of fromTypen">
+				<ion-button *ngIf="i.set" size="small" shape="round" color="success" (click)="toggleSet(i.id, true)">
+					<ion-icon [name]="i.icon"></ion-icon>
+				</ion-button>
+			</span>
+
+			<span *ngFor="let i of fromTypen">
+				<ion-button *ngIf="!i.set" size="small" shape="round" color="tertiary" (click)="toggleSet(i.id, true)">
+					<ion-icon [name]="i.icon"></ion-icon>
+				</ion-button>
+			</span>
+
+			</ion-note>
+		</ion-item>
+
+		<ion-item>
+			<ion-note slot="start">
+
+			<span *ngFor="let i of toTypen">
+				<ion-button *ngIf="i.set" size="small" shape="round" color="success" (click)="toggleSet(i.id, false)">
+					<ion-icon [name]="i.icon"></ion-icon>
+				</ion-button>
+			</span>
+
+			<span *ngFor="let i of toTypen">
+				<ion-button *ngIf="!i.set" size="small" shape="round" color="tertiary" (click)="toggleSet(i.id, false)">
+					<ion-icon [name]="i.icon"></ion-icon>
+				</ion-button>
+			</span>
+
+			</ion-note>
+		</ion-item>
+
+		<ion-item><ion-text>{{ text_output }}</ion-text></ion-item>
+	</ion-list>
+</ion-content>

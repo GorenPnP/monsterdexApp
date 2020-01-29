@@ -1,12 +1,12 @@
 <ion-header>
-  <ion-toolbar color="primary">
+  <ion-toolbar color="secondary">
     <ion-title>Attacken</ion-title>
 
 		<ion-searchbar
 			showCancelButton="focus"
 			placeholder="Namen eingeben"
 			animated
-			color="primary"
+			color="secondary"
 			(ionChange)="onChangeSearch($event)"
 		>
 		</ion-searchbar>
@@ -14,6 +14,8 @@
 </ion-header>
 
 <ion-content>
+
+
 	<ion-text *ngIf="attacken.length === 0" class="ion-text-center"><h2>Hier ist nichts</h2></ion-text>
 
 	<ion-list>

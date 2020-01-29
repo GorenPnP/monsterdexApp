@@ -234,4 +234,36 @@ export class DbTypenService {
 		}
 		return ids;
 	}
+
+	// returns INT, not FLOAT
+	async getEfficiency(fromIds: number[], toIds: number[]): Promise<number> {
+		let query = "SELECT efficiency AS eff FROM monster_typ_efficiency WHERE from_typ_id IN (";
+		for (let i = 0; i < fromIds.length; i++) {
+			query += "?,";
+		}
+
+		query = query.slice(0, query.length-1) + ") AND to_typ_id IN (";
+		for (let i = 0; i < toIds.length; i++) {
+			query += "?,";
+		}
+
+		query = query.slice(0, query.length-1) + ")";
+		return this.db.executeSql(query, fromIds.concat(toIds)).then(data => {
+			let factor: number = 1.0;
+			let dummy: number;
+			for (let i = 0; i < data.rows.length; i++) {
+				dummy = data.rows.item(i).eff;
+				if (dummy < 0.0) {
+					return 0;
+				}
+				factor *= dummy;
+			}
+
+			if (factor >= 1.0) {
+				return Math.round(factor);
+			}
+			// less than normal effective
+			return Math.round(Math.log(factor) / Math.log(2));
+		});
+	}
 }

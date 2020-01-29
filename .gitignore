@@ -30,6 +30,8 @@ plugins/android.json
 plugins/ios.json
 $RECYCLE.BIN/
 
+src/assets/monster_images/*
+
 .DS_Store
 Thumbs.db
 UserInterfaceState.xcuserstate

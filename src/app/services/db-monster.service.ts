@@ -379,4 +379,39 @@ console.log(nameValue, "\nfound:", slices);
 			return this.getMonstersByIds(ids).then(mons => {return mons});
 		}).catch(e => {console.log(e); return [];});
 	}
+
+	async getEvolution(monId: number) {
+		let anchestors = await this.getAnchestors(monId);
+		let predecessor = await this.getPredecessors(monId);
+		return [anchestors, predecessor];
+	}
+
+
+	// look before (where b is monId, ...)
+	async getAnchestors(monId: number) {
+		let query: string = "SELECT vor FROM monster_evolution WHERE nach=?";
+
+		return this.db.executeSql(query, [`${monId}`]).then(data => {
+			let ids: number[] = [];
+
+			for (let i = 0; i < data.rows.length; i++) {
+				ids.push(data.rows.item(i).vor);
+			}
+			return this.getMonstersByIds(ids).then(mons => {return mons});
+		});
+	}
+
+	// look after (where a is monId, ...)
+	async getPredecessors(monId: number) {
+		let query: string = "SELECT nach FROM monster_evolution WHERE vor=?";
+
+		return this.db.executeSql(query, [`${monId}`]).then(data => {
+			let ids: number[] = [];
+
+			for (let i = 0; i < data.rows.length; i++) {
+				ids.push(data.rows.item(i).nach);
+			}
+			return this.getMonstersByIds(ids).then(mons => {return mons});
+		});
+	}
 }

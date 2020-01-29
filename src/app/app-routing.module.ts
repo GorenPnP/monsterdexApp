@@ -7,6 +7,7 @@ const routes: Routes = [
 	{ path: 'detail-attacke/:id', loadChildren: './pages/detail-attacke/detail-attacke.module#DetailAttackePageModule' },
 	{ path: 'selected-monster', loadChildren: './pages/selected-monster/selected-monster.module#SelectedMonsterPageModule' },
 	{ path: 'list-typen', loadChildren: './pages/list-typen/list-typen.module#ListTypenPageModule' },
+  { path: 'calc-typ', loadChildren: './pages/calc-typ/calc-typ.module#CalcTypPageModule' },
 ];
 
 @NgModule({

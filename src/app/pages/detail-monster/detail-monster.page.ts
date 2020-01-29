@@ -24,6 +24,8 @@ export class DetailMonsterPage implements OnInit {
 
 	mon_typen_icons: string[] = [];
 
+	evolution = [[], []];
+
   constructor(private aRoute: ActivatedRoute,
 							private db: DbMonsterService,
 							private db_att: DbAttackenService,
@@ -31,14 +33,26 @@ export class DetailMonsterPage implements OnInit {
 						) {}
 
   ngOnInit() {
+		// set default monster to start correctly
 		this.monster = this.db.defaultMonster();
 		this.id = parseInt(this.aRoute.snapshot.paramMap.get('id'));
 
-
 		this.db.getDatabaseState().subscribe(rdy => {
       if (rdy) {
+
+				// get monster
 				this.db.getMonster(this.id).then(data => {
 					this.monster = data;
+
+					// get direct anchestor and predecessor
+					this.db.getEvolution(this.id).then(ev => {
+						for (let k = 0; k < 2; k++) {
+							for (let i = 0; i < ev[k].length; i++) {
+								// get all [monster, icons] of anchestors (k=0) and predecessors (k=1)
+								this.db.typIcons(ev[k][i].id).then(icons => {this.evolution[k].push([ev[k][i], icons]);});
+							}
+						}
+					});
 
 					// get monster image
 					this.db_img.getImage(this.monster.id).then(image => {this.image = image;})

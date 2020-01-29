@@ -24,9 +24,10 @@ export class ListAttackenPage implements OnInit {
 	private filter_locked: BehaviorSubject<boolean> = new BehaviorSubject(false);
 	private search_buffer: BehaviorSubject<string[]> = new BehaviorSubject([]);
 
+	allTypen = [];
 
   constructor(private db: DbAttackenService,
-							private messageService: MessageService) { }
+							private messageService: MessageService) {}
 
   ngOnInit() {
 		this.db.getDatabaseState().subscribe(rdy => {
@@ -121,5 +122,9 @@ export class ListAttackenPage implements OnInit {
 			}
 			*/
 		});
+	}
+
+	toggleTypSearch(typId: number) {
+
 	}
 }
