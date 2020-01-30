@@ -109,6 +109,9 @@ export class DbTypenService {
 		return typen;
 	}
 
+	async getTypen(neededIds: number[]): Promise<Typ[]> {
+		return this.getTypenByIds(neededIds);
+	}
 
 	/**
 	 * only function to read Typ entries from the db
@@ -187,6 +190,21 @@ export class DbTypenService {
 	async getMonsterTypen(monId: number): Promise<Typ[]> {
 
 		return this.db.executeSql(`SELECT typ_id FROM monster_monster_typen WHERE monster_id=?`, [`${monId}`]).then(data => {
+			let typIds: number[] = [];
+
+			for (let i = 0; i < data.rows.length; i++) {
+				typIds.push(data.rows.item(i).typ_id);
+			}
+
+			return this.getTypenByIds(typIds).then(typen =>  {
+				return typen;
+			});
+		});
+	}
+
+	async getAttackeTypen(attId: number): Promise<Typ[]> {
+
+		return this.db.executeSql(`SELECT typ_id FROM monster_attacke_typen WHERE attacke_id=?`, [`${attId}`]).then(data => {
 			let typIds: number[] = [];
 
 			for (let i = 0; i < data.rows.length; i++) {

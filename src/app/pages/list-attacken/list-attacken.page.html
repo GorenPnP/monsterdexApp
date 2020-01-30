@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar color="secondary">
-    <ion-title>Attacken</ion-title>
+    <ion-title class="ion-text-wrap">Attacken</ion-title>
 
 		<ion-searchbar
 			showCancelButton="focus"
@@ -16,11 +16,11 @@
 <ion-content>
 
 
-	<ion-text *ngIf="attacken.length === 0" class="ion-text-center"><h2>Hier ist nichts</h2></ion-text>
+	<ion-text *ngIf="attacken.length === 0" class="ion-text-center ion-text-wrap"><h2>Hier ist nichts</h2></ion-text>
 
 	<ion-list>
 		<ion-item *ngFor="let i of list_items" detail [routerLink]="['/detail-attacke', i[0].id]" routerDirection="forward" color="light" lines="full">
-			<ion-label slot="start">{{i[0].name}}</ion-label>
+			<ion-label slot="start" class="ion-text-wrap">{{i[0].name}}</ion-label>
 			<ion-note>
 				<ion-button *ngFor="let icon of i[1]" size="small" shape="round" color="tertiary" disabled="true">
 					<ion-icon [name]="icon" slot="icon-only"></ion-icon>

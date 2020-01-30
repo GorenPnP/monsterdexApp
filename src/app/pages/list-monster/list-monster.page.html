@@ -5,7 +5,7 @@
 				<ion-icon name="star"></ion-icon>
 			</ion-button>
 		</ion-buttons>
-    <ion-title>Monster</ion-title>
+    <ion-title class="ion-text-wrap">Monster</ion-title>
 
 		<ion-searchbar
 			showCancelButton="focus"
@@ -20,12 +20,12 @@
 
 <ion-content>
 
-	<ion-text *ngIf="list_items.length === 0" class="ion-text-center"><h2>Hier ist nichts</h2></ion-text>
+	<ion-text *ngIf="list_items.length === 0" class="ion-text-center ion-text-wrap"><h2>Hier ist nichts</h2></ion-text>
 
 	<ion-list>
 		<ion-item-sliding  *ngFor="let i of list_items">
 			<ion-item detail [routerLink]="['/detail-monster', i[0].id]" routerDirection="forward" color="light" lines="full">
-				<ion-label slot="start">{{i[0].name}}</ion-label>
+				<ion-label slot="start" class="ion-text-wrap">{{i[0].name}}</ion-label>
 				<ion-note>
 					<ion-button *ngFor="let icon of i[1]" size="small" shape="round" color="tertiary" disabled="true">
 						<ion-icon [name]="icon" slot="icon-only"></ion-icon>

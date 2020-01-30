@@ -10,7 +10,7 @@
 			</ion-button>
 		</ion-buttons>
 
-    <ion-title>{{ monster.name }}</ion-title>
+    <ion-title class="ion-text-wrap">{{ monster.name }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -29,39 +29,39 @@
 			  <ion-list>
 			    <!-- Allgemeines -->
 			    <ion-item-group>
-			      <ion-item-divider>
-							<ion-item slot="end" color="secondary">
-			        	<ion-label>Allgemeines</ion-label>
+			      <ion-item-divider topic>
+							<ion-item slot="end" color="secondary" class="topic">
+			        	<ion-label class="ion-text-wrap">Allgemeines</ion-label>
 							</ion-item>
 			      </ion-item-divider>
 
-			      <ion-item color="light">
-			        <ion-label>Name</ion-label>
-			        <ion-note slot="end">{{ monster.name }}</ion-note>
+			      <ion-item color="light" lines="full">
+			        <ion-label slot="start" class="ion-text-wrap">Name</ion-label>
+			        <ion-text class="ion-text-wrap">{{ monster.name }}</ion-text>
 			      </ion-item>
-						<ion-item color="light">
-			        <ion-label>Rang</ion-label>
-			        <ion-note slot="end">{{ monster.rang }}</ion-note>
+						<ion-item color="light" lines="full">
+			        <ion-label slot="start" class="ion-text-wrap">Rang</ion-label>
+			        <ion-text class="ion-text-wrap">{{ monster.rang }}</ion-text>
 			      </ion-item>
-						<ion-item color="light">
-			        <ion-label>Größe</ion-label>
-			        <ion-note slot="end">{{ monster.groesse }} m</ion-note>
+						<ion-item color="light" lines="full">
+			        <ion-label slot="start" class="ion-text-wrap">Größe</ion-label>
+			        <ion-text class="ion-text-wrap">{{ monster.groesse }} m</ion-text>
 			      </ion-item>
-						<ion-item color="light">
-			        <ion-label>Gewicht</ion-label>
-			        <ion-note slot="end">{{ monster.gewicht }} kg</ion-note>
+						<ion-item color="light" lines="full">
+			        <ion-label slot="start" class="ion-text-wrap">Gewicht</ion-label>
+			        <ion-text class="ion-text-wrap">{{ monster.gewicht }} kg</ion-text>
 			      </ion-item>
-						<ion-item color="light">
-			        <ion-label>HP</ion-label>
-			        <ion-note slot="end">{{ monster.hp }} HP</ion-note>
+						<ion-item color="light" lines="full">
+			        <ion-label slot="start" class="ion-text-wrap">HP</ion-label>
+			        <ion-text class="ion-text-wrap">{{ monster.hp }} HP</ion-text>
 			      </ion-item>
-						<ion-item color="light">
-			        <ion-label>Schadensverhinderung</ion-label>
-			        <ion-note slot="end">{{ monster.schadensverhinderung }}</ion-note>
+						<ion-item color="light" lines="full">
+			        <ion-label slot="start" class="ion-text-wrap">Schadensverhinderung</ion-label>
+			        <ion-text class="ion-text-wrap">{{ monster.schadensverhinderung }}</ion-text>
 			      </ion-item>
-						<ion-item color="light">
-			        <ion-label>Habitat</ion-label>
-			        <ion-note slot="end">{{ monster.habitat }}</ion-note>
+						<ion-item color="light" lines="full">
+			        <ion-label slot="start" class="ion-text-wrap">Habitat</ion-label>
+			        <ion-text class="ion-text-wrap">{{ monster.habitat }}</ion-text>
 			      </ion-item>
 					</ion-item-group>
 				</ion-list>
@@ -70,16 +70,38 @@
 			<ion-col size-xs="12" size-sm="6" size-md="4" size-lg="3">
 				<ion-list>
 					<!-- Typen -->
-					<ion-item-group>
+					<ion-item-group topic>
 						<ion-item-divider>
-							<ion-item slot="end" color="secondary">
-								<ion-label>Typen</ion-label>
+							<ion-item slot="end" color="secondary" class="topic">
+								<ion-label class="ion-text-wrap">Effektivitäten</ion-label>
 							</ion-item>
 						</ion-item-divider>
 
-						<ion-item> <!-- for .. of list of effectiveeness -->
-							<ion-label>anderes n-Mal gegen dieses</ion-label>
-							<ion-note slot="end">bubbles here</ion-note>
+						<ion-item *ngIf="effectiveAgainst.length" color="light" lines="full">
+							<ion-label slot="start" class="ion-text-wrap">sehr anfällig</ion-label>
+							<ion-note>
+								<ion-button *ngFor="let t of effectiveAgainst" size="small" shape="round" color="tertiary" disabled="true">
+									<ion-icon [name]="t.icon"></ion-icon>
+								</ion-button>
+							</ion-note>
+						</ion-item>
+
+						<ion-item *ngIf="weakAgainst.length" color="light" lines="full">
+							<ion-label slot="start" class="ion-text-wrap">widerstandsfähig</ion-label>
+							<ion-note>
+								<ion-button *ngFor="let t of weakAgainst" size="small" shape="round" color="tertiary" disabled="true">
+									<ion-icon [name]="t.icon"></ion-icon>
+								</ion-button>
+							</ion-note>
+						</ion-item>
+
+						<ion-item *ngIf="noEffectAgainst.length" color="light" lines="full">
+							<ion-label slot="start" class="ion-text-wrap">wird nicht getroffen</ion-label>
+							<ion-note>
+								<ion-button *ngFor="let t of noEffectAgainst" size="small" shape="round" color="tertiary" disabled="true">
+									<ion-icon [name]="t.icon"></ion-icon>
+								</ion-button>
+							</ion-note>
 						</ion-item>
 					</ion-item-group>
 				</ion-list>
@@ -90,13 +112,13 @@
 					<!-- Attacken -->
 					<ion-item-group>
 						<ion-item-divider>
-							<ion-item slot="end" color="secondary">
-								<ion-label>Attacken</ion-label>
+							<ion-item slot="end" color="secondary" class="topic">
+								<ion-label class="ion-text-wrap">Attacken</ion-label>
 							</ion-item>
 						</ion-item-divider>
 
-						<ion-item detail *ngFor="let a of att_typen" [routerLink]="['/detail-attacke', a[0].id]" routerDirection="forward" color="light">
-							<ion-label>{{ a[0].name }}</ion-label>
+						<ion-item detail *ngFor="let a of att_typen" [routerLink]="['/detail-attacke', a[0].id]" routerDirection="forward" color="light" lines="full">
+							<ion-label class="ion-text-wrap">{{ a[0].name }}</ion-label>
 							<ion-button *ngFor="let icon of a[1]" size="small" shape="round" color="tertiary" disabled="true">
 								<ion-icon [name]="icon" slot="icon-only"></ion-icon>
 							</ion-button>
@@ -109,14 +131,14 @@
 				<ion-list>
 					<!-- Entwicklung -->
 					<ion-item-group *ngIf="evolution[0].length || evolution[1].length">
-						<ion-item-divider>
-							<ion-item slot="end" color="secondary">
-								<ion-label>Entwicklung</ion-label>
+						<ion-item-divider topic>
+							<ion-item slot="end" color="secondary" class="topic">
+								<ion-label class="ion-text-wrap">Entwicklung</ion-label>
 							</ion-item>
 						</ion-item-divider>
 
 						<ion-item *ngFor="let e of evolution[0]" detail [routerLink]="['/detail-monster', e[0].id]" routerDirection="forward" color="light" lines="full">
-							<ion-label>{{ e[0].name }}</ion-label>
+							<ion-label slot="start" class="ion-text-wrap">{{ e[0].name }}</ion-label>
 							<ion-note>
 								<ion-button *ngFor="let icon of e[1]" size="small" shape="round" color="tertiary" disabled="true">
 									<ion-icon [name]="icon" slot="icon-only"></ion-icon>
@@ -124,12 +146,12 @@
 							</ion-note>
 						</ion-item>
 
-						<ion-item color="medium">
-							<ion-label>{{ monster.name }}</ion-label>
+						<ion-item color="medium" lines="full">
+							<ion-label slot="start" class="ion-text-wrap">{{ monster.name }}</ion-label>
 						</ion-item>
 
 						<ion-item *ngFor="let e of evolution[1]" detail [routerLink]="['/detail-monster', e[0].id]" routerDirection="forward" color="light" lines="full">
-							<ion-label>{{ e[0].name }}</ion-label>
+							<ion-label slot="start" class="ion-text-wrap">{{ e[0].name }}</ion-label>
 							<ion-note>
 								<ion-button *ngFor="let icon of e[1]" size="small" shape="round" color="tertiary" disabled="true">
 									<ion-icon [name]="icon" slot="icon-only"></ion-icon>
@@ -142,7 +164,7 @@
 
 		</ion-row>
 	</ion-grid>
-	<ion-text *ngIf="!monster.id">
+	<ion-text *ngIf="!monster.id" class="ion-text-wrap">
 		No Monster
 	</ion-text>
 </ion-content>

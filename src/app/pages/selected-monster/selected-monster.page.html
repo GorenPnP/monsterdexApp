@@ -3,7 +3,7 @@
 		<ion-buttons slot="start">
 			<ion-back-button defaultHref="/"></ion-back-button>
 		</ion-buttons>
-    <ion-title>Das Team</ion-title>
+    <ion-title class="ion-text-wrap">Das Team</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -11,7 +11,7 @@
 
 	<ion-chip *ngFor="let m of selectedMonsters">
 	  <ion-icon name="star" color="tertiary"></ion-icon>
-	  <ion-label>{{m.name}}</ion-label>
+	  <ion-label class="ion-text-wrap">{{m.name}}</ion-label>
 	  <ion-icon name="close" (click)="toggleIsSelected(m.id)"></ion-icon>
 	</ion-chip>
 
@@ -22,7 +22,7 @@
 				<ion-avatar slot="start">
 					<img src="https://via.placeholder.com/300x300">
 				</ion-avatar>
-				<ion-label>{{m.name}}</ion-label>
+				<ion-label class="ion-text-wrap">{{m.name}}</ion-label>
 				<ion-note slot="end">(notes (coming soon))</ion-note>
 			</ion-item>
 

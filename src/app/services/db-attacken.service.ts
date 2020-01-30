@@ -216,7 +216,7 @@ export class DbAttackenService {
 		for (let i = 0; i < data.rows.length; i++) {
 			item = data.rows.item(i);
 
-			typen = await this.db_typen.getMonsterTypen(item.id);
+			typen = await this.db_typen.getAttackeTypen(item.id);
 
 			attacken.push({
 				id: item.id,

@@ -3,13 +3,13 @@
 		<ion-buttons slot="start">
 		 <ion-back-button defaultHref="/list-monster"></ion-back-button>
 	 </ion-buttons>
-    <ion-title>Typen</ion-title>
+    <ion-title class="ion-text-wrap">Typen</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
 	<ion-item *ngFor="let i of item_list" color="light" lines="full">
-		<ion-label slot="start">{{i[0]}}</ion-label>
+		<ion-label slot="start" class="ion-text-wrap">{{i[0]}}</ion-label>
 		<ion-note>
 			<ion-button size="small" shape="round" color="tertiary" disabled="true">
 				<ion-icon [name]="i[1].icon" slot="icon-only"></ion-icon>

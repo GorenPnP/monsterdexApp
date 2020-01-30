@@ -10,48 +10,52 @@
 			</ion-button>
 		</ion-buttons>
 
-    <ion-title>Berechne Effektivität</ion-title>
+    <ion-title class="ion-text-wrap">Effektivitäts-Rechner</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
 	<ion-list>
-		<ion-item>
+		<ion-item lines="full">
 			<ion-note slot="start">
 
 			<span *ngFor="let i of fromTypen">
-				<ion-button *ngIf="i.set" size="small" shape="round" color="success" (click)="toggleSet(i.id, true)">
-					<ion-icon [name]="i.icon"></ion-icon>
-				</ion-button>
-			</span>
+				<span  *ngIf="i.set">
+					<ion-button shape="round" color="success" (click)="toggleSet(i.id, true)">
+						<ion-icon [name]="i.icon"></ion-icon>
+					</ion-button>
+				</span>
 
-			<span *ngFor="let i of fromTypen">
-				<ion-button *ngIf="!i.set" size="small" shape="round" color="tertiary" (click)="toggleSet(i.id, true)">
-					<ion-icon [name]="i.icon"></ion-icon>
-				</ion-button>
+				<span  *ngIf="!i.set">
+					<ion-button shape="round" color="tertiary" (click)="toggleSet(i.id, true)">
+						<ion-icon [name]="i.icon"></ion-icon>
+					</ion-button>
+				</span>
 			</span>
 
 			</ion-note>
 		</ion-item>
 
-		<ion-item>
+		<ion-item lines="full">
 			<ion-note slot="start">
 
-			<span *ngFor="let i of toTypen">
-				<ion-button *ngIf="i.set" size="small" shape="round" color="success" (click)="toggleSet(i.id, false)">
-					<ion-icon [name]="i.icon"></ion-icon>
-				</ion-button>
-			</span>
+				<span *ngFor="let i of toTypen">
+					<span  *ngIf="i.set">
+						<ion-button shape="round" color="success" (click)="toggleSet(i.id, false)">
+							<ion-icon [name]="i.icon"></ion-icon>
+						</ion-button>
+					</span>
 
-			<span *ngFor="let i of toTypen">
-				<ion-button *ngIf="!i.set" size="small" shape="round" color="tertiary" (click)="toggleSet(i.id, false)">
-					<ion-icon [name]="i.icon"></ion-icon>
-				</ion-button>
-			</span>
+					<span *ngIf="!i.set">
+						<ion-button shape="round" color="tertiary" (click)="toggleSet(i.id, false)">
+							<ion-icon [name]="i.icon"></ion-icon>
+						</ion-button>
+					</span>
+				</span>
 
 			</ion-note>
 		</ion-item>
 
-		<ion-item><ion-text>{{ text_output }}</ion-text></ion-item>
+		<ion-item lines="none"><ion-text class="ion-text-wrap">{{ text_output }}</ion-text></ion-item>
 	</ion-list>
 </ion-content>

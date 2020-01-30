@@ -380,12 +380,12 @@ console.log(nameValue, "\nfound:", slices);
 		}).catch(e => {console.log(e); return [];});
 	}
 
+
 	async getEvolution(monId: number) {
 		let anchestors = await this.getAnchestors(monId);
 		let predecessor = await this.getPredecessors(monId);
 		return [anchestors, predecessor];
 	}
-
 
 	// look before (where b is monId, ...)
 	async getAnchestors(monId: number) {
