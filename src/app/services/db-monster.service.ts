@@ -314,6 +314,7 @@ console.log(nameValue, "\nfound:", slices);
 				hp: item.hp,
 				habitat: item.habitat,
 				schadensverhinderung: item.schadensverhinderung,
+				beschreibung: item.beschreibung,
 				isSelected: !!item.isSelected,
 				attacken: atts,
 				typen: typen
@@ -332,6 +333,7 @@ console.log(nameValue, "\nfound:", slices);
 			hp: 0,
 			habitat: "",
 			schadensverhinderung: "",
+			beschreibung: "",
 			isSelected: false,
 			attacken: [],
 			typen: []

@@ -29,7 +29,7 @@
 			  <ion-list>
 			    <!-- Allgemeines -->
 			    <ion-item-group>
-			      <ion-item-divider topic>
+			      <ion-item-divider topic sticky="true">
 							<ion-item slot="end" color="secondary" class="topic">
 			        	<ion-label class="ion-text-wrap">Allgemeines</ion-label>
 							</ion-item>
@@ -63,6 +63,10 @@
 			        <ion-label slot="start" class="ion-text-wrap">Habitat</ion-label>
 			        <ion-text class="ion-text-wrap">{{ monster.habitat }}</ion-text>
 			      </ion-item>
+						<ion-item color="light" lines="full">
+			        <ion-label slot="start" class="ion-text-wrap">Beschreibung</ion-label>
+			        <ion-text class="ion-text-wrap">{{ monster.beschreibung }}</ion-text>
+			      </ion-item>
 					</ion-item-group>
 				</ion-list>
 			</ion-col>
@@ -71,7 +75,7 @@
 				<ion-list>
 					<!-- Typen -->
 					<ion-item-group topic>
-						<ion-item-divider>
+						<ion-item-divider sticky="true">
 							<ion-item slot="end" color="secondary" class="topic">
 								<ion-label class="ion-text-wrap">Effektivitäten</ion-label>
 							</ion-item>
@@ -111,7 +115,7 @@
 				<ion-list>
 					<!-- Attacken -->
 					<ion-item-group>
-						<ion-item-divider>
+						<ion-item-divider sticky="true">
 							<ion-item slot="end" color="secondary" class="topic">
 								<ion-label class="ion-text-wrap">Attacken</ion-label>
 							</ion-item>
@@ -131,7 +135,7 @@
 				<ion-list>
 					<!-- Entwicklung -->
 					<ion-item-group *ngIf="evolution[0].length || evolution[1].length">
-						<ion-item-divider topic>
+						<ion-item-divider topic sticky="true">
 							<ion-item slot="end" color="secondary" class="topic">
 								<ion-label class="ion-text-wrap">Entwicklung</ion-label>
 							</ion-item>

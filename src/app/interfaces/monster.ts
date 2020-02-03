@@ -10,6 +10,8 @@ export interface Monster {
 	habitat: string,
 	schadensverhinderung: string,
 
+	beschreibung: string,
+
 	typen: Typ[],
 	attacken: number[],
 

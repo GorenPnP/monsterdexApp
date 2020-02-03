@@ -112,8 +112,9 @@ export class DatabaseService {
 		this.dbCopy.remove(this.dbName, 0).then(_ => {
 			// db is deleted
 //this.messageService.alert("deleted DB");
-		}).catch((e) => {
+		})
+/*		.catch((e) => {
 			this.messageService.error("Konnte die Datenbank nicht löschen", "ERROR: could not delete db: ", JSON.stringify(e));
 		});
-	}
+*/	}
 }

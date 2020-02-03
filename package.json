@@ -1,8 +1,8 @@
 {
-  "name": "monsterdex",
+  "name": "Monsterdex",
   "version": "0.0.1",
-  "author": "Ionic Framework",
-  "homepage": "https://ionicframework.com/",
+  "author": "Vanessa Steinbrügge",
+  "homepage": "",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -33,6 +33,7 @@
     "cordova-plugin-file": "^6.0.2",
     "cordova-sqlite-storage": "^3.3.0",
     "core-js": "^2.5.4",
+    "ionic4-hidenav": "^0.1.9",
     "rxjs": "~6.5.1",
     "tslib": "^1.9.0",
     "utf-8-validate": "^5.0.2",
@@ -71,7 +72,7 @@
     "tslint": "~5.15.0",
     "typescript": "~3.4.3"
   },
-  "description": "An Ionic project",
+  "description": "A tool to look up information concerning monster of the Goren PnP.",
   "cordova": {
     "plugins": {
       "cordova-plugin-whitelist": {},
