@@ -1,5 +1,5 @@
 # delete old version
-rm -rf ~/Schreibtisch/monsterdex/platforms/android/app/build/outputs
+rm -rf ~/Schreibtisch/monsterdex/platforms/android/app/build
 
 # build new version (1)
 #ionic cordova build android --prod --release split in two, because first one deletes www/ folder, therefore have to add it again

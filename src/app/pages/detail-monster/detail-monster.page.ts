@@ -97,7 +97,7 @@ export class DetailMonsterPage implements OnInit {
 							this.db_att.getAttackenByList(this.monster.attacken).then(atts => {
 
 								for (let i = 0; i < atts.length; i++) {
-									this.db.typIcons(atts[i].id).then(icons => {this.att_typen.push([atts[i], icons])});
+									this.db_att.typIcons(atts[i].id).then(icons => {this.att_typen.push([atts[i], icons])});
 								}
 							});
 						}
