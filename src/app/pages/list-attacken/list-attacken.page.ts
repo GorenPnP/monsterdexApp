@@ -1,11 +1,13 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonInfiniteScroll } from '@ionic/angular';
+import { Component, OnInit } from '@angular/core';
 
 import { DbAttackenService } from "../../services/db-attacken.service";
 import { MessageService } from "../../services/message.service";
 
 import { Attacke } from "../../interfaces/attacke";
 import { BehaviorSubject } from 'rxjs';
+import { FullHeaderService } from 'src/app/services/full-header.service';
+
+import { header_popover } from "../../header_popover_content.module";
 
 @Component({
   selector: 'app-list-attacken',
@@ -24,10 +26,24 @@ export class ListAttackenPage implements OnInit {
 	private filter_locked: BehaviorSubject<boolean> = new BehaviorSubject(false);
 	private search_buffer: BehaviorSubject<string[]> = new BehaviorSubject([]);
 
+	header_color = "secondary";
+	private header_expanded: boolean = false;
+
 	allTypen = [];
+	searchTypen: number[] = [];
+	operatorTypenIsOr: boolean = true;
+
 
   constructor(private db: DbAttackenService,
-							private messageService: MessageService) {}
+							private headerService: FullHeaderService,
+							private messageService: MessageService) {
+
+		this.headerService.getInitState().subscribe(rdy => {
+			if (rdy) {
+				this.allTypen = headerService.allTypenFormatted();
+			}
+		});
+	}
 
   ngOnInit() {
 		this.db.getDatabaseState().subscribe(rdy => {
@@ -124,7 +140,23 @@ export class ListAttackenPage implements OnInit {
 		});
 	}
 
-	toggleTypSearch(typId: number) {
+	toggle_expand_header() {
+		this.header_expanded = !this.header_expanded;
+	}
 
+	presentPopover(ev: Event) {
+		this.headerService.presentPopover(ev, header_popover);
+	}
+
+	toggleSet(id: number) {
+		this.headerService.toggleTypSet(id, this.searchTypen, this.allTypen);
+	}
+
+	toggleOperator() {
+		this.operatorTypenIsOr = !this.operatorTypenIsOr;
+
+		if (this.searchTypen.length > 1) {
+			// update changed search
+		}
 	}
 }

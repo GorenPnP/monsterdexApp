@@ -5,8 +5,8 @@
 		</ion-buttons>
 
 		<ion-buttons slot="end">
-			<ion-button [routerLink]="['/list-typen']" routerDirection="forward">
-				<ion-icon  name="information-circle-outline"></ion-icon>
+			<ion-button (click)="presentPopover($event)">
+				<ion-icon name="information-circle-outline"></ion-icon>
 			</ion-button>
 		</ion-buttons>
 
@@ -35,10 +35,6 @@
 							</ion-item>
 			      </ion-item-divider>
 
-			      <ion-item color="light" lines="full">
-			        <ion-label slot="start" class="ion-text-wrap">Name</ion-label>
-			        <ion-text class="ion-text-wrap">{{ monster.name }}</ion-text>
-			      </ion-item>
 						<ion-item color="light" lines="full">
 			        <ion-label slot="start" class="ion-text-wrap">Rang</ion-label>
 			        <ion-text class="ion-text-wrap">{{ monster.rang }}</ion-text>

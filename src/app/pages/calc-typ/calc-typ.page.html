@@ -5,8 +5,8 @@
 		 </ion-buttons>
 
 		<ion-buttons slot="end">
-			<ion-button [routerLink]="['/list-typen']" routerDirection="forward">
-				<ion-icon  name="information-circle-outline"></ion-icon>
+			<ion-button (click)="presentPopover($event)">
+				<ion-icon name="information-circle-outline"></ion-icon>
 			</ion-button>
 		</ion-buttons>
 

@@ -14,6 +14,7 @@ import { WebView } from "@ionic-native/ionic-webview/ngx";
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { PopoverPageModule } from './pages/popover/popover.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,6 +24,7 @@ import { AppRoutingModule } from './app-routing.module';
 		IonicModule.forRoot(),
 		AppRoutingModule,
 		HttpClientModule,
+		PopoverPageModule
 	],
   providers: [
     StatusBar,

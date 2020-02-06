@@ -1,11 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonInfiniteScroll } from '@ionic/angular';
+import { Component, OnInit } from '@angular/core';
 
 import { DbMonsterService } from "../../services/db-monster.service";
 import { MessageService } from "../../services/message.service";
+import { FullHeaderService } from 'src/app/services/full-header.service';
 
 import { Monster } from "../../interfaces/monster";
 import { BehaviorSubject } from 'rxjs';
+import { header_popover } from 'src/app/header_popover_content.module';
 
 @Component({
   selector: 'app-list-monster',
@@ -15,7 +16,6 @@ import { BehaviorSubject } from 'rxjs';
 export class ListMonsterPage implements OnInit {
 
 	private monsters: Monster[];
-	private selectedMonsters: Monster[];
 
 	private list_items = [];
 
@@ -26,8 +26,26 @@ export class ListMonsterPage implements OnInit {
 	private filter_locked: BehaviorSubject<boolean> = new BehaviorSubject(false);
 	private search_buffer: BehaviorSubject<string[]> = new BehaviorSubject([]);
 
+	header_color = "primary";
+	private header_expanded: boolean = false;
+
+	allTypen = [];
+	searchTypen: number[] = [];
+	operatorTypenIsOr: boolean = true;
+
+	rangSorting: string[] = ["nein", "asc", "desc"];
+	rangSortIndex: number = 0;
+
   constructor(private db: DbMonsterService,
-							private messageService: MessageService) { }
+							private headerService: FullHeaderService,
+							private messageService: MessageService) {
+
+		this.headerService.getInitState().subscribe(rdy => {
+			if (rdy) {
+				this.allTypen = headerService.allTypenFormatted();
+			}
+		});
+	}
 
   ngOnInit() {
 		this.db.getDatabaseState().subscribe(rdy => {
@@ -121,13 +139,34 @@ export class ListMonsterPage implements OnInit {
 			if (event) {event.target.complete();}
 
 			this.offset += this.db.LIMIT;
-
-			// Optional
-			/* TODO: with @ViewChild
-			if (this.offset+this.limit >= this.db.NUM_MONSTER) {
-				this.infinite.disabled = true;
-			}
-			*/
 		});
+	}
+
+	toggle_expand_header() {
+		this.header_expanded = !this.header_expanded;
+	}
+
+	presentPopover(ev: Event) {
+		this.headerService.presentPopover(ev, header_popover);
+	}
+
+	toggleSet(id: number) {
+		this.headerService.toggleTypSet(id, this.searchTypen, this.allTypen);
+	}
+
+	toggleOperator() {
+		this.operatorTypenIsOr = !this.operatorTypenIsOr;
+
+		if (this.searchTypen.length > 1) {
+			// update changed search
+		}
+	}
+
+	NextSortByRang() {
+		this.rangSortIndex = (this.rangSortIndex+1) % 3;
+console.log(this.rangSortIndex)
+
+
+		// notify database service
 	}
 }

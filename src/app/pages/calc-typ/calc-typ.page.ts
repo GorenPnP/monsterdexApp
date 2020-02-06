@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 import { DbTypenService } from "../../services/db-typen.service";
 import { Typ } from '../../interfaces/typ';
+import { header_popover_not_calc } from 'src/app/header_popover_content.module';
+import { MinimalHeaderService } from 'src/app/services/minimal-header.service';
 
 @Component({
   selector: 'app-calc-typ',
@@ -18,7 +20,8 @@ export class CalcTypPage implements OnInit {
 
 	text_output: string = "Werte fehlen.";
 
-  constructor(private db_typen: DbTypenService) {
+  constructor(private db_typen: DbTypenService,
+							private headerService: MinimalHeaderService) {
 
 		this.db_typen.getDatabaseState().subscribe(rdy => {
 			if (rdy) {
@@ -81,4 +84,7 @@ export class CalcTypPage implements OnInit {
 		}
 	}
 
+	presentPopover(ev: Event) {
+			this.headerService.presentPopover(ev, header_popover_not_calc);
+	}
 }

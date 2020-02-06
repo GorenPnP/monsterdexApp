@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Typ, string_of_enum } from 'src/app/interfaces/typ';
+import { string_of_enum } from 'src/app/interfaces/typ';
 
 import { DbTypenService } from 'src/app/services/db-typen.service';
+import { header_popover_not_list } from 'src/app/header_popover_content.module';
+import { MinimalHeaderService } from 'src/app/services/minimal-header.service';
 
 @Component({
   selector: 'app-list-typen',
@@ -13,7 +15,8 @@ export class ListTypenPage implements OnInit {
 
 	item_list = [];
 
-  constructor(private db: DbTypenService) {}
+  constructor(private db: DbTypenService,
+							private headerService: MinimalHeaderService) {}
 
   ngOnInit() {
 		this.db.getDatabaseState().subscribe(rdy => {
@@ -28,4 +31,8 @@ export class ListTypenPage implements OnInit {
 			}
 		});
   }
+
+	presentPopover(ev: Event) {
+			this.headerService.presentPopover(ev, header_popover_not_list);
+	}
 }

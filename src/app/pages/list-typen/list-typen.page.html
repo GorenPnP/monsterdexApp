@@ -4,6 +4,12 @@
 		 <ion-back-button defaultHref="/list-monster"></ion-back-button>
 	 </ion-buttons>
     <ion-title class="ion-text-wrap">Typen</ion-title>
+
+		<ion-buttons slot="end">
+			<ion-button (click)="presentPopover($event)">
+				<ion-icon name="information-circle-outline"></ion-icon>
+			</ion-button>
+		</ion-buttons>
   </ion-toolbar>
 </ion-header>
 

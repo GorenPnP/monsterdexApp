@@ -1,12 +1,48 @@
 <ion-header>
-  <ion-toolbar color="secondary">
-    <ion-title class="ion-text-wrap">Attacken</ion-title>
+	<ion-toolbar *ngIf="header_expanded" [color]="header_color">
+
+		<span *ngFor="let i of allTypen">
+			<span *ngIf="i.set">
+				<ion-button shape="round" size="small" color="success" (click)="toggleSet(i.id)">
+					<ion-icon [name]="i.icon"></ion-icon>
+				</ion-button>
+			</span>
+
+			<span *ngIf="!i.set">
+				<ion-button shape="round" size="small" color="tertiary" (click)="toggleSet(i.id)">
+					<ion-icon [name]="i.icon"></ion-icon>
+				</ion-button>
+			</span>
+		</span>
+
+		<ion-button fill="outline" shape="round" size="small" color="light" (click)="toggleOperator()">
+			{{ operatorTypenIsOr? 'OR' : 'AND' }}
+		</ion-button>
+
+	</ion-toolbar>
+
+  <ion-toolbar [color]="header_color">
+		<ion-buttons slot="start">
+			<ion-button *ngIf="header_expanded" (click)="toggle_expand_header()">
+				<ion-icon name="arrow-dropdown"></ion-icon>
+			</ion-button>
+
+			<ion-button *ngIf="!header_expanded" (click)="toggle_expand_header()">
+				<ion-icon name="arrow-dropright"></ion-icon>
+			</ion-button>
+		</ion-buttons>
+
+		<ion-buttons slot="end">
+			<ion-button (click)="presentPopover($event)">
+				<ion-icon name="information-circle-outline"></ion-icon>
+			</ion-button>
+		</ion-buttons>
 
 		<ion-searchbar
 			showCancelButton="focus"
-			placeholder="Namen eingeben"
+			placeholder="Name"
 			animated
-			color="secondary"
+			[color]="header_color"
 			(ionChange)="onChangeSearch($event)"
 		>
 		</ion-searchbar>

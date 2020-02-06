@@ -9,6 +9,9 @@ import { Image } from 'src/app/interfaces/image';
 import { DbImageService } from 'src/app/services/db-image.service';
 import { DbTypenService } from 'src/app/services/db-typen.service';
 import { Typ } from 'src/app/interfaces/typ';
+import { MinimalHeaderService } from 'src/app/services/minimal-header.service';
+
+import { header_popover } from "../../header_popover_content.module";
 
 @Component({
   selector: 'app-detail-monster',
@@ -32,6 +35,7 @@ export class DetailMonsterPage implements OnInit {
 	evolution = [[], []];
 
   constructor(private aRoute: ActivatedRoute,
+							private headerService: MinimalHeaderService,
 							private db: DbMonsterService,
 							private db_att: DbAttackenService,
 							private db_img: DbImageService,
@@ -105,5 +109,9 @@ export class DetailMonsterPage implements OnInit {
 				});
 			}
 		});
+	}
+
+	presentPopover(ev: Event) {
+		this.headerService.presentPopover(ev, header_popover);
 	}
 }

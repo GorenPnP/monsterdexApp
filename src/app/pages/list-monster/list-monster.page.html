@@ -1,17 +1,63 @@
 <ion-header>
-  <ion-toolbar color="primary">
-		<ion-buttons slot="end">
-			<ion-button color="tertiary" [routerLink]="['/selected-monster']">
-				<ion-icon name="star"></ion-icon>
+	<ion-toolbar *ngIf="header_expanded" [color]="header_color">
+		<ion-grid>
+			<ion-row>
+				<ion-col size-xs="9" size-sm="10">
+
+		<ion-item [color]="header_color"><ion-note>
+					<span *ngFor="let i of allTypen">
+						<span *ngIf="i.set">
+							<ion-button shape="round" size="small" color="success" (click)="toggleSet(i.id)">
+								<ion-icon [name]="i.icon"></ion-icon>
+							</ion-button>
+						</span>
+
+						<span *ngIf="!i.set">
+							<ion-button shape="round" size="small" color="tertiary" (click)="toggleSet(i.id)">
+								<ion-icon [name]="i.icon"></ion-icon>
+							</ion-button>
+						</span>
+					</span>
+
+					<ion-button fill="outline" shape="round" size="small" color="light" (click)="toggleOperator()">
+						{{ operatorTypenIsOr? 'OR' : 'AND' }}
+					</ion-button>
+		</ion-note></ion-item>
+
+				</ion-col>
+				<ion-col size-xs="3" size-sm="2">
+
+					<ion-button fill="outline" shape="round" size="small" (click)="NextSortByRang()" color="light">
+						{{ rangSorting[rangSortIndex] }}
+					</ion-button>
+
+				</ion-col>
+			</ion-row>
+		</ion-grid>
+	</ion-toolbar>
+
+  <ion-toolbar [color]="header_color">
+		<ion-buttons slot="start">
+			<ion-button *ngIf="header_expanded" (click)="toggle_expand_header()">
+				<ion-icon name="arrow-dropdown"></ion-icon>
+			</ion-button>
+
+			<ion-button *ngIf="!header_expanded" (click)="toggle_expand_header()">
+				<ion-icon name="arrow-dropright"></ion-icon>
 			</ion-button>
 		</ion-buttons>
-    <ion-title class="ion-text-wrap">Monster</ion-title>
+
+		<ion-buttons slot="end">
+			<ion-button (click)="presentPopover($event)">
+				<ion-icon name="information-circle-outline"></ion-icon>
+			</ion-button>
+		</ion-buttons>
 
 		<ion-searchbar
 			showCancelButton="focus"
-			placeholder="Namen oder Nummer eingeben"
+			placeholder="Name oder Nummer"
 			animated
-			color="primary"
+			[color]="header_color"
 			(ionChange)="onChangeSearch($event)"
 		>
 		</ion-searchbar>
@@ -23,24 +69,14 @@
 	<ion-text *ngIf="list_items.length === 0" class="ion-text-center ion-text-wrap"><h2>Hier ist nichts</h2></ion-text>
 
 	<ion-list>
-		<ion-item-sliding  *ngFor="let i of list_items">
-			<ion-item detail [routerLink]="['/detail-monster', i[0].id]" routerDirection="forward" color="light" lines="full">
-				<ion-label slot="start" class="ion-text-wrap">{{i[0].name}}</ion-label>
-				<ion-note>
-					<ion-button *ngFor="let icon of i[1]" size="small" shape="round" color="tertiary" disabled="true">
-						<ion-icon [name]="icon" slot="icon-only"></ion-icon>
-					</ion-button>
-				</ion-note>
-			</ion-item>
-
-			<ion-item-options slot="start"></ion-item-options>
-			<ion-item-options slot="end">
-				<ion-item-option color="medium" (click)="toggleIsSelected(i[0].id)">
-					<ion-icon slot="start" [name]="i[0].isSelected? 'star' : 'star-outline'"></ion-icon>
-					{{ i[0].isSelected? 'austreten' : 'ins Team' }}
-				</ion-item-option>
-			</ion-item-options>
-		</ion-item-sliding>
+		<ion-item *ngFor="let i of list_items" detail [routerLink]="['/detail-monster', i[0].id]" routerDirection="forward" color="light" lines="full">
+			<ion-label slot="start" class="ion-text-wrap">{{i[0].name}}</ion-label>
+			<ion-note>
+				<ion-button *ngFor="let icon of i[1]" size="small" shape="round" color="tertiary" disabled="true">
+					<ion-icon [name]="icon" slot="icon-only"></ion-icon>
+				</ion-button>
+			</ion-note>
+		</ion-item>
 	</ion-list>
 
 	<ion-infinite-scroll (ionInfinite)="loadMonsters(true, $event)">

@@ -6,6 +6,9 @@ import { Attacke } from "../../interfaces/attacke";
 import { DbMonsterService } from 'src/app/services/db-monster.service';
 import { DbTypenService } from 'src/app/services/db-typen.service';
 import { Typ } from 'src/app/interfaces/typ';
+import { MinimalHeaderService } from 'src/app/services/minimal-header.service';
+
+import { header_popover } from "../../header_popover_content.module";
 
 @Component({
   selector: 'app-detail-attacke',
@@ -25,10 +28,10 @@ export class DetailAttackePage implements OnInit {
 		noEffectAgainst: Typ[] = [];
 
 	  constructor(private aRoute: ActivatedRoute,
+								private headerService: MinimalHeaderService,
 								private db: DbAttackenService,
 								private db_typ: DbTypenService,
-								private db_mon: DbMonsterService) {
-		}
+								private db_mon: DbMonsterService) {}
 
 	  ngOnInit() {
 			this.attacke = this.db.defaultAttacke();
@@ -82,5 +85,9 @@ export class DetailAttackePage implements OnInit {
 					});
 				}
 			});
+		}
+
+		presentPopover(ev: Event) {
+			this.headerService.presentPopover(ev, header_popover);
 		}
 	}
