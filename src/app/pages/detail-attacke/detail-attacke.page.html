@@ -97,9 +97,11 @@
 
 						<ion-item detail *ngFor="let a of mon_typen" [routerLink]="['/detail-monster', a[0].id]" routerDirection="forward" color="light" lines="full">
 							<ion-label slot="start" class="ion-text-wrap">{{ a[0].name }}</ion-label>
-							<ion-button *ngFor="let icon of a[1]" size="small" shape="round" color="tertiary" disabled="true">
-								<ion-icon [name]="icon" slot="icon-only"></ion-icon>
-							</ion-button>
+							<ion-note>
+								<ion-button *ngFor="let icon of a[1]" size="small" shape="round" color="tertiary" disabled="true">
+									<ion-icon [name]="icon" slot="icon-only"></ion-icon>
+								</ion-button>
+							</ion-note>
 						</ion-item>
 					</ion-item-group>
 				</ion-list>

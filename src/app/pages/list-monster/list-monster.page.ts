@@ -20,18 +20,19 @@ export class ListMonsterPage implements OnInit {
 	private list_items = [];
 
 	private offset: number = 0;
-	//@ViewChild(IonInfiniteScroll) infinite: IonInfiniteScroll;
 
 	private filter_on: boolean = false;
 	private filter_locked: BehaviorSubject<boolean> = new BehaviorSubject(false);
 	private search_buffer: BehaviorSubject<string[]> = new BehaviorSubject([]);
+
+	private wordSearchDone: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
 	header_color = "primary";
 	private header_expanded: boolean = false;
 
 	allTypen = [];
 	searchTypen: number[] = [];
-	operatorTypenIsOr: boolean = true;
+	operatorTypenIsOr: boolean = false;
 
 	rangSorting: string[] = ["nein", "asc", "desc"];
 	rangSortIndex: number = 0;
@@ -55,27 +56,24 @@ export class ListMonsterPage implements OnInit {
 
           this.monsters = monsters;
 
-					// adapt in list_items
+					// add monster and its typ-icons in list_items
 					this.list_items = [];
 					for (let i = 0; i < monsters.length; i++) {
 						this.db.typIcons(this.monsters[i].id).then(icons => {this.list_items[i] = [this.monsters[i], icons];});
 					}
         });
 
-				// handle looking for monsters via search field in view
+				// handle looking for monsters via search field in view every time one of the following changes
 				this.search_buffer.asObservable().subscribe(_ => {this.findMonsters();});
 				this.filter_locked.asObservable().subscribe(_ => {this.findMonsters();});
 
-				/* TODO
-				this.db.getSelectedMonsters().subscribe(sMonsters => {
-          this.selectedMonsters = sMonsters;
-        });
-				*/
+				//this.wordSearchDone.asObservable().subscribe(_ => {this.combineFiltering();});
       }
     });
   }
 
 	private async findMonsters() {
+		this.wordSearchDone.next(false);
 
 		let locked: boolean = this.filter_locked.getValue();
 		let search_items: string[] = this.search_buffer.getValue();
@@ -99,6 +97,9 @@ export class ListMonsterPage implements OnInit {
 			// in case that latest_search was the last entry, prevent out of bounds
 			if (index+1 >=  search_items.length) {
 				this.search_buffer.next([]);
+
+				// notify to melt results with filter for typen
+				this.wordSearchDone.next(true);
 			} else {
 				this.search_buffer.next(search_items.slice(index+1));
 			}
@@ -116,19 +117,12 @@ export class ListMonsterPage implements OnInit {
 		this.search_buffer.next(next_list);
 	}
 
-	toggleIsSelected(id: number) {
-		this.db.getMonster(id).then(data => {
-			this.db.toggleIsSelected(data);
-		});
-	}
-
 
 	loadMonsters(loadMore=false, event?) {
 		if (loadMore) {
 
-			// TODO: delete if @ViewChild works
 			// had offset beginning with 0, num (or id) of monsters with 1
-			if ( (this.offset+1) >= this.db.NUM_MONSTER || this.filter_on) {
+			if ( (this.offset+1) >= this.db.NUM_MONSTER || this.filter_on || this.searchTypen.length) {
 				if (event) {event.target.complete();}
 				return;
 			}
@@ -152,13 +146,17 @@ export class ListMonsterPage implements OnInit {
 
 	toggleSet(id: number) {
 		this.headerService.toggleTypSet(id, this.searchTypen, this.allTypen);
+
+		// update monster filtered by type
+		this.db.findByType(this.searchTypen, this.operatorTypenIsOr);
 	}
 
 	toggleOperator() {
 		this.operatorTypenIsOr = !this.operatorTypenIsOr;
 
 		if (this.searchTypen.length > 1) {
-			// update changed search
+			// update monster filtered by type
+			this.db.findByType(this.searchTypen, this.operatorTypenIsOr);
 		}
 	}
 

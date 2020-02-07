@@ -31,7 +31,7 @@ export class ListAttackenPage implements OnInit {
 
 	allTypen = [];
 	searchTypen: number[] = [];
-	operatorTypenIsOr: boolean = true;
+	operatorTypenIsOr: boolean = false;
 
 
   constructor(private db: DbAttackenService,
@@ -117,7 +117,6 @@ export class ListAttackenPage implements OnInit {
 	loadAttacken(loadMore=false, event?) {
 		if (loadMore) {
 
-			// TODO: delete if @ViewChild works
 			// had offset beginning with 0, num (or id) of monsters with 1
 			if ( (this.offset+1) >= this.db.NUM_ATTACKEN || this.filter_on) {
 				if (event) {event.target.complete();}
@@ -130,13 +129,6 @@ export class ListAttackenPage implements OnInit {
 			if (event) {event.target.complete();}
 
 			this.offset += this.db.LIMIT;
-
-			// Optional
-			/* TODO: with @ViewChild
-			if (this.offset+this.limit >= this.db.NUM_MONSTER) {
-				this.infinite.disabled = true;
-			}
-			*/
 		});
 	}
 
@@ -150,13 +142,17 @@ export class ListAttackenPage implements OnInit {
 
 	toggleSet(id: number) {
 		this.headerService.toggleTypSet(id, this.searchTypen, this.allTypen);
+
+		// update attacken filtered by type
+		this.db.findByType(this.searchTypen, this.operatorTypenIsOr);
 	}
 
 	toggleOperator() {
 		this.operatorTypenIsOr = !this.operatorTypenIsOr;
 
 		if (this.searchTypen.length > 1) {
-			// update changed search
+			// update monster filtered by type
+			this.db.findByType(this.searchTypen, this.operatorTypenIsOr);
 		}
 	}
 }

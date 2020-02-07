@@ -19,7 +19,7 @@
 						</span>
 					</span>
 
-					<ion-button fill="outline" shape="round" size="small" color="light" (click)="toggleOperator()">
+					<ion-button *ngIf="searchTypen.length > 1" fill="outline" shape="round" size="small" color="light" (click)="toggleOperator()">
 						{{ operatorTypenIsOr? 'OR' : 'AND' }}
 					</ion-button>
 		</ion-note></ion-item>

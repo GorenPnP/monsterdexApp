@@ -8,7 +8,6 @@ import { SQLiteObject } from '@ionic-native/sqlite/ngx';
 import { Monster } from "../interfaces/monster"
 import { Typ } from '../interfaces/typ';
 import { DbTypenService } from './db-typen.service';
-import { Attacke } from '../interfaces/attacke';
 
 @Injectable({
   providedIn: 'root'
@@ -26,46 +25,37 @@ export class DbMonsterService {
 
 	private allMonsters = new BehaviorSubject([]);
 	private monsters = new BehaviorSubject([]);
-	private selectedMonsters = new BehaviorSubject([]);
+
+	private wordSearchList: Monster[] = null;
+	private typSearchList: Monster[] = null;
 
   constructor(private databaseService: DatabaseService,
 							private messageService: MessageService,
 							private db_typen: DbTypenService
 							) {
 		this.databaseService.getDatabaseState().subscribe(rdy => {
-		if (rdy) {
-			// get db from DatabaseService
-			this.db = this.databaseService.getDatabase();
-			if (!this.db) {
-				this.messageService.error("Die Datenbank fehlt", "in INIT MUSHROOM DB: got no db: ", JSON.stringify(this.db));
-			}
-
-			this.db.executeSql("SELECT COUNT(*) AS num FROM monster_monster", []).then(data => {
-				if (!data || !data.rows.length) {
-					this.messageService.error("Konnte Anzahl der Monster nicht ermitteln");
+			if (rdy) {
+				// get db from DatabaseService
+				this.db = this.databaseService.getDatabase();
+				if (!this.db) {
+					this.messageService.error("Die Datenbank fehlt", "in INIT MUSHROOM DB: got no db: ", JSON.stringify(this.db));
 				}
-				this.NUM_MONSTER = data.rows.item(0).num;
 
-				// init allMonster
-				let i = 0;
-				let emptyList = [];
-				while (i++ < this.NUM_MONSTER) {emptyList.push(null);}
-				this.allMonsters.next(emptyList);
+				this.db.executeSql("SELECT COUNT(*) AS num FROM monster_monster", []).then(data => {
+					if (!data || !data.rows.length) {
+						this.messageService.error("Konnte Anzahl der Monster nicht ermitteln");
+					}
+					this.NUM_MONSTER = data.rows.item(0).num;
 
-				// seed db and set this.dbReady to true
-				this.seedDatabase();
-			});
+					// init allMonster
+					let i = 0;
+					let emptyList = [];
+					while (i++ < this.NUM_MONSTER) {emptyList.push(null);}
+					this.allMonsters.next(emptyList);
 
-	/*	TODO: add here
-
-			// notify about changed images
-			this.imageService.getDatabaseState().subscribe(i_rdy => {
-				if (i_rdy) {
-					this.imageService.getImagesChanged().subscribe(_ => {this.loadMonsters();})
-				}
-			});
-	*/
-
+					// seed db and set this.dbReady to true
+					this.seedDatabase();
+				});
 			}
 		});
 	}
@@ -97,9 +87,6 @@ export class DbMonsterService {
 		return this.monsters.asObservable();
 	}
 
-	getSelectedMonsters(): Observable<Monster[]> {
-		return this.selectedMonsters.asObservable();
-	}
 
 	/**
 	 * add input list of Ḿonsters to this.monsters, access changes through ovservable
@@ -113,8 +100,7 @@ export class DbMonsterService {
 		}
 
 		// filter is activated, ignore allMonsters
-		if (from_filter) {
-			this.monsters.next(mons); return;}
+		if (from_filter) {this.monsters.next(mons); return;}
 
 		// filter is not active, use allMonsters and lastMonster
 		this.allMonsters.next(allMons);
@@ -199,82 +185,97 @@ export class DbMonsterService {
 		});
 	}
 
-	async loadSelectedMonsters() {
-		/*
-		return this.db.executeSql('SELECT * FROM monster_selected', []).then(data => {
-			let selectedMonsters: Monster[] = [];
-			let item;
-			let rawMonster: Monster;
-			for (let i = 0; i < data.rows.length; i++) {
-				item = data.item(i);
-				console.log("id = ", item.monster);
-				this.getMonster(item.monster).then(mon => {
-					rawMonster = mon;
-					selectedMonsters.push(rawMonster);
-				});
-			}
-			console.log("selected: ", selectedMonsters);
-
-			this.selectedMonsters.next(selectedMonsters);
-		});
-		*/
-	}
-
-	toggleIsSelected(monster: Monster) {
-/*		let monsters: Monster[] = [];
-		let selectedMonsters = this.selectedMonsters.getValue();
-		for (let m of this.monsters.getValue()) {
-			// toggle
-			if (m.id === monster.id) {
-
-				// add to selectedMonsters
-				if (!m.isSelected) {
-					selectedMonsters.push(m);
-				} else
-				// remove from selectedMonsters
-				{
-					let i = selectedMonsters.indexOf(m);
-					if (i <= -1) {
-						console.log("ERROR, MONSTER SHOULD BE SELECTED: ", JSON.stringify(m));
-						break;
-					}
-						selectedMonsters.splice(i, 1);
-				}
-				m.isSelected = !m.isSelected;
-			}
-			monsters.push(m);
-		}
-		this.monsters.next(monsters);
-		this.selectedMonsters.next(selectedMonsters);
-*/	}
-
 
 	async findMonster(nameValue:string): Promise<void> {
-		if (nameValue && nameValue.length) {
 
-			let mask = "%"+nameValue+"%";
-			let query = `SELECT * FROM monster_monster WHERE name LIKE ? OR id=?`;
-
-			return this.db.executeSql(query, [mask, nameValue]).then(data => {
-				return this.dataToMonster(data).then(mons => {
-
-/*
-let slices = [];
-for (let i = 0; i < mons.length; i++) {
-	slices.push((mons[i].id, mons[i].name));
-}
-console.log(nameValue, "\nfound:", slices);
-*/
-
-					this.updateMonsters(mons, true);
-				});
-			});
-		} else {
+		if (nameValue === null || nameValue.length === 0) {
+			this.wordSearchList = null;
 
 			// this.lastMonster seems to be 25 too far, subtract from it beforehand
 			this.lastMonster -= this.LIMIT;
-			return this.getMonsters(this.lastMonster);
+			this.combineSearchLists();
+			return;
 		}
+
+		let mask = "%"+nameValue+"%";
+		let query = `SELECT * FROM monster_monster WHERE name LIKE ? OR id=?`;
+
+		this.db.executeSql(query, [mask, nameValue]).then(data => {
+			this.dataToMonster(data).then(mons => {
+				this.wordSearchList = mons;
+				this.combineSearchLists();
+			});
+		});
+	}
+
+	async findByType(typeIdList: number[], operandIsOr: boolean): Promise<void>  {
+
+		if (!typeIdList || typeIdList.length === 0) {
+			this.typSearchList = null;
+			this.combineSearchLists();
+			return;
+		}
+
+		// construct query
+		let query: string = "SELECT * FROM monster_monster WHERE id IN (SELECT a.monster_id FROM (SELECT monster_id, COUNT(*) AS num FROM monster_monster_typen WHERE typ_id IN (";
+		let values = [];
+		let limit: number = operandIsOr? 1 : typeIdList.length;
+
+		for (let i = 0; i < typeIdList.length; i++) {
+			values.push(`${typeIdList[i]}`);
+
+			// if last, leave last operand (AND || OR) out
+			if (i == typeIdList.length - 1) {
+				query += `?) GROUP BY monster_id) a WHERE a.num>=${limit})`;
+				continue;
+			}
+			query += "?,";
+		}
+
+		// excecute query
+		this.db.executeSql(query, values).then(data => {
+
+			this.dataToMonster(data).then(mons => {
+				this.typSearchList = mons;
+				this.combineSearchLists();
+			});
+		}).catch(e => {
+				this.messageService.error("Konnte nicht nach Typen filtern", e);
+		});
+	}
+
+	private combineSearchLists() {
+
+		if (this.typSearchList === null) {
+			// no filter set, return to normality
+			if (this.wordSearchList === null) {this.getMonsters(this.lastMonster); return;}
+			// only wordSearch set
+			this.updateMonsters(this.wordSearchList, true); return;
+		}
+
+		// only type filter is set
+		if (this.wordSearchList === null) {this.updateMonsters(this.typSearchList, true); return;}
+
+		// both filters set
+		let shorterIdList: number[];
+		let longerIdList: number[];
+		let referenceList: Monster[];
+		let combinedList: Monster[] = [];
+
+		if (this.wordSearchList.length <= this.typSearchList.length) {
+			shorterIdList = this.listIds(this.wordSearchList);
+			longerIdList = this.listIds(this.typSearchList);
+			referenceList = this.wordSearchList;
+		} else {
+			shorterIdList = this.listIds(this.typSearchList);
+			longerIdList = this.listIds(this.wordSearchList);
+			referenceList = this.typSearchList;
+		}
+
+		for (let i = 0; i < shorterIdList.length; i++) {
+			if (longerIdList.indexOf(shorterIdList[i]) !== -1) {combinedList.push(referenceList[i]);}
+		}
+		this.updateMonsters(combinedList, true);
 	}
 
 	private async getAttacken(monId: number): Promise<number[]> {

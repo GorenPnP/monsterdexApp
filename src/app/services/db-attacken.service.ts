@@ -27,6 +27,9 @@ export class DbAttackenService {
 	private allAttacken = new BehaviorSubject([]);
 	private attacken = new BehaviorSubject([]);
 
+	private wordSearchList: Attacke[] = null;
+	private typSearchList: Attacke[] = null;
+
   constructor(private databaseService: DatabaseService,
 							private db_typen: DbTypenService,
 							private messageService: MessageService,
@@ -92,6 +95,7 @@ export class DbAttackenService {
 	 * @param atts - contains all Attacken to be added
 	 */
 	private updateAttacken(atts: Attacke[], from_filter: boolean=false): void {
+
 		let allAtts: Attacke[] = this.allAttacken.getValue();
 		for (let i = 0; i < atts.length; i++) {
 			allAtts[atts[i].id-1] = atts[i];
@@ -190,25 +194,97 @@ export class DbAttackenService {
 		});
 	}
 
-	async findAttacke(nameValue:string): Promise<void> {
-		if (nameValue && nameValue.length) {
-			this.filter_on = true;
+		async findAttacke(nameValue:string): Promise<void> {
+
+			if (nameValue === null || nameValue.length === 0) {
+				this.wordSearchList = null;
+
+				// this.lastMonster seems to be 25 too far, subtract from it beforehand
+				this.lastAttacke -= this.LIMIT;
+				this.combineSearchLists();
+				return;
+			}
 
 			let mask = "%"+nameValue+"%";
-			let query = `SELECT * FROM monster_attacke WHERE titel LIKE ?`;
+			let query = `SELECT * FROM monster_attacke WHERE titel LIKE ? OR id=?`;
 
-			return this.db.executeSql(query, [mask]).then(data => {
-				return this.dataToAttacke(data).then(atts => {
-					this.updateAttacken(atts, true);
+			this.db.executeSql(query, [mask, nameValue]).then(data => {
+				this.dataToAttacke(data).then(atts => {
+					this.wordSearchList = atts;
+					this.combineSearchLists();
 				});
 			});
 		}
-		this.filter_on = false;
-		// this.lastAttacke seems to be 25 too far, subtract from it beforehand
-		this.lastAttacke -= this.LIMIT;
-		return this.getAttacken(this.lastAttacke);
-	}
 
+		async findByType(typeIdList: number[], operandIsOr: boolean): Promise<void>  {
+
+			if (!typeIdList || typeIdList.length === 0) {
+				this.typSearchList = null;
+				this.combineSearchLists();
+				return;
+			}
+
+			// construct query
+			let query: string = "SELECT * FROM monster_attacke WHERE id IN (SELECT a.attacke_id FROM (SELECT attacke_id, COUNT(*) AS num FROM monster_attacke_typen WHERE typ_id IN (";
+			let values = [];
+			let limit: number = operandIsOr? 1 : typeIdList.length;
+
+			for (let i = 0; i < typeIdList.length; i++) {
+				values.push(`${typeIdList[i]}`);
+
+				// if last, leave last operand (AND || OR) out
+				if (i == typeIdList.length - 1) {
+					query += `?) GROUP BY attacke_id) a WHERE a.num>=${limit})`;
+					continue;
+				}
+				query += "?,";
+			}
+
+			// excecute query
+			this.db.executeSql(query, values).then(data => {
+
+				this.dataToAttacke(data).then(atts => {
+					this.typSearchList = atts;
+					this.combineSearchLists();
+				});
+			}).catch(e => {
+					this.messageService.error("Konnte nicht nach Typen filtern", e);
+			});
+		}
+
+		private combineSearchLists() {
+
+			if (this.typSearchList === null) {
+				// no filter set, return to normality
+				if (this.wordSearchList === null) {this.getAttacken(this.lastAttacke); return;}
+				// only wordSearch set
+				this.updateAttacken(this.wordSearchList, true); return;
+			}
+
+			// only type filter is set
+			if (this.wordSearchList === null) {this.updateAttacken(this.typSearchList, true); return;}
+
+			// both filters set
+			let shorterIdList: number[];
+			let longerIdList: number[];
+			let referenceList: Attacke[];
+			let combinedList: Attacke[] = [];
+
+			if (this.wordSearchList.length <= this.typSearchList.length) {
+				shorterIdList = this.listIds(this.wordSearchList);
+				longerIdList = this.listIds(this.typSearchList);
+				referenceList = this.wordSearchList;
+			} else {
+				shorterIdList = this.listIds(this.typSearchList);
+				longerIdList = this.listIds(this.wordSearchList);
+				referenceList = this.typSearchList;
+			}
+
+			for (let i = 0; i < shorterIdList.length; i++) {
+				if (longerIdList.indexOf(shorterIdList[i]) !== -1) {combinedList.push(referenceList[i]);}
+			}
+			this.updateAttacken(combinedList, true);
+		}
 	private async dataToAttacke(data): Promise<Attacke[]> {
 		let attacken: Attacke[] = [];
 		let item;
