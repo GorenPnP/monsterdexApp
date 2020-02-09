@@ -23,15 +23,15 @@ export class ListMonsterPage implements OnInit {
 
 	private filter_on: boolean = false;
 	private filter_locked: BehaviorSubject<boolean> = new BehaviorSubject(false);
-	private search_buffer: BehaviorSubject<string[]> = new BehaviorSubject([]);
-
-	private wordSearchDone: BehaviorSubject<boolean> = new BehaviorSubject(false);
+	private word_search_buffer: BehaviorSubject<string[]> = new BehaviorSubject([]);
+	private typ_search_buffer: BehaviorSubject<number[][]> = new BehaviorSubject([]);
 
 	header_color = "primary";
 	private header_expanded: boolean = false;
 
 	allTypen = [];
 	searchTypen: number[] = [];
+	searchWord: string = null;
 	operatorTypenIsOr: boolean = false;
 
 	rangSorting: string[] = ["nein", "asc", "desc"];
@@ -64,57 +64,75 @@ export class ListMonsterPage implements OnInit {
         });
 
 				// handle looking for monsters via search field in view every time one of the following changes
-				this.search_buffer.asObservable().subscribe(_ => {this.findMonsters();});
+				this.word_search_buffer.asObservable().subscribe(_ => {this.findMonsters();});
+				this.typ_search_buffer.asObservable().subscribe(_ => {this.findMonsters();})
 				this.filter_locked.asObservable().subscribe(_ => {this.findMonsters();});
-
-				//this.wordSearchDone.asObservable().subscribe(_ => {this.combineFiltering();});
       }
     });
   }
 
 	private async findMonsters() {
-		this.wordSearchDone.next(false);
 
 		let locked: boolean = this.filter_locked.getValue();
-		let search_items: string[] = this.search_buffer.getValue();
+		let word_search_items: string[] = this.word_search_buffer.getValue();
+		let typ_search_items: number[][] = this.typ_search_buffer.getValue();
 
 		// nothing to do, return
-		if (locked || !search_items.length) {return;}
+		if (locked || (!word_search_items.length && !typ_search_items.length)) {return;}
 
 		// search and filter Monsters
 		this.filter_locked.next(true);
 
-		let index = search_items.length - 1;
-		let latest_search = search_items[index];
+		let word_latest: string;
+		let word_search_new: boolean = false;
+		if (word_search_items.length) {
+			let index = word_search_items.length - 1;
+			word_latest = word_search_items[index];
+			word_search_new = true;
+
+			// cleanup
+			// in case that latest_search was the last entry, prevent out of bounds
+			if (index+1 >= word_search_items.length) {
+				this.word_search_buffer.next([]);
+			} else {
+				this.word_search_buffer.next(word_search_items.slice(index+1));
+			}
+		}
+
+		let typ_latest: number[];
+		let typ_search_new: boolean = false;
+		if (typ_search_items.length) {
+			let index = typ_search_items.length - 1;
+			typ_latest = typ_search_items[index];
+			typ_search_new = true;
+
+			// cleanup
+			// in case that latest_search was the last entry, prevent out of bounds
+			if (index+1 >= typ_search_items.length) {
+				this.typ_search_buffer.next([]);
+			} else {
+				this.typ_search_buffer.next(typ_search_items.slice(index+1));
+			}
+		}
 
 		// case if search was empty, stop search and otherwise deliver results
 		// communicate with empty or not empty "latest_search" to db service
-			this.filter_on = !(latest_search === "" || latest_search === null);
+		this.filter_on = (word_search_new && word_latest !== null && word_latest.length !== 0) || (typ_search_new && typ_latest !== null && typ_latest.length !== 0);
 
 		// search monsters or stop search session
-		return this.db.findMonster(latest_search).then(_ => {
+		if (word_search_new) {await this.db.findMonster(word_latest, !typ_search_new);}
+		if (typ_search_new) {await this.db.findByType(typ_latest, this.operatorTypenIsOr, true);}
 
-			// in case that latest_search was the last entry, prevent out of bounds
-			if (index+1 >=  search_items.length) {
-				this.search_buffer.next([]);
-
-				// notify to melt results with filter for typen
-				this.wordSearchDone.next(true);
-			} else {
-				this.search_buffer.next(search_items.slice(index+1));
-			}
-
-			// start to potential new round
-			this.filter_locked.next(false);
-		});
+		// start to potential new round
+		this.filter_locked.next(false);
 	}
+
 
 	onChangeSearch(event) {
 
-		let next_list: string[] = this.search_buffer.getValue();
+		let next_list: string[] = this.word_search_buffer.getValue();
 		next_list.push(event.detail.value);
-
-		this.search_buffer.next(next_list);
+		this.word_search_buffer.next(next_list);
 	}
 
 
@@ -122,7 +140,7 @@ export class ListMonsterPage implements OnInit {
 		if (loadMore) {
 
 			// had offset beginning with 0, num (or id) of monsters with 1
-			if ( (this.offset+1) >= this.db.NUM_MONSTER || this.filter_on || this.searchTypen.length) {
+			if ( (this.offset+1) >= this.db.NUM_MONSTER || this.filter_on) {
 				if (event) {event.target.complete();}
 				return;
 			}
@@ -148,7 +166,9 @@ export class ListMonsterPage implements OnInit {
 		this.headerService.toggleTypSet(id, this.searchTypen, this.allTypen);
 
 		// update monster filtered by type
-		this.db.findByType(this.searchTypen, this.operatorTypenIsOr);
+		let typ_search: number[][] = this.typ_search_buffer.getValue();
+		typ_search.push(this.searchTypen);
+		this.typ_search_buffer.next(typ_search);
 	}
 
 	toggleOperator() {
@@ -156,7 +176,9 @@ export class ListMonsterPage implements OnInit {
 
 		if (this.searchTypen.length > 1) {
 			// update monster filtered by type
-			this.db.findByType(this.searchTypen, this.operatorTypenIsOr);
+			let typ_search: number[][] = this.typ_search_buffer.getValue();
+			typ_search.push(this.searchTypen);
+			this.typ_search_buffer.next(typ_search);
 		}
 	}
 

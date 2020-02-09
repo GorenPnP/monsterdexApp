@@ -46,7 +46,7 @@ export class DbTypenService {
 					this.allTypen.next(emptyList);
 
 					// seed db and set this.dbReady to true
-					this.seedDatabase();
+					this.dbReady.next(true);
 				}).catch(err => {
 					this.messageService.error("Konnte Typen nicht finden", "Could not initiate TypenService.", err);
 					this.NUM_TYPEN = 21;
@@ -59,21 +59,6 @@ export class DbTypenService {
 				});
 			}
 		});
-	}
-
-	private async seedDatabase() {
-
-		// TODO: delete because debug
-/*		this.allTypen.asObservable().subscribe(mon => {
-			try {
-				let indices:number[] = this.listIds(mon);
-				console.log("allTypen on Subscription, got ids:", indices);
-			} catch (e) {
-				console.log("error in allTypen sub:", e);
-			}
-		});
-*/
-		this.dbReady.next(true);
 	}
 
 	getDatabaseState(): Observable<boolean> {

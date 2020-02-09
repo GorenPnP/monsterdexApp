@@ -68,7 +68,7 @@ export class DbMonsterService {
 				this.allMonsters.asObservable().subscribe(mon => {
 
 					// if changes in 'loaded' part occured
-					if (this.monsters.getValue().length < this.lastMonster) {
+					if (this.monsters.getValue().length !== this.lastMonster) {
 						let mons = mon.slice(0, this.lastMonster);
 						this.monsters.next(mons);
 					}
@@ -186,33 +186,31 @@ export class DbMonsterService {
 	}
 
 
-	async findMonster(nameValue:string): Promise<void> {
-
+	async findMonster(nameValue:string, callCombineAfterwards: boolean = true): Promise<void> {
 		if (nameValue === null || nameValue.length === 0) {
 			this.wordSearchList = null;
 
 			// this.lastMonster seems to be 25 too far, subtract from it beforehand
 			this.lastMonster -= this.LIMIT;
-			this.combineSearchLists();
+			if (callCombineAfterwards) {this.combineSearchLists();}
 			return;
 		}
 
 		let mask = "%"+nameValue+"%";
 		let query = `SELECT * FROM monster_monster WHERE name LIKE ? OR id=?`;
 
-		this.db.executeSql(query, [mask, nameValue]).then(data => {
-			this.dataToMonster(data).then(mons => {
+		return this.db.executeSql(query, [mask, nameValue]).then(data => {
+			return this.dataToMonster(data).then(mons => {
 				this.wordSearchList = mons;
-				this.combineSearchLists();
+				if (callCombineAfterwards) {this.combineSearchLists();}
 			});
 		});
 	}
 
-	async findByType(typeIdList: number[], operandIsOr: boolean): Promise<void>  {
-
+	async findByType(typeIdList: number[], operandIsOr: boolean, callCombineAfterwards: boolean = true): Promise<void>  {
 		if (!typeIdList || typeIdList.length === 0) {
 			this.typSearchList = null;
-			this.combineSearchLists();
+			if (callCombineAfterwards) {this.combineSearchLists()};
 			return;
 		}
 
@@ -233,19 +231,18 @@ export class DbMonsterService {
 		}
 
 		// excecute query
-		this.db.executeSql(query, values).then(data => {
+		return this.db.executeSql(query, values).then(data => {
 
-			this.dataToMonster(data).then(mons => {
+			return this.dataToMonster(data).then(mons => {
 				this.typSearchList = mons;
-				this.combineSearchLists();
+				if (callCombineAfterwards) {this.combineSearchLists();}
 			});
 		}).catch(e => {
 				this.messageService.error("Konnte nicht nach Typen filtern", e);
 		});
 	}
 
-	private combineSearchLists() {
-
+	combineSearchLists() {
 		if (this.typSearchList === null) {
 			// no filter set, return to normality
 			if (this.wordSearchList === null) {this.getMonsters(this.lastMonster); return;}
@@ -289,7 +286,7 @@ export class DbMonsterService {
 					ids.push(data.rows.item(i).attacke_id);
 			}
 			return ids;
-		}).catch(e => {console.log(e); return [];});
+		}).catch(e => {this.messageService.error("Konnte Attacken zu dem Monster nicht finden", e); return [];});
 	}
 
 
@@ -347,6 +344,8 @@ export class DbMonsterService {
 	 * @return      - list of monsters ids
 	 */
 	private	listIds(mons: Monster[]): number[] {
+		if (mons === null) {return null;}
+
 		let ids: number[] = [];
 		for (let i = 0; i < mons.length; i++) {
 			if (mons[i] === null || mons[i].id === 0) {
@@ -380,7 +379,7 @@ export class DbMonsterService {
 					ids.push(data.rows.item(i).monster_id);
 			}
 			return this.getMonstersByIds(ids).then(mons => {return mons});
-		}).catch(e => {console.log(e); return [];});
+		}).catch(e => {this.messageService.error("Konnte Monster zu der Attacke nicht finden", e); return [];});
 	}
 
 
