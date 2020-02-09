@@ -2,7 +2,7 @@
 	<ion-toolbar *ngIf="header_expanded" [color]="header_color">
 		<ion-grid>
 			<ion-row>
-				<ion-col size-xs="9" size-sm="10">
+				<ion-col size-xs="8" size-sm="10">
 
 		<ion-item [color]="header_color"><ion-note>
 					<span *ngFor="let i of allTypen">
@@ -25,11 +25,17 @@
 		</ion-note></ion-item>
 
 				</ion-col>
-				<ion-col size-xs="3" size-sm="2">
+				<ion-col size-xs="4" size-sm="2">
 
-					<ion-button fill="outline" shape="round" size="small" (click)="NextSortByRang()" color="light">
-						{{ rangSorting[rangSortIndex] }}
-					</ion-button>
+					<ion-item [color]="header_color">
+						<ion-label position="stacked" color="light">Rang</ion-label>
+						<ion-button fill="outline" shape="round" size="small" (click)="NextSortByRang()" color="light" [disabled]="filter_on">
+							<ion-icon *ngIf="rangSortIndex === 2" slot="start" name="arrow-dropdown"></ion-icon>
+							<ion-icon *ngIf="rangSortIndex === 1" slot="start" name="arrow-dropup"></ion-icon>
+							{{ rangSorting[rangSortIndex] }}
+						</ion-button>
+					</ion-item>
+					<ion-spinner name="bubbles" *ngIf="loadingRangSort"></ion-spinner>
 
 				</ion-col>
 			</ion-row>
@@ -80,7 +86,7 @@
 	</ion-list>
 
 	<ion-infinite-scroll (ionInfinite)="loadMonsters(true, $event)">
-    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more...">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Mehr sind auf dem Weg...">
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>
 

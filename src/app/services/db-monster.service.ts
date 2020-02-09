@@ -111,7 +111,7 @@ export class DbMonsterService {
 	 * @param  neededIds - look for monsters with folliwing IDs
 	 * @return           - the monsters found
 	 */
-	private async getMonstersByIds(neededIds: number[]): Promise<Monster[]> {
+	async getMonstersByIds(neededIds: number[]): Promise<Monster[]> {
 
 		// build query and values
 		let query = `SELECT * FROM monster_monster WHERE id IN (`;
@@ -181,7 +181,7 @@ export class DbMonsterService {
 		for (let i = idOffset; i < idOffset+this.LIMIT; i++) {neededList.push(i)}
 		return this.getMonstersByIds(neededList).then(mon => {
 			this.lastMonster += mon.length;
-			this.updateMonsters(mon);
+			return this.updateMonsters(mon);
 		});
 	}
 
@@ -296,12 +296,16 @@ export class DbMonsterService {
 		let item;
 		let atts: number[];
 		let typen: Typ[];
+		let gegenteilmonster: number[];
+		let aehnlicheFormen: number[];
 
 		for (let i = 0; i < data.rows.length; i++) {
 			item = data.rows.item(i);
 
 			atts = await this.getAttacken(item.id);
 			typen = await this.db_typen.getMonsterTypen(item.id);
+			gegenteilmonster = await this.getGegenteilmonster(item.id);
+			aehnlicheFormen = await this.getAehnlicheFormen(item.id);
 
 			monsters.push({
 				id: item.id,
@@ -313,7 +317,8 @@ export class DbMonsterService {
 				habitat: item.habitat,
 				schadensverhinderung: item.schadensverhinderung,
 				beschreibung: item.beschreibung,
-				isSelected: !!item.isSelected,
+				gegenteilmonster: gegenteilmonster,
+				aehnlicheFormen: aehnlicheFormen,
 				attacken: atts,
 				typen: typen
 			});
@@ -332,7 +337,8 @@ export class DbMonsterService {
 			habitat: "",
 			schadensverhinderung: "",
 			beschreibung: "",
-			isSelected: false,
+			gegenteilmonster: [],
+			aehnlicheFormen: [],
 			attacken: [],
 			typen: []
 		}
@@ -382,6 +388,28 @@ export class DbMonsterService {
 		}).catch(e => {this.messageService.error("Konnte Monster zu der Attacke nicht finden", e); return [];});
 	}
 
+	async getAehnlicheFormen(monsId: number): Promise<number[]> {
+		return this.db.executeSql("SELECT mon_2 FROM monster_monster_verschFormen WHERE mon_1=?", [`${monsId}`]).then(data => {
+
+			let returnList: number[] = [];
+			for (let i = 0; i < data.rows.length; i++) {
+				returnList.push(data.rows.item(i).mon_2);
+			}
+			return returnList;
+		}).catch(err => {console.log("error loading aehnliche formen of", monsId, err); return [];});
+	}
+
+	async getGegenteilmonster(monsId: number): Promise<number[]> {
+		return this.db.executeSql("SELECT mon_2 FROM monster_gegenteilmonster WHERE mon_1=?", [`${monsId}`]).then(data => {
+
+			let returnList: number[] = [];
+			for (let i = 0; i < data.rows.length; i++) {
+				returnList.push(data.rows.item(i).mon_2);
+			}
+			return returnList;
+		}).catch(err => {console.log("error loading gegenteilmonster of", monsId, err); return [];});
+	}
+
 
 	async getEvolution(monId: number) {
 		let anchestors = await this.getAnchestors(monId);
@@ -415,5 +443,16 @@ export class DbMonsterService {
 			}
 			return this.getMonstersByIds(ids).then(mons => {return mons});
 		});
+	}
+
+	async getAllSortedByRang(sortingIndex: number) {
+		if (sortingIndex === 0) {return this.combineSearchLists();}
+
+		let query: string = "SELECT * FROM monster_monster ORDER BY rang " + (sortingIndex === 1? "ASC" : "DESC");
+		return this.db.executeSql(query, []).then(data => {
+			return this.dataToMonster(data).then(mons => {
+				return this.updateMonsters(mons, true);
+			});
+		}).catch(err => {console.log("rang sort:", query, err)})
 	}
 }

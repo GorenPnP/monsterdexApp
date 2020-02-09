@@ -34,8 +34,10 @@ export class ListMonsterPage implements OnInit {
 	searchWord: string = null;
 	operatorTypenIsOr: boolean = false;
 
-	rangSorting: string[] = ["nein", "asc", "desc"];
+	rangSorting: string[] = ["sort?", "asc", "desc"];
 	rangSortIndex: number = 0;
+
+	loadingRangSort: boolean = false;
 
   constructor(private db: DbMonsterService,
 							private headerService: FullHeaderService,
@@ -125,6 +127,10 @@ export class ListMonsterPage implements OnInit {
 
 		// start to potential new round
 		this.filter_locked.next(false);
+
+		// addition for rang sorting
+		// set to "no filter" ^= index 0, if a filter is set
+		if (this.filter_on) {this.rangSortIndex = 0;}
 	}
 
 
@@ -140,7 +146,7 @@ export class ListMonsterPage implements OnInit {
 		if (loadMore) {
 
 			// had offset beginning with 0, num (or id) of monsters with 1
-			if ( (this.offset+1) >= this.db.NUM_MONSTER || this.filter_on) {
+			if ( (this.offset+1) >= this.db.NUM_MONSTER || this.filter_on || this.rangSortIndex) {
 				if (event) {event.target.complete();}
 				return;
 			}
@@ -167,7 +173,8 @@ export class ListMonsterPage implements OnInit {
 
 		// update monster filtered by type
 		let typ_search: number[][] = this.typ_search_buffer.getValue();
-		typ_search.push(this.searchTypen);
+		typ_search.push(this.searchTypen
+		);
 		this.typ_search_buffer.next(typ_search);
 	}
 
@@ -184,9 +191,8 @@ export class ListMonsterPage implements OnInit {
 
 	NextSortByRang() {
 		this.rangSortIndex = (this.rangSortIndex+1) % 3;
-console.log(this.rangSortIndex)
 
-
-		// notify database service
+		this.loadingRangSort = true;
+		this.db.getAllSortedByRang(this.rangSortIndex).then(_ => {this.loadingRangSort = false});
 	}
 }

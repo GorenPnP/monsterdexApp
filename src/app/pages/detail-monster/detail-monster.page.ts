@@ -33,6 +33,8 @@ export class DetailMonsterPage implements OnInit {
 	noEffectAgainst: Typ[] = [];
 
 	evolution = [[], []];
+	gegenteilmonster = [];
+	aehnlicheFormen = [];
 
   constructor(private aRoute: ActivatedRoute,
 							private headerService: MinimalHeaderService,
@@ -94,6 +96,26 @@ export class DetailMonsterPage implements OnInit {
 
 					// get all icons of monster typen
 					this.db.typIcons(this.monster.id).then(icons => {this.mon_typen_icons = icons;});
+
+					// get all gegenteilmonster
+					if (this.monster.gegenteilmonster.length) {
+						this.db.getMonstersByIds(this.monster.gegenteilmonster).then(mons => {
+							for (let i = 0; i < mons.length; i++) {
+								// get all [monster, icons] of gegenteilmonster
+								this.db.typIcons(mons[i].id).then(icons => {this.gegenteilmonster.push([mons[i], icons]);});
+							}
+						});
+					}
+
+					// get all aehnliche formen
+					if (this.monster.aehnlicheFormen.length) {
+						this.db.getMonstersByIds(this.monster.aehnlicheFormen).then(mons => {
+							for (let i = 0; i < mons.length; i++) {
+								// get all [monster, icons] of aehnliche formen
+								this.db.typIcons(mons[i].id).then(icons => {this.aehnlicheFormen.push([mons[i], icons]);});
+							}
+						});
+					}
 
 					// get all attacken of monster with their typen
 					this.db_att.getDatabaseState().subscribe(rdy => {

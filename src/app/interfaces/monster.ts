@@ -15,5 +15,6 @@ export interface Monster {
 	typen: Typ[],
 	attacken: number[],
 
-	isSelected: boolean,
+	gegenteilmonster: number[],
+	aehnlicheFormen: number[]
 }
