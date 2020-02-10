@@ -7,23 +7,41 @@ import { SQLiteObject } from '@ionic-native/sqlite/ngx';
 
 import { Typ, StrToTyp } from "../interfaces/typ";
 
+/**
+ * service for all functionalities concerning typs
+ */
 @Injectable({
   providedIn: 'root'
 })
 export class DbTypenService {
 
-	LIMIT: number = 25;
-	NUM_TYPEN: number = 0;
-
+	/**
+	 * represents the actual database
+	 */
+	private db: SQLiteObject;
+	/**
+	 * signal if this service is done initializing
+	 */
 	private dbReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-	private db: SQLiteObject;
-
+	/**
+	 * total amount of all monsters (also unloaded ones)
+	 */
+	NUM_TYPEN: number = 0;
+	/**
+	 * stores all typ instances loaded sometime while the app is opened.
+	 * minimizes database access
+	 */
 	private allTypen = new BehaviorSubject([]);
 
+	/**
+	 * init db service
+	 * @param databaseService main db service to retrieve the db
+	 * @param messageService  to communicate to the user
+	 */
   constructor(private databaseService: DatabaseService,
-							private messageService: MessageService,
-						) {
+							private messageService: MessageService) {
+
 		this.databaseService.getDatabaseState().subscribe(rdy => {
 			if (rdy) {
 				// get db from DatabaseService
@@ -47,6 +65,7 @@ export class DbTypenService {
 
 					// seed db and set this.dbReady to true
 					this.dbReady.next(true);
+
 				}).catch(err => {
 					this.messageService.error("Konnte Typen nicht finden", "Could not initiate TypenService.", err);
 					this.NUM_TYPEN = 21;
@@ -61,41 +80,48 @@ export class DbTypenService {
 		});
 	}
 
+	/**
+	 * communicate if this service is done initializing
+	 * @return Observable<boolean>
+	 */
 	getDatabaseState(): Observable<boolean> {
 		return this.dbReady.asObservable();
 	}
 
-
+	/**
+	 * get all newly loaded typs from here
+	 * @return Observable<Typ[]>
+	 */
 	observeTyp(): Observable<Typ[]> {
 		return this.allTypen.asObservable();
 	}
 
 	/**
-	 * add input list of Ḿonsters to this.typen, access changes through ovservable
+	 * add input list of typs to this.typen, access changes through ovservable
 	 * @param mons - contains all Typen to be added
 	 */
-	private updateTypen(mons: Typ[]): void {
+	private updateTypen(typs: Typ[]): void {
 		// filter is not active, use allTypen and lastTyp
-		let allMons: Typ[] = this.allTypen.getValue();
-		for (let i = 0; i < mons.length; i++) {
-			allMons[mons[i].id-1] = mons[i];
+		let allTyps: Typ[] = this.allTypen.getValue();
+		for (let i = 0; i < typs.length; i++) {
+			allTyps[typs[i].id-1] = typs[i];
 		}
-		this.allTypen.next(allMons);
+		this.allTypen.next(allTyps);
 	}
 
+	/**
+	 * returns a list of all typs
+	 * @return Promise<Typ>
+	 */
+	async getAllTypen(): Promise<Typ[]> {
 
-	async getAllTypenIcons() {
+		// get all typen by id so they are stored in allTypen
 		let ids: number[] = [];
 		for (let i = 1; i <= this.NUM_TYPEN; i++) {ids.push(i);}
-
 		await this.getTypenByIds(ids);
-		let typen = this.allTypen.getValue();
 
-		return typen;
-	}
-
-	async getTypen(neededIds: number[]): Promise<Typ[]> {
-		return this.getTypenByIds(neededIds);
+		// return them
+		return this.allTypen.getValue();
 	}
 
 	/**
@@ -146,7 +172,7 @@ export class DbTypenService {
 			if (neededIds[neededIds.length-1] > this.NUM_TYPEN) {return types;}
 
 			if (types.length != values.length) {
-				this.messageService.alert("Nicht alle Typ gefunden", "in GET Typ: could not get all Typ with ids: ", values, " found: ", this.listIds(types));
+				this.messageService.alert("Nicht alle Typ gefunden", "in GET Typ: could not get all Typ with ids: ", values, " found: ", this.databaseService.listIds(types));
 				return [];
 			}
 
@@ -162,46 +188,79 @@ export class DbTypenService {
 		});
   }
 
+	/**
+	 * public wrapper around getTypenByIds() for retrieving one typ
+	 * @param  id id of the searched typ
+	 * @return Promise<Typ>
+	 */
 	async getTyp(id: number): Promise<Typ> {
-		return this.getTypenByIds([id]).then(mons => {
-			if (!(mons && mons.length)) {
+		return this.getTypenByIds([id]).then(typs => {
+			if (!(typs && typs.length)) {
 				this.messageService.error("Konnte Typ nicht finden", "GET Typ: could not find Typ with id", id);
 				return this.defaultTyp();
 			}
-			return mons[0];
+			return typs[0];
 		});
 	}
 
+	/**
+	 * public wrapper around getMonstersByIds()
+	 * @param  neededIds	needed ids of required typs
+	 * @return Promise<Typ[]>
+	 */
+	async getTypen(neededIds: number[]): Promise<Typ[]> {
+		return this.getTypenByIds(neededIds);
+	}
+
+	/**
+	 * get typen to a monster's id
+	 * @param  monId id of a monster
+	 * @return Promise<Typ[]>
+	 */
 	async getMonsterTypen(monId: number): Promise<Typ[]> {
 
+		// lookup needed ids of typs
 		return this.db.executeSql(`SELECT typ_id FROM monster_monster_typen WHERE monster_id=?`, [`${monId}`]).then(data => {
-			let typIds: number[] = [];
 
+			// collect type ids
+			let typIds: number[] = [];
 			for (let i = 0; i < data.rows.length; i++) {
 				typIds.push(data.rows.item(i).typ_id);
 			}
-
+			// get typs from ids
 			return this.getTypenByIds(typIds).then(typen =>  {
 				return typen;
 			});
 		});
 	}
 
+	/**
+	 * get typen to an attack's id
+	 * @param  attId id of an attack instance
+	 * @return Promise<Typ[]>
+	 */
 	async getAttackeTypen(attId: number): Promise<Typ[]> {
 
+		// lookup needed ids of typs
 		return this.db.executeSql(`SELECT typ_id FROM monster_attacke_typen WHERE attacke_id=?`, [`${attId}`]).then(data => {
-			let typIds: number[] = [];
 
+			// collect type ids
+			let typIds: number[] = [];
 			for (let i = 0; i < data.rows.length; i++) {
 				typIds.push(data.rows.item(i).typ_id);
 			}
-
+			// get typs from ids
 			return this.getTypenByIds(typIds).then(typen =>  {
 				return typen;
 			});
 		});
 	}
 
+	/**
+	 * convert db data result from select query with typs to list of typ instances
+	 * @param  data db data
+	 * @return Promise<Typ[]>
+	 */
 	dataToTyp(data): Typ[] {
 		let typen: Typ[] = [];
 		let item;
@@ -216,42 +275,42 @@ export class DbTypenService {
 		return typen;
 	}
 
+	/**
+	 * get dummy typ
+	 * @return Typ
+	 */
 	defaultTyp(): Typ {
 		let typClass: Typ;
 		return typClass;
 	}
 
-	/**
-	 * helper function for debug output
-	 * @param  mons - list of Typen
-	 * @return      - list of Typen ids
-	 */
-	private listIds(typen: Typ[]): number[] {
-		let ids: number[] = [];
-		for (let i = 0; i < typen.length; i++) {
-			if (typen[i] === null || typen[i].id === 0) {
-				ids.push(0);
-			} else {
-				ids.push(typen[i].id);
-			}
-		}
-		return ids;
-	}
 
-	// returns INT, not FLOAT
+	/**
+	 * get efficiency of hypothetical attack with typs of fromIds to hypothetical monster with typs of toIds
+	 * @param  fromIds [description]
+	 * @param  toIds   [description]
+	 * @return Promise<number> (INT, not FLOAT; 0 ^= wirkungslos, >1 ^= sehr effektiv, <0 ^= nicht sehr effektiv)
+	 */
 	async getEfficiency(fromIds: number[], toIds: number[]): Promise<number> {
+
+		// construct query from
 		let query = "SELECT efficiency AS eff FROM monster_typ_efficiency WHERE from_typ_id IN (";
 		for (let i = 0; i < fromIds.length; i++) {
 			query += "?,";
 		}
 
+		// construct query to
 		query = query.slice(0, query.length-1) + ") AND to_typ_id IN (";
 		for (let i = 0; i < toIds.length; i++) {
 			query += "?,";
 		}
 
 		query = query.slice(0, query.length-1) + ")";
+
+		// find efficiencies
 		return this.db.executeSql(query, fromIds.concat(toIds)).then(data => {
+
+			// factorize all
 			let factor: number = 1.0;
 			let dummy: number;
 			for (let i = 0; i < data.rows.length; i++) {
@@ -262,10 +321,14 @@ export class DbTypenService {
 				factor *= dummy;
 			}
 
+			// round normally on normaly effective and up
 			if (factor >= 1.0) {
 				return Math.round(factor);
 			}
+
 			// less than normal effective
+			// log2(factor), is an int and negative
+			// example: 1/4 => -2
 			return Math.round(Math.log(factor) / Math.log(2));
 		});
 	}

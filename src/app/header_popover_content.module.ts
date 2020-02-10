@@ -1,3 +1,6 @@
+/**
+ * content for popover in header with links to all type pages
+ */
 export const header_popover =
   [
       {
@@ -9,6 +12,9 @@ export const header_popover =
       }
   ];
 
+	/**
+	 * content for popover in header with links to list type page
+	 */
 export const header_popover_not_list =
   [
       {
@@ -19,12 +25,15 @@ export const header_popover_not_list =
       }
   ];
 
-	export const header_popover_not_calc =
-	  [
-	      {
-	          "topic": "Typen",
-	          "content": [
-	              {"title": "Liste", "icon": "list", "path": "/list-typen"}
-	          ]
-	      }
-	  ];
+/**
+ * content for popover in header with links to type calc page
+ */
+export const header_popover_not_calc =
+  [
+      {
+          "topic": "Typen",
+          "content": [
+              {"title": "Liste", "icon": "list", "path": "/list-typen"}
+          ]
+      }
+  ];

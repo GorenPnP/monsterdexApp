@@ -1,0 +1,973 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Monsterdex</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Monsterdex</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Eingeben zur Suche"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li>DetailAttackePage</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>Datei</h3>
+</p>
+<p class="comment">
+    <code>src/app/pages/detail-attacke/detail-attacke.page.ts</code>
+</p>
+
+    <p class="comment">
+        <h3>Beschreibung</h3>
+    </p>
+    <p class="comment">
+        <p>detail page for attacken</p>
+
+    </p>
+
+
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-detail-attacke</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./detail-attacke.page.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./detail-attacke.page.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#att_typen_icons">att_typen_icons</a>
+                            </li>
+                            <li>
+                                <a href="#attacke">attacke</a>
+                            </li>
+                            <li>
+                                <a href="#effectiveAgainst">effectiveAgainst</a>
+                            </li>
+                            <li>
+                                <a href="#mon_typen">mon_typen</a>
+                            </li>
+                            <li>
+                                <a href="#noEffectAgainst">noEffectAgainst</a>
+                            </li>
+                            <li>
+                                <a href="#weakAgainst">weakAgainst</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methoden</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#presentPopover">presentPopover</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Konstruktor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(aRoute: <a href="https://angular.io/api/router/ActivatedRoute" target="_blank">ActivatedRoute</a>, headerService: <a href="../injectables/MinimalHeaderService.html">MinimalHeaderService</a>, db: <a href="../injectables/DbAttackenService.html">DbAttackenService</a>, db_typ: <a href="../injectables/DbTypenService.html">DbTypenService</a>, db_mon: <a href="../injectables/DbMonsterService.html">DbMonsterService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Definiert in <a href="" data-line="48" class="link-to-prism">src/app/pages/detail-attacke/detail-attacke.page.ts:48</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div class="io-description"><p>[constructor description]</p>
+</div>
+                            <div>
+                                    <b>Parameter :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                                    <td>Beschreibung</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>aRoute</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/router/ActivatedRoute" target="_blank" >ActivatedRoute</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Nein
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <code><p>route to get id from for attack</p>
+</code>
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>headerService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/MinimalHeaderService.html" target="_self" >MinimalHeaderService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Nein
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <code><p>handle header affairs</p>
+</code>
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>db</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/DbAttackenService.html" target="_self" >DbAttackenService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Nein
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <code><p>db service for attacks</p>
+</code>
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>db_typ</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/DbTypenService.html" target="_self" >DbTypenService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Nein
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <code><p>db service for typs</p>
+</code>
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>db_mon</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/DbMonsterService.html" target="_self" >DbMonsterService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Nein
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <code><p>db service for monsters</p>
+</code>
+                                                        </td>
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methoden
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="presentPopover"></a>
+                    <span class="name">
+                        <b>
+                            presentPopover
+                        </b>
+                        <a href="#presentPopover"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>presentPopover(ev: <a href="https://angular.io/api/router/Event" target="_blank">Event</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Definiert in <a href="" data-line="127"
+                            class="link-to-prism">src/app/pages/detail-attacke/detail-attacke.page.ts:127</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>open popover with link to typ pages (in header)</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameter :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Beschreibung</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>ev</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/router/Event" target="_blank" >Event</a></code>
+                                    </td>
+
+                                    <td>
+                                        Nein
+                                    </td>
+
+
+                                    <td>
+                                        <p>event to the popover, needed for controller</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>void</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="att_typen_icons"></a>
+                        <span class="name">
+                            <b>
+                            att_typen_icons</b>
+                            <a href="#att_typen_icons"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>string[]</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>[]</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Definiert in <a href="" data-line="30" class="link-to-prism">src/app/pages/detail-attacke/detail-attacke.page.ts:30</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>all icons of attacken typen</p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="attacke"></a>
+                        <span class="name">
+                            <b>
+                            attacke</b>
+                            <a href="#attacke"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../interfaces/Attacke.html" target="_self" >Attacke</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Definiert in <a href="" data-line="26" class="link-to-prism">src/app/pages/detail-attacke/detail-attacke.page.ts:26</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>holds the attack of this page</p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="effectiveAgainst"></a>
+                        <span class="name">
+                            <b>
+                            effectiveAgainst</b>
+                            <a href="#effectiveAgainst"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../interfaces/Typ.html" target="_self" >Typ[]</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>[]</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Definiert in <a href="" data-line="40" class="link-to-prism">src/app/pages/detail-attacke/detail-attacke.page.ts:40</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>list of monster typs this attack is very effective against</p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="mon_typen"></a>
+                        <span class="name">
+                            <b>
+                            mon_typen</b>
+                            <a href="#mon_typen"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>[]</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>[]</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Definiert in <a href="" data-line="35" class="link-to-prism">src/app/pages/detail-attacke/detail-attacke.page.ts:35</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>list of monsters with their typ icon names
+format: [[Monster, string[]], ..]</p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="noEffectAgainst"></a>
+                        <span class="name">
+                            <b>
+                            noEffectAgainst</b>
+                            <a href="#noEffectAgainst"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../interfaces/Typ.html" target="_self" >Typ[]</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>[]</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Definiert in <a href="" data-line="48" class="link-to-prism">src/app/pages/detail-attacke/detail-attacke.page.ts:48</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>list of monster typs this attack can not hit</p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="weakAgainst"></a>
+                        <span class="name">
+                            <b>
+                            weakAgainst</b>
+                            <a href="#weakAgainst"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../interfaces/Typ.html" target="_self" >Typ[]</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>[]</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Definiert in <a href="" data-line="44" class="link-to-prism">src/app/pages/detail-attacke/detail-attacke.page.ts:44</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>list of monster typs this attack is less effective against</p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component } from &#x27;@angular/core&#x27;;
+import { ActivatedRoute } from &#x27;@angular/router&#x27;;
+import { DbAttackenService } from &#x27;../../services/db-attacken.service&#x27;;
+
+import { Attacke } from &quot;../../interfaces/attacke&quot;;
+import { DbMonsterService } from &#x27;src/app/services/db-monster.service&#x27;;
+import { DbTypenService } from &#x27;src/app/services/db-typen.service&#x27;;
+import { Typ } from &#x27;src/app/interfaces/typ&#x27;;
+import { MinimalHeaderService } from &#x27;src/app/services/minimal-header.service&#x27;;
+
+import { header_popover } from &quot;../../header_popover_content.module&quot;;
+
+/**
+ * detail page for attacken
+ */
+@Component({
+  selector: &#x27;app-detail-attacke&#x27;,
+  templateUrl: &#x27;./detail-attacke.page.html&#x27;,
+  styleUrls: [&#x27;./detail-attacke.page.scss&#x27;],
+})
+export class DetailAttackePage {
+
+	/**
+	 * holds the attack of this page
+	 */
+	attacke: Attacke;
+	/**
+	 * all icons of attacken typen
+	 */
+	att_typen_icons: string[] &#x3D; [];
+	/**
+	 * list of monsters with their typ icon names
+	 * format: [[Monster, string[]], ..]
+	 */
+	mon_typen &#x3D; [];
+
+	/**
+	 * list of monster typs this attack is very effective against
+	 */
+	effectiveAgainst: Typ[] &#x3D; [];
+	/**
+	 * list of monster typs this attack is less effective against
+	 */
+	weakAgainst: Typ[] &#x3D; [];
+	/**
+	 * list of monster typs this attack can not hit
+	 */
+	noEffectAgainst: Typ[] &#x3D; [];
+
+	/**
+	 * [constructor description]
+	 * @param aRoute        route to get id from for attack
+	 * @param headerService handle header affairs
+	 * @param db            db service for attacks
+	 * @param db_typ        db service for typs
+	 * @param db_mon        db service for monsters
+	 */
+  constructor(private aRoute: ActivatedRoute,
+							private headerService: MinimalHeaderService,
+							private db: DbAttackenService,
+							private db_typ: DbTypenService,
+							private db_mon: DbMonsterService) {
+
+		// setup dummy attack to be able to render the page
+		this.attacke &#x3D; this.db.defaultAttacke();
+		let id: number &#x3D; parseInt(this.aRoute.snapshot.paramMap.get(&#x27;id&#x27;));
+
+		// get attack of this page
+		this.db.getDatabaseState().subscribe(rdy &#x3D;&gt; {
+      if (rdy) {
+				this.db.getAttacke(id).then(att &#x3D;&gt; {
+					this.attacke &#x3D; att;
+
+					// get all icons of attack typs
+					this.db.typIcons(this.attacke.id).then(icons &#x3D;&gt; {this.att_typen_icons &#x3D; icons;});
+
+
+					// get all special efficiencies (in types) for this attack
+					let ownTypes &#x3D; this.attacke.typen.map(t &#x3D;&gt; {return t.id});
+					let allPromises: Promise&lt;number&gt;[] &#x3D; [];
+					for (let i &#x3D; 1; i &lt;&#x3D; this.db_typ.NUM_TYPEN; i++) {
+						allPromises.push(new Promise((resolve, _) &#x3D;&gt; {resolve(this.db_typ.getEfficiency(ownTypes, [i]))}));
+					}
+
+					// one promise for every single type
+					// resolves to efficiency for own types on every inidividual type
+					Promise.all(allPromises).then(ret &#x3D;&gt; {
+
+						// sort typs in three lists by their reaction to own typs
+						// store typ ids
+						let effectiveIds: number[] &#x3D; [];
+						let weakIds: number[] &#x3D; [];
+						let noEffectIds: number[] &#x3D; [];
+						for (let i &#x3D; 0; i &lt; ret.length; i++) {
+							if (ret[i] &gt; 1) {effectiveIds.push(i+1);}
+							if (ret[i] &lt; 0) {weakIds.push(i+1);}
+							if (ret[i] &#x3D;&#x3D;&#x3D; 0) {noEffectIds.push(i+1);}
+						}
+
+						// get types to gathered ids
+						this.db_typ.getTypen(effectiveIds).then(typs &#x3D;&gt; {this.effectiveAgainst &#x3D; typs})
+						this.db_typ.getTypen(weakIds).then(typs &#x3D;&gt; {this.weakAgainst &#x3D; typs})
+						this.db_typ.getTypen(noEffectIds).then(typs &#x3D;&gt; {this.noEffectAgainst &#x3D; typs})
+					});
+
+					this.db_mon.getDatabaseState().subscribe(rdy &#x3D;&gt; {
+			      if (rdy) {
+
+							// get all monsters with typ icons capable of this attack
+							this.db_mon.getMonstersByAttacke(this.attacke.id).then(mons &#x3D;&gt; {
+								for (let i &#x3D; 0; i &lt; mons.length; i++) {
+									this.db_mon.typIcons(mons[i].id).then(icons &#x3D;&gt; {this.mon_typen.push([mons[i], icons]);});
+								}
+							});
+						}
+					});
+				});
+			}
+		});
+	}
+
+	/**
+	 * open popover with link to typ pages (in header)
+	 * @param  ev event to the popover, needed for controller
+	 * @return    void
+	 */
+	presentPopover(ev: Event): void {
+		this.headerService.presentPopover(ev, header_popover);
+	}
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;ion-header&gt;
+  &lt;ion-toolbar color&#x3D;&quot;secondary&quot;&gt;
+		&lt;ion-buttons slot&#x3D;&quot;start&quot;&gt;
+			&lt;ion-back-button defaultHref&#x3D;&quot;/list-attacken&quot;&gt;&lt;/ion-back-button&gt;
+		&lt;/ion-buttons&gt;
+
+		&lt;ion-buttons slot&#x3D;&quot;end&quot;&gt;
+			&lt;ion-button (click)&#x3D;&quot;presentPopover($event)&quot;&gt;
+				&lt;ion-icon name&#x3D;&quot;information-circle-outline&quot;&gt;&lt;/ion-icon&gt;
+			&lt;/ion-button&gt;
+		&lt;/ion-buttons&gt;
+
+    &lt;ion-title class&#x3D;&quot;ion-text-wrap&quot;&gt;{{ attacke.name }}&lt;/ion-title&gt;
+  &lt;/ion-toolbar&gt;
+&lt;/ion-header&gt;
+
+&lt;ion-content&gt;
+	&lt;ion-grid fixed *ngIf&#x3D;&quot;attacke.id&quot;&gt;
+		&lt;ion-row&gt;
+
+			&lt;ion-col size-xs&#x3D;&quot;12&quot; size-sm&#x3D;&quot;6&quot; size-md&#x3D;&quot;4&quot; size-lg&#x3D;&quot;3&quot;&gt;
+				&lt;ion-button *ngFor&#x3D;&quot;let icon of att_typen_icons&quot; size&#x3D;&quot;small&quot; shape&#x3D;&quot;round&quot; color&#x3D;&quot;tertiary&quot; disabled&#x3D;&quot;true&quot;&gt;
+					&lt;ion-icon [name]&#x3D;&quot;icon&quot; slot&#x3D;&quot;icon-only&quot;&gt;&lt;/ion-icon&gt;
+				&lt;/ion-button&gt;
+
+			  &lt;ion-list&gt;
+			    &lt;!-- Allgemeines --&gt;
+			    &lt;ion-item-group&gt;
+			      &lt;ion-item-divider sticky&#x3D;&quot;true&quot;&gt;
+							&lt;ion-item slot&#x3D;&quot;end&quot; color&#x3D;&quot;secondary&quot; class&#x3D;&quot;topic&quot;&gt;
+			        	&lt;ion-label class&#x3D;&quot;ion-text-wrap&quot;&gt;Allgemeines&lt;/ion-label&gt;
+							&lt;/ion-item&gt;
+			      &lt;/ion-item-divider&gt;
+
+						&lt;ion-item color&#x3D;&quot;light&quot; lines&#x3D;&quot;full&quot;&gt;
+			        &lt;ion-label slot&#x3D;&quot;start&quot; class&#x3D;&quot;ion-text-wrap&quot;&gt;Schaden&lt;/ion-label&gt;
+			        &lt;ion-text class&#x3D;&quot;ion-text-wrap&quot;&gt;{{ attacke.schaden }}&lt;/ion-text&gt;
+			      &lt;/ion-item&gt;
+						&lt;ion-item color&#x3D;&quot;light&quot; lines&#x3D;&quot;full&quot;&gt;
+			        &lt;ion-label slot&#x3D;&quot;start&quot; class&#x3D;&quot;ion-text-wrap&quot;&gt;Beschreibung&lt;/ion-label&gt;
+			        &lt;ion-text class&#x3D;&quot;ion-text-wrap&quot;&gt;{{ attacke.beschreibung }}&lt;/ion-text&gt;
+			      &lt;/ion-item&gt;
+					&lt;/ion-item-group&gt;
+				&lt;/ion-list&gt;
+			&lt;/ion-col&gt;
+
+			&lt;ion-col size-xs&#x3D;&quot;12&quot; size-sm&#x3D;&quot;6&quot; size-md&#x3D;&quot;4&quot; size-lg&#x3D;&quot;3&quot;&gt;
+				&lt;ion-list&gt;
+					&lt;!-- Typen --&gt;
+					&lt;ion-item-group topic&gt;
+						&lt;ion-item-divider sticky&#x3D;&quot;true&quot;&gt;
+							&lt;ion-item slot&#x3D;&quot;end&quot; color&#x3D;&quot;secondary&quot; class&#x3D;&quot;topic&quot;&gt;
+								&lt;ion-label class&#x3D;&quot;ion-text-wrap&quot;&gt;Effektivitäten&lt;/ion-label&gt;
+							&lt;/ion-item&gt;
+						&lt;/ion-item-divider&gt;
+
+						&lt;ion-item *ngIf&#x3D;&quot;effectiveAgainst.length&quot; color&#x3D;&quot;light&quot; lines&#x3D;&quot;full&quot;&gt;
+							&lt;ion-label slot&#x3D;&quot;start&quot; class&#x3D;&quot;ion-text-wrap&quot;&gt;sehr effektiv&lt;/ion-label&gt;
+							&lt;ion-note&gt;
+								&lt;ion-button *ngFor&#x3D;&quot;let t of effectiveAgainst&quot; size&#x3D;&quot;small&quot; shape&#x3D;&quot;round&quot; color&#x3D;&quot;tertiary&quot; disabled&#x3D;&quot;true&quot;&gt;
+									&lt;ion-icon [name]&#x3D;&quot;t.icon&quot;&gt;&lt;/ion-icon&gt;
+								&lt;/ion-button&gt;
+							&lt;/ion-note&gt;
+						&lt;/ion-item&gt;
+
+						&lt;ion-item *ngIf&#x3D;&quot;weakAgainst.length&quot; color&#x3D;&quot;light&quot; lines&#x3D;&quot;full&quot;&gt;
+							&lt;ion-label slot&#x3D;&quot;start&quot; class&#x3D;&quot;ion-text-wrap&quot;&gt;schwach&lt;/ion-label&gt;
+							&lt;ion-note&gt;
+								&lt;ion-button *ngFor&#x3D;&quot;let t of weakAgainst&quot; size&#x3D;&quot;small&quot; shape&#x3D;&quot;round&quot; color&#x3D;&quot;tertiary&quot; disabled&#x3D;&quot;true&quot;&gt;
+									&lt;ion-icon [name]&#x3D;&quot;t.icon&quot;&gt;&lt;/ion-icon&gt;
+								&lt;/ion-button&gt;
+							&lt;/ion-note&gt;
+						&lt;/ion-item&gt;
+
+						&lt;ion-item *ngIf&#x3D;&quot;noEffectAgainst.length&quot; color&#x3D;&quot;light&quot; lines&#x3D;&quot;full&quot;&gt;
+							&lt;ion-label slot&#x3D;&quot;start&quot; class&#x3D;&quot;ion-text-wrap&quot;&gt;trifft nicht&lt;/ion-label&gt;
+							&lt;ion-note&gt;
+								&lt;ion-button *ngFor&#x3D;&quot;let t of noEffectAgainst&quot; size&#x3D;&quot;small&quot; shape&#x3D;&quot;round&quot; color&#x3D;&quot;tertiary&quot; disabled&#x3D;&quot;true&quot;&gt;
+									&lt;ion-icon [name]&#x3D;&quot;t.icon&quot;&gt;&lt;/ion-icon&gt;
+								&lt;/ion-button&gt;
+							&lt;/ion-note&gt;
+						&lt;/ion-item&gt;
+
+					&lt;/ion-item-group&gt;
+				&lt;/ion-list&gt;
+			&lt;/ion-col&gt;
+
+			&lt;ion-col size-xs&#x3D;&quot;12&quot; size-sm&#x3D;&quot;6&quot; size-md&#x3D;&quot;4&quot; size-lg&#x3D;&quot;3&quot;&gt;
+				&lt;ion-list&gt;
+					&lt;!-- Typen --&gt;
+					&lt;ion-item-group&gt;
+						&lt;ion-item-divider sticky&#x3D;&quot;true&quot;&gt;
+							&lt;ion-item slot&#x3D;&quot;end&quot; color&#x3D;&quot;secondary&quot; class&#x3D;&quot;topic&quot;&gt;
+								&lt;ion-label class&#x3D;&quot;ion-text-wrap&quot;&gt;bei Monster:&lt;/ion-label&gt;
+							&lt;/ion-item&gt;
+						&lt;/ion-item-divider&gt;
+
+						&lt;ion-item detail *ngFor&#x3D;&quot;let a of mon_typen&quot; [routerLink]&#x3D;&quot;[&#x27;/detail-monster&#x27;, a[0].id]&quot; routerDirection&#x3D;&quot;forward&quot; color&#x3D;&quot;light&quot; lines&#x3D;&quot;full&quot;&gt;
+							&lt;ion-label slot&#x3D;&quot;start&quot; class&#x3D;&quot;ion-text-wrap&quot;&gt;{{ a[0].name }}&lt;/ion-label&gt;
+							&lt;ion-note&gt;
+								&lt;ion-button *ngFor&#x3D;&quot;let icon of a[1]&quot; size&#x3D;&quot;small&quot; shape&#x3D;&quot;round&quot; color&#x3D;&quot;tertiary&quot; disabled&#x3D;&quot;true&quot;&gt;
+									&lt;ion-icon [name]&#x3D;&quot;icon&quot; slot&#x3D;&quot;icon-only&quot;&gt;&lt;/ion-icon&gt;
+								&lt;/ion-button&gt;
+							&lt;/ion-note&gt;
+						&lt;/ion-item&gt;
+					&lt;/ion-item-group&gt;
+				&lt;/ion-list&gt;
+			&lt;/ion-col&gt;
+
+		&lt;/ion-row&gt;
+	&lt;/ion-grid&gt;
+&lt;/ion-content&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./detail-attacke.page.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">.topic { border-top-right-radius: 40%;  border-top-left-radius: 40%;}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html Element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html Element mit directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><ion-header>  <ion-toolbar color="secondary">		<ion-buttons slot="start">			<ion-back-button defaultHref="/list-attacken"></ion-back-button>		</ion-buttons>		<ion-buttons slot="end">			<ion-button (click)="presentPopover($event)">				<ion-icon name="information-circle-outline"></ion-icon>			</ion-button>		</ion-buttons>    <ion-title class="ion-text-wrap">{{ attacke.name }}</ion-title>  </ion-toolbar></ion-header><ion-content>	<ion-grid fixed *ngIf="attacke.id">		<ion-row>			<ion-col size-xs="12" size-sm="6" size-md="4" size-lg="3">				<ion-button *ngFor="let icon of att_typen_icons" size="small" shape="round" color="tertiary" disabled="true">					<ion-icon [name]="icon" slot="icon-only"></ion-icon>				</ion-button>			  <ion-list>			    <!-- Allgemeines -->			    <ion-item-group>			      <ion-item-divider sticky="true">							<ion-item slot="end" color="secondary" class="topic">			        	<ion-label class="ion-text-wrap">Allgemeines</ion-label>							</ion-item>			      </ion-item-divider>						<ion-item color="light" lines="full">			        <ion-label slot="start" class="ion-text-wrap">Schaden</ion-label>			        <ion-text class="ion-text-wrap">{{ attacke.schaden }}</ion-text>			      </ion-item>						<ion-item color="light" lines="full">			        <ion-label slot="start" class="ion-text-wrap">Beschreibung</ion-label>			        <ion-text class="ion-text-wrap">{{ attacke.beschreibung }}</ion-text>			      </ion-item>					</ion-item-group>				</ion-list>			</ion-col>			<ion-col size-xs="12" size-sm="6" size-md="4" size-lg="3">				<ion-list>					<!-- Typen -->					<ion-item-group topic>						<ion-item-divider sticky="true">							<ion-item slot="end" color="secondary" class="topic">								<ion-label class="ion-text-wrap">Effektivitäten</ion-label>							</ion-item>						</ion-item-divider>						<ion-item *ngIf="effectiveAgainst.length" color="light" lines="full">							<ion-label slot="start" class="ion-text-wrap">sehr effektiv</ion-label>							<ion-note>								<ion-button *ngFor="let t of effectiveAgainst" size="small" shape="round" color="tertiary" disabled="true">									<ion-icon [name]="t.icon"></ion-icon>								</ion-button>							</ion-note>						</ion-item>						<ion-item *ngIf="weakAgainst.length" color="light" lines="full">							<ion-label slot="start" class="ion-text-wrap">schwach</ion-label>							<ion-note>								<ion-button *ngFor="let t of weakAgainst" size="small" shape="round" color="tertiary" disabled="true">									<ion-icon [name]="t.icon"></ion-icon>								</ion-button>							</ion-note>						</ion-item>						<ion-item *ngIf="noEffectAgainst.length" color="light" lines="full">							<ion-label slot="start" class="ion-text-wrap">trifft nicht</ion-label>							<ion-note>								<ion-button *ngFor="let t of noEffectAgainst" size="small" shape="round" color="tertiary" disabled="true">									<ion-icon [name]="t.icon"></ion-icon>								</ion-button>							</ion-note>						</ion-item>					</ion-item-group>				</ion-list>			</ion-col>			<ion-col size-xs="12" size-sm="6" size-md="4" size-lg="3">				<ion-list>					<!-- Typen -->					<ion-item-group>						<ion-item-divider sticky="true">							<ion-item slot="end" color="secondary" class="topic">								<ion-label class="ion-text-wrap">bei Monster:</ion-label>							</ion-item>						</ion-item-divider>						<ion-item detail *ngFor="let a of mon_typen" [routerLink]="[\'/detail-monster\', a[0].id]" routerDirection="forward" color="light" lines="full">							<ion-label slot="start" class="ion-text-wrap">{{ a[0].name }}</ion-label>							<ion-note>								<ion-button *ngFor="let icon of a[1]" size="small" shape="round" color="tertiary" disabled="true">									<ion-icon [name]="icon" slot="icon-only"></ion-icon>								</ion-button>							</ion-note>						</ion-item>					</ion-item-group>				</ion-list>			</ion-col>		</ion-row>	</ion-grid></ion-content></div>'
+    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CalcTypPage', 'selector': 'app-calc-typ'},{'name': 'DetailAttackePage', 'selector': 'app-detail-attacke'},{'name': 'DetailMonsterPage', 'selector': 'app-detail-monster'},{'name': 'ListAttackenPage', 'selector': 'app-list-attacken'},{'name': 'ListMonsterPage', 'selector': 'app-list-monster'},{'name': 'ListTypenPage', 'selector': 'app-list-typen'},{'name': 'PopoverPage', 'selector': 'app-popover'},{'name': 'TabsPage', 'selector': 'app-tabs'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'DetailAttackePage'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">Kein passendes Ergebnis "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'DetailAttackePage.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

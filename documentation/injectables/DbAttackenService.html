@@ -1,0 +1,2115 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Monsterdex</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Monsterdex</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Eingeben zur Suche"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Injectables</li>
+  <li>DbAttackenService</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>Datei</h3>
+        </p>
+        <p class="comment">
+            <code>src/app/services/db-attacken.service.ts</code>
+        </p>
+
+            <p class="comment">
+                <h3>Beschreibung</h3>
+            </p>
+            <p class="comment">
+                <p>db service for attacks and related topics</p>
+
+            </p>
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#allAttacken">allAttacken</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#attacken">attacken</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#db">db</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#dbReady">dbReady</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#lastAttacke">lastAttacke</a>
+                            </li>
+                            <li>
+                                <a href="#LIMIT">LIMIT</a>
+                            </li>
+                            <li>
+                                <a href="#NUM_ATTACKEN">NUM_ATTACKEN</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#typSearchList">typSearchList</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#wordSearchList">wordSearchList</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methoden</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#combineSearchLists">combineSearchLists</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#dataToAttacke">dataToAttacke</a>
+                            </li>
+                            <li>
+                                <a href="#defaultAttacke">defaultAttacke</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#findByType">findByType</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#findbyWord">findbyWord</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#getAttacke">getAttacke</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#getAttacken">getAttacken</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#getAttackenByIds">getAttackenByIds</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#getAttackenByList">getAttackenByList</a>
+                            </li>
+                            <li>
+                                <a href="#getDatabaseState">getDatabaseState</a>
+                            </li>
+                            <li>
+                                <a href="#observeAttacke">observeAttacke</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#typIcons">typIcons</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#updateAttacken">updateAttacken</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="constructor">Konstruktor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(databaseService: <a href="../injectables/DatabaseService.html">DatabaseService</a>, db_typen: <a href="../injectables/DbTypenService.html">DbTypenService</a>, messageService: <a href="../injectables/MessageService.html">MessageService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Definiert in <a href="" data-line="57" class="link-to-prism">src/app/services/db-attacken.service.ts:57</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div class="io-description"><p>init service</p>
+</div>
+                            <div>
+                                    <b>Parameter :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                                    <td>Beschreibung</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>databaseService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/DatabaseService.html" target="_self" >DatabaseService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Nein
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <code><p>main db service to retrieve the db</p>
+</code>
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>db_typen</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/DbTypenService.html" target="_self" >DbTypenService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Nein
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <code><p>db for typs</p>
+</code>
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>messageService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/MessageService.html" target="_self" >MessageService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Nein
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <code><p>to communicate to the user</p>
+</code>
+                                                        </td>
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+    <h3 id="methods">
+        Methoden
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="combineSearchLists"></a>
+                    <span class="name">
+                        <b>
+                            combineSearchLists
+                        </b>
+                        <a href="#combineSearchLists"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>combineSearchLists()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Definiert in <a href="" data-line="333"
+                            class="link-to-prism">src/app/services/db-attacken.service.ts:333</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>combine results from both filtering methods, use their intersection</p>
+</div>
+
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>void</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="dataToAttacke"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Async</span>
+                            dataToAttacke
+                        </b>
+                        <a href="#dataToAttacke"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>dataToAttacke(data)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Definiert in <a href="" data-line="365"
+                            class="link-to-prism">src/app/services/db-attacken.service.ts:365</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>convert db data result from select query with attacks to list of attack instances</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameter :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                    <td>Beschreibung</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>data</td>
+
+                                    <td>
+                                        Nein
+                                    </td>
+
+
+                                    <td>
+                                        <p>db data</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/Attacke.html" target="_self" >Promise&lt;Attacke[]&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Promise&lt;Attacke[]&gt;</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="defaultAttacke"></a>
+                    <span class="name">
+                        <b>
+                            defaultAttacke
+                        </b>
+                        <a href="#defaultAttacke"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>defaultAttacke()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Definiert in <a href="" data-line="390"
+                            class="link-to-prism">src/app/services/db-attacken.service.ts:390</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>get dummy attacke</p>
+</div>
+
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/Attacke.html" target="_self" >Attacke</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Attacke</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="findByType"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Async</span>
+                            findByType
+                        </b>
+                        <a href="#findByType"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>findByType(typeIdList: number[], operandIsOr: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, callCombineAfterwards: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Definiert in <a href="" data-line="292"
+                            class="link-to-prism">src/app/services/db-attacken.service.ts:292</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>filter attacks by typs and store them in typSearchList.
+If typeIdList is empty, end the search</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameter :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                    <td>Beschreibung</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>typeIdList</td>
+                                    <td>
+                                            <code>number[]</code>
+                                    </td>
+
+                                    <td>
+                                        Nein
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <p>list of type ids</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>operandIsOr</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        Nein
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <p>if true connect via OR (one type is sufficient), if false with AND (need all types)</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>callCombineAfterwards</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        Nein
+                                    </td>
+
+                                    <td>
+                                        <code>true</code>
+                                    </td>
+
+                                    <td>
+                                        <p>if true combine search result with that of word search, if false not</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Promise<void></p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="findbyWord"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Async</span>
+                            findbyWord
+                        </b>
+                        <a href="#findbyWord"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>findbyWord(nameValue: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, callCombineAfterwards: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Definiert in <a href="" data-line="257"
+                            class="link-to-prism">src/app/services/db-attacken.service.ts:257</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>filter attacks by name or id and store them in wordSearchList.
+If nameValue is empty, end the search</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameter :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                    <td>Beschreibung</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>nameValue</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Nein
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <p>substring of a attacks&#39; name or an id</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>callCombineAfterwards</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        Nein
+                                    </td>
+
+                                    <td>
+                                        <code>true</code>
+                                    </td>
+
+                                    <td>
+                                        <p>if true combine search result with that of type search, if false not</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Promise<void></p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getAttacke"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Async</span>
+                            getAttacke
+                        </b>
+                        <a href="#getAttacke"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getAttacke(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Definiert in <a href="" data-line="210"
+                            class="link-to-prism">src/app/services/db-attacken.service.ts:210</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>public wrapper around getAttackenByIds() for retrieving one attack</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameter :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Beschreibung</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>id</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        Nein
+                                    </td>
+
+
+                                    <td>
+                                        <p>id of the searched attack</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/Attacke.html" target="_self" >Promise&lt;Attacke&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Promise<Attacke></p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getAttacken"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Async</span>
+                            getAttacken
+                        </b>
+                        <a href="#getAttacken"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getAttacken(offset: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Definiert in <a href="" data-line="236"
+                            class="link-to-prism">src/app/services/db-attacken.service.ts:236</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>public wrapper around getAttackenByIds() for retrieving one chunk attacks with size of LIMIT</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameter :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Beschreibung</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>offset</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        Nein
+                                    </td>
+
+
+                                    <td>
+                                        <p>point where to start with ids</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Promise<void></p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getAttackenByIds"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Async</span>
+                            getAttackenByIds
+                        </b>
+                        <a href="#getAttackenByIds"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getAttackenByIds(neededIds: number[])</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Definiert in <a href="" data-line="151"
+                            class="link-to-prism">src/app/services/db-attacken.service.ts:151</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>only function to read Attacke entries from the db (and return found ones)</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameter :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Beschreibung</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>neededIds</td>
+                                    <td>
+                                            <code>number[]</code>
+                                    </td>
+
+                                    <td>
+                                        Nein
+                                    </td>
+
+
+                                    <td>
+                                        <p>look for Attacken with folliwing IDs</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/Attacke.html" target="_self" >Promise&lt;Attacke[]&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Promise&lt;Attacke[]&gt;</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getAttackenByList"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Async</span>
+                            getAttackenByList
+                        </b>
+                        <a href="#getAttackenByList"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getAttackenByList(ids: number[])</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Definiert in <a href="" data-line="225"
+                            class="link-to-prism">src/app/services/db-attacken.service.ts:225</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>public wrapper for function getAttackenByList()</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameter :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Beschreibung</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>ids</td>
+                                    <td>
+                                            <code>number[]</code>
+                                    </td>
+
+                                    <td>
+                                        Nein
+                                    </td>
+
+
+                                    <td>
+                                        <p>ids of attacks to be found</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/Attacke.html" target="_self" >Promise&lt;Attacke[]&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Promise&lt;Attacke[]&gt;</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getDatabaseState"></a>
+                    <span class="name">
+                        <b>
+                            getDatabaseState
+                        </b>
+                        <a href="#getDatabaseState"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getDatabaseState()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Definiert in <a href="" data-line="114"
+                            class="link-to-prism">src/app/services/db-attacken.service.ts:114</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>get information whether this service is ready</p>
+</div>
+
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;boolean&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Observable<boolean></p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="observeAttacke"></a>
+                    <span class="name">
+                        <b>
+                            observeAttacke
+                        </b>
+                        <a href="#observeAttacke"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>observeAttacke()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Definiert in <a href="" data-line="122"
+                            class="link-to-prism">src/app/services/db-attacken.service.ts:122</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>subscriptable to be notified on changes of attacks</p>
+</div>
+
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/Attacke.html" target="_self" >Observable&lt;Attacke[]&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Observable<boolean></p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="typIcons"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Async</span>
+                            typIcons
+                        </b>
+                        <a href="#typIcons"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>typIcons(attId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Definiert in <a href="" data-line="405"
+                            class="link-to-prism">src/app/services/db-attacken.service.ts:405</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>get type icons as strings of attack with id attId (for rendering)</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameter :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Beschreibung</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>attId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        Nein
+                                    </td>
+
+
+                                    <td>
+                                        <p>id of an attack instance</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;string[]&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>string[]</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateAttacken"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            updateAttacken
+                        </b>
+                        <a href="#updateAttacken"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateAttacken(atts: <a href="../interfaces/Attacke.html">Attacke[]</a>, from_filter: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Definiert in <a href="" data-line="132"
+                            class="link-to-prism">src/app/services/db-attacken.service.ts:132</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>add input list of Attacken to this.attacken, access changes through ovservable</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameter :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                    <td>Beschreibung</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>atts</td>
+                                    <td>
+                                                <code><a href="../interfaces/Attacke.html" target="_self" >Attacke[]</a></code>
+                                    </td>
+
+                                    <td>
+                                        Nein
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <p>contains all Attacken to be added</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>from_filter</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        Nein
+                                    </td>
+
+                                    <td>
+                                        <code>false</code>
+                                    </td>
+
+                                    <td>
+                                        <p>if true just set the atts-value, if false combine old with this new ones</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>void</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+            <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="allAttacken"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            allAttacken</b>
+                            <a href="#allAttacken"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../interfaces/Attacke.html" target="_self" >BehaviorSubject&lt;Attacke[]&gt;</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>new BehaviorSubject([])</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Definiert in <a href="" data-line="44" class="link-to-prism">src/app/services/db-attacken.service.ts:44</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>stores all attack instances loaded sometime while the app is opened.
+minimizes database access</p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="attacken"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            attacken</b>
+                            <a href="#attacken"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../interfaces/Attacke.html" target="_self" >BehaviorSubject&lt;Attacke[]&gt;</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>new BehaviorSubject([])</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Definiert in <a href="" data-line="48" class="link-to-prism">src/app/services/db-attacken.service.ts:48</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>selection of allMonsters, may be a filtered subset. Publicised to subscriptors</p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="db"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            db</b>
+                            <a href="#db"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>SQLiteObject</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Definiert in <a href="" data-line="22" class="link-to-prism">src/app/services/db-attacken.service.ts:22</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>represents the actual database</p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="dbReady"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            dbReady</b>
+                            <a href="#dbReady"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>BehaviorSubject&lt;boolean&gt;</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>new BehaviorSubject(false)</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Definiert in <a href="" data-line="26" class="link-to-prism">src/app/services/db-attacken.service.ts:26</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>signal if this service is done initializing</p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="lastAttacke"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            lastAttacke</b>
+                            <a href="#lastAttacke"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>0</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Definiert in <a href="" data-line="39" class="link-to-prism">src/app/services/db-attacken.service.ts:39</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>id of last attack loaded as bunch (due to infinite scroll)</p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="LIMIT"></a>
+                        <span class="name">
+                            <b>
+                            LIMIT</b>
+                            <a href="#LIMIT"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>25</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Definiert in <a href="" data-line="31" class="link-to-prism">src/app/services/db-attacken.service.ts:31</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>amount of attacks loaded at max. at once</p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="NUM_ATTACKEN"></a>
+                        <span class="name">
+                            <b>
+                            NUM_ATTACKEN</b>
+                            <a href="#NUM_ATTACKEN"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>0</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Definiert in <a href="" data-line="35" class="link-to-prism">src/app/services/db-attacken.service.ts:35</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>total amount of all monsters (also unloaded ones)</p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="typSearchList"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            typSearchList</b>
+                            <a href="#typSearchList"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../interfaces/Attacke.html" target="_self" >Attacke[]</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>null</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Definiert in <a href="" data-line="57" class="link-to-prism">src/app/services/db-attacken.service.ts:57</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>last known result of type search, is null if not searching</p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="wordSearchList"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            wordSearchList</b>
+                            <a href="#wordSearchList"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../interfaces/Attacke.html" target="_self" >Attacke[]</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>null</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Definiert in <a href="" data-line="53" class="link-to-prism">src/app/services/db-attacken.service.ts:53</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>last known result of word search, is null if not searching</p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+
+import { DatabaseService } from &quot;./database.service&quot;;
+import { MessageService } from &quot;./message.service&quot;
+import { BehaviorSubject, Observable } from &#x27;rxjs&#x27;;
+import { SQLiteObject } from &#x27;@ionic-native/sqlite/ngx&#x27;;
+
+import { Attacke } from &quot;../interfaces/attacke&quot;
+import { Typ } from &#x27;../interfaces/typ&#x27;;
+import { DbTypenService } from &#x27;./db-typen.service&#x27;;
+
+/**
+ * db service for attacks and related topics
+ */
+@Injectable({
+  providedIn: &#x27;root&#x27;
+})
+export class DbAttackenService {
+	/**
+	 * represents the actual database
+	 */
+	private db: SQLiteObject;
+	/**
+	 * signal if this service is done initializing
+	 */
+	private dbReady: BehaviorSubject&lt;boolean&gt; &#x3D; new BehaviorSubject(false);
+
+	/**
+	 * amount of attacks loaded at max. at once
+	 */
+	LIMIT: number &#x3D; 25;
+	/**
+	 * total amount of all monsters (also unloaded ones)
+	 */
+	NUM_ATTACKEN: number &#x3D; 0;
+	/**
+	 * id of last attack loaded as bunch (due to infinite scroll)
+	 */
+	private lastAttacke: number &#x3D; 0;
+	/**
+	 * stores all attack instances loaded sometime while the app is opened.
+	 * minimizes database access
+	 */
+	private allAttacken: BehaviorSubject&lt;Attacke[]&gt; &#x3D; new BehaviorSubject([]);
+	/**
+	 * selection of allMonsters, may be a filtered subset. Publicised to subscriptors
+	 */
+	private attacken: BehaviorSubject&lt;Attacke[]&gt; &#x3D; new BehaviorSubject([]);
+
+	/**
+	 * last known result of word search, is null if not searching
+	 */
+	private wordSearchList: Attacke[] &#x3D; null;
+	/**
+	 * last known result of type search, is null if not searching
+	 */
+	private typSearchList: Attacke[] &#x3D; null;
+
+	/**
+	 * init service
+	 * @param databaseService main db service to retrieve the db
+	 * @param db_typen        db for typs
+	 * @param messageService  to communicate to the user
+	 */
+  constructor(private databaseService: DatabaseService,
+							private db_typen: DbTypenService,
+							private messageService: MessageService,) {
+								
+		this.databaseService.getDatabaseState().subscribe(rdy &#x3D;&gt; {
+		if (rdy) {
+			// get db from DatabaseService
+			this.db &#x3D; this.databaseService.getDatabase();
+			if (!this.db) {
+				this.messageService.error(&quot;Die Datenbank fehlt&quot;, &quot;in INIT ATTACKEN DB: got no db: &quot;, JSON.stringify(this.db));
+			}
+
+			// get NUM_ATTACKEN
+			this.db.executeSql(&quot;SELECT COUNT(*) AS num FROM monster_attacke&quot;, []).then(data &#x3D;&gt; {
+				if (!data || !data.rows.length) {
+					this.messageService.error(&quot;Konnte Anzahl der Attacken nicht ermitteln&quot;);
+				}
+				this.NUM_ATTACKEN &#x3D; data.rows.item(0).num;
+
+				// init allAttacken
+				let i &#x3D; 0;
+				let emptyList &#x3D; []
+				while (i++ &lt; this.NUM_ATTACKEN) {emptyList.push(null);}
+				this.allAttacken.next(emptyList);
+
+				// use allAttacken internal, Attacken external
+				this.db_typen.getDatabaseState().subscribe(rdy &#x3D;&gt; {
+					if (rdy) {
+						// use allMonsters internal, monsters external
+						this.allAttacken.asObservable().subscribe(allAtts &#x3D;&gt; {
+
+							// if changes in &#x27;loaded&#x27; part occured
+							if (this.attacken.getValue().length !&#x3D;&#x3D; this.lastAttacke) {
+								let atts &#x3D; allAtts.slice(0, this.lastAttacke);
+								this.attacken.next(atts);
+							}
+						});
+						this.dbReady.next(true);
+					}
+				});
+			});
+			}
+		});
+	}
+
+	/**
+	 * get information whether this service is ready
+	 * @return Observable&lt;boolean&gt;
+	 */
+	getDatabaseState(): Observable&lt;boolean&gt; {
+		return this.dbReady.asObservable();
+	}
+
+	/**
+	 * subscriptable to be notified on changes of attacks
+	 * @return Observable&lt;boolean&gt;
+	 */
+	observeAttacke(): Observable&lt;Attacke[]&gt; {
+		return this.attacken.asObservable();
+	}
+
+	/**
+	 * add input list of Attacken to this.attacken, access changes through ovservable
+	 * @param atts				contains all Attacken to be added
+	 * @param from_filter if true just set the atts-value, if false combine old with this new ones
+	 * @return void
+	 */
+	private updateAttacken(atts: Attacke[], from_filter: boolean&#x3D;false): void {
+		let allAtts: Attacke[] &#x3D; this.allAttacken.getValue();
+		for (let i &#x3D; 0; i &lt; atts.length; i++) {
+			allAtts[atts[i].id-1] &#x3D; atts[i];
+		}
+
+		// filter is activated, ignore allMonsters
+		if (from_filter) {
+			this.attacken.next(atts); return;}
+
+		// filter is not active, use allMonsters and lastMonster
+		this.allAttacken.next(allAtts);
+	}
+
+	/**
+	 * only function to read Attacke entries from the db (and return found ones)
+	 * @param  neededIds	look for Attacken with folliwing IDs
+	 * @return Promise&lt;Attacke[]&gt;
+	 */
+	private async getAttackenByIds(neededIds: number[]): Promise&lt;Attacke[]&gt; {
+
+		// build query and values
+		let query &#x3D; &#x60;SELECT * FROM monster_attacke WHERE id IN (&#x60;;
+			let values &#x3D; [];
+
+			let prepopulatedAtts: Attacke[] &#x3D; [];
+
+			let allAtts &#x3D; this.allAttacken.getValue().slice();
+			let tempAtt;
+			for (let i &#x3D; 0; i &lt; neededIds.length; i++) {
+				// dont go over allMonster&#x27;s boundaries
+				if (neededIds[i] &gt; this.NUM_ATTACKEN) {continue;}
+
+				tempAtt &#x3D; allAtts[neededIds[i]-1];
+
+				// if no information about monster in this.allMons, add to query
+				if (tempAtt &#x3D;&#x3D;&#x3D; null || tempAtt.id &#x3D;&#x3D;&#x3D; 0) {
+					query +&#x3D; &quot;?,&quot;;
+					values.push(&#x60;${neededIds[i]}&#x60;);
+				} else {
+					prepopulatedAtts.push(tempAtt);
+				}
+			}
+
+			// if all information already gathered, return it
+			if (values.length &#x3D;&#x3D;&#x3D; 0) {return prepopulatedAtts;}
+
+			// exchange last comma with closing paenthesis
+			query &#x3D; query.slice(0, -1) + &quot;)&quot;;
+
+			return this.db.executeSql(query, values).then(async data &#x3D;&gt; {
+				return this.dataToAttacke(data).then(atts &#x3D;&gt; {
+
+					if (atts &#x3D;&#x3D;&#x3D; null || atts &#x3D;&#x3D;&#x3D; []) {
+						this.messageService.error(&quot;Konnte Attacken nicht finden&quot;, &quot;in getAttackenByIds: could not get atts with ids &quot;, neededIds);
+						return [];
+					}
+
+					// return rest prematurely, even though not all ids found (of course, if they do not exist!)
+					if (neededIds[neededIds.length-1] &gt;&#x3D; this.NUM_ATTACKEN) {return atts;}
+
+					if (atts.length !&#x3D; values.length) {
+						this.messageService.alert(&quot;Nicht alle Attacken gefunden&quot;, &quot;in getAttackenByIds: could not get all atts with ids: &quot;, values, &quot; found: &quot;, this.databaseService.listIds(atts));
+						return [];
+					}
+
+					// sort concatenated lists in place
+					let returnList &#x3D; prepopulatedAtts.concat(atts).sort(function(a, b) {return a.id &lt; b.id? -1 : 1;});
+					return returnList;
+				});
+			});
+	  }
+
+	/**
+	 * public wrapper around getAttackenByIds() for retrieving one attack
+	 * @param  id id of the searched attack
+	 * @return Promise&lt;Attacke&gt;
+	 */
+	async getAttacke(id: number): Promise&lt;Attacke&gt; {
+		return this.getAttackenByIds([id]).then(atts &#x3D;&gt; {
+			if (!(atts &amp;&amp; atts.length)) {
+				this.messageService.error(&quot;Konnte Attacke nicht finden&quot;, &quot;GET Attacke: could not find Attacke with id&quot;, id);
+				return this.defaultAttacke();
+			}
+			return atts[0];
+		});
+	}
+
+	/**
+	 * public wrapper for function getAttackenByList()
+	 * @param  ids ids of attacks to be found
+	 * @return Promise&lt;Attacke[]&gt;
+	 */
+	async getAttackenByList(ids: number[]): Promise&lt;Attacke[]&gt; {
+		return this.getAttackenByIds(ids).then(atts &#x3D;&gt; {
+			return atts;
+		});
+	}
+
+	/**
+	 * public wrapper around getAttackenByIds() for retrieving one chunk attacks with size of LIMIT
+	 * @param  offset point where to start with ids
+	 * @return Promise&lt;void&gt;
+	 */
+	async getAttacken(offset: number): Promise&lt;void&gt; {
+
+		// gather needed ids
+		let idOffset &#x3D; offset+1;	// monster ids start at 1, not 0
+		let neededList: number[] &#x3D; [];
+		for (let i &#x3D; idOffset; i &lt; idOffset+this.LIMIT; i++) {neededList.push(i)}
+
+		// recieve attacks and call updateAttacken() with them
+		return this.getAttackenByIds(neededList).then(atts &#x3D;&gt; {
+			this.lastAttacke +&#x3D; atts.length;
+			this.updateAttacken(atts);
+		});
+	}
+
+	/**
+	 * filter attacks by name or id and store them in wordSearchList.
+	 * If nameValue is empty, end the search
+	 * @param  nameValue             substring of a attacks&#x27; name or an id
+	 * @param  callCombineAfterwards if true combine search result with that of type search, if false not
+	 * @return Promise&lt;void&gt;
+	 */
+	async findbyWord(nameValue:string, callCombineAfterwards: boolean &#x3D; true): Promise&lt;void&gt; {
+
+		// end search
+		if (nameValue &#x3D;&#x3D;&#x3D; null || nameValue.length &#x3D;&#x3D;&#x3D; 0) {
+			this.wordSearchList &#x3D; null;
+
+			// this.lastMonster seems to be 25 too far, subtract from it beforehand
+			this.lastAttacke -&#x3D; this.LIMIT;
+			if (callCombineAfterwards) {this.combineSearchLists();}
+			return;
+		}
+
+		// construct query
+		let mask &#x3D; &quot;%&quot;+nameValue+&quot;%&quot;;
+		let query &#x3D; &#x60;SELECT * FROM monster_attacke WHERE titel LIKE ? OR id&#x3D;?&#x60;;
+
+		// search attacks
+		return this.db.executeSql(query, [mask, nameValue]).then(data &#x3D;&gt; {
+			return this.dataToAttacke(data).then(atts &#x3D;&gt; {
+
+				// save result
+				this.wordSearchList &#x3D; atts;
+				if (callCombineAfterwards) {this.combineSearchLists();}
+			});
+		});
+	}
+
+	/**
+	 * filter attacks by typs and store them in typSearchList.
+	 * If typeIdList is empty, end the search
+	 * @param  typeIdList            list of type ids
+	 * @param  operandIsOr					 if true connect via OR (one type is sufficient), if false with AND (need all types)
+	 * @param  callCombineAfterwards if true combine search result with that of word search, if false not
+	 * @return Promise&lt;void&gt;
+	 */
+	async findByType(typeIdList: number[], operandIsOr: boolean, callCombineAfterwards: boolean &#x3D; true): Promise&lt;void&gt;  {
+
+		// end search
+		if (!typeIdList || typeIdList.length &#x3D;&#x3D;&#x3D; 0) {
+			this.typSearchList &#x3D; null;
+			if (callCombineAfterwards) {this.combineSearchLists()};
+			return;
+		}
+
+		// construct query
+		let query: string &#x3D; &quot;SELECT * FROM monster_attacke WHERE id IN (SELECT a.attacke_id FROM (SELECT attacke_id, COUNT(*) AS num FROM monster_attacke_typen WHERE typ_id IN (&quot;;
+		let values &#x3D; [];
+		let limit: number &#x3D; operandIsOr? 1 : typeIdList.length;
+
+		for (let i &#x3D; 0; i &lt; typeIdList.length; i++) {
+			values.push(&#x60;${typeIdList[i]}&#x60;);
+
+			// if last, leave last operand (AND || OR) out
+			if (i &#x3D;&#x3D; typeIdList.length - 1) {
+				query +&#x3D; &#x60;?) GROUP BY attacke_id) a WHERE a.num&gt;&#x3D;${limit})&#x60;;
+				continue;
+			}
+			query +&#x3D; &quot;?,&quot;;
+		}
+
+		// excecute query
+		return this.db.executeSql(query, values).then(data &#x3D;&gt; {
+
+			return this.dataToAttacke(data).then(atts &#x3D;&gt; {
+				this.typSearchList &#x3D; atts;
+				if (callCombineAfterwards) {this.combineSearchLists();}
+			});
+		}).catch(e &#x3D;&gt; {
+				this.messageService.error(&quot;Konnte nicht nach Typen filtern&quot;, e);
+		});
+	}
+
+	/**
+	 * combine results from both filtering methods, use their intersection
+	 * @return void
+	 */
+	combineSearchLists(): void {
+		if (this.typSearchList &#x3D;&#x3D;&#x3D; null) {
+			// no filter set, return to normality
+			if (this.wordSearchList &#x3D;&#x3D;&#x3D; null) {this.getAttacken(this.lastAttacke); return;}
+			// only wordSearch set
+			this.updateAttacken(this.wordSearchList, true); return;
+		}
+
+		// only type filter is set
+		if (this.wordSearchList &#x3D;&#x3D;&#x3D; null) {this.updateAttacken(this.typSearchList, true); return;}
+
+		// both filters set
+
+		// prepare lists to sort on
+		let wordIdList: number[] &#x3D; this.databaseService.listIds(this.wordSearchList);
+		let typIdList: number[] &#x3D; this.databaseService.listIds(this.typSearchList);
+		typIdList.sort((a, b) &#x3D;&gt; {return a-b});
+
+		// collect intersection in this list
+		let combinedList: Attacke[] &#x3D; [];
+		for (let i &#x3D; 0; i &lt; this.wordSearchList.length; i++) {
+			if (typIdList.indexOf(wordIdList[i]) !&#x3D;&#x3D; -1) {combinedList.push(this.wordSearchList[i]);}
+		}
+		// set as filtered value via updateMonsters()
+		this.updateAttacken(combinedList, true);
+	}
+
+	/**
+	 * convert db data result from select query with attacks to list of attack instances
+	 * @param  data db data
+	 * @return Promise&lt;Attacke[]&gt;
+	 */
+	private async dataToAttacke(data): Promise&lt;Attacke[]&gt; {
+		let attacken: Attacke[] &#x3D; [];
+		let item;
+		let typen: Typ[] &#x3D; [];
+		for (let i &#x3D; 0; i &lt; data.rows.length; i++) {
+			item &#x3D; data.rows.item(i);
+
+			// get typs separately from another db table
+			typen &#x3D; await this.db_typen.getAttackeTypen(item.id);
+
+			attacken.push({
+				id: item.id,
+				name: item.titel,
+				schaden: item.schaden,
+				beschreibung: item.beschreibung,
+				typen: typen
+			});
+		}
+		return attacken;
+	}
+
+	/**
+	 * get dummy attacke
+	 * @return Attacke
+	 */
+	defaultAttacke(): Attacke {
+		return {
+			id: 0,
+			name: &quot;&quot;,
+			schaden: &quot;&quot;,
+			beschreibung: &quot;&quot;,
+			typen: []
+		}
+	}
+
+	/**
+	 * get type icons as strings of attack with id attId (for rendering)
+	 * @param  attId id of an attack instance
+	 * @return string[]
+	 */
+	async typIcons(attId: number): Promise&lt;string[]&gt; {
+		return this.getAttacke(attId).then(att &#x3D;&gt; {
+
+			// collect icon strings
+			let icons: string[] &#x3D; [];
+			for (let i &#x3D; 0; i &lt; att.typen.length; i++) {
+				icons.push(att.typen[i].icon);
+			}
+			return icons;
+		});
+	}
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">Kein passendes Ergebnis "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'DbAttackenService.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

@@ -1,6 +1,18 @@
+/**
+ * interface representing a type. Used in monsters and Attacken.
+ */
 export interface Typ {
+	/**
+	 * id, same as the one in db, used for default sorting an fetching
+	 */
 	id: number,
+	/**
+	 * link to a typ enum
+	 */
 	typ: TypEnum,
+	/**
+	 * icon string to represent a uniform icon throughout the app
+	 */
 	icon: string
 }
 
@@ -28,6 +40,10 @@ export enum TypEnum {
 	psycho
 }
 
+/**
+ * mapping from typ name to the actual typ
+ * format: {string: Typ}
+ */
 export let StrToTyp = {
 	"Normal": {id: 0, icon: "heart-empty", typ: TypEnum.normal},
 	"Pflanze": {id: 0, icon: "leaf", typ: TypEnum.pflanze},
@@ -52,7 +68,12 @@ export let StrToTyp = {
 	"Psycho": {id: 0, icon: "eye", typ: TypEnum.psycho}
 }
 
-export function string_of_enum(enumInstance) {
-  let name: string = Object.keys(StrToTyp)[enumInstance.typ];
-	return name;
+/**
+ * function that reverse-maps compared with dictionary StrToTyp
+ * (indices have to be similar to interface Typ AND dict StrToTyp)
+ * @param  typInstance	Typ to which the name should be returned
+ * @return              name of the Typ
+ */
+export function string_of_enum(typInstance: Typ): string {
+  return Object.keys(StrToTyp)[typInstance.typ];
 }

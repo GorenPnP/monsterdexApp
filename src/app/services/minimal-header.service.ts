@@ -4,16 +4,30 @@ import { PopoverController } from '@ionic/angular';
 import { PopoverPage } from "../pages/popover/popover.page";
 import { Router } from '@angular/router';
 
+/**
+ * provides minimal functionality for a header
+ */
 @Injectable({
   providedIn: 'root'
 })
 export class MinimalHeaderService {
 
+	/**
+	 * do nothing in particular
+	 * @param popoverController to display a popover
+	 * @param router            to navigate to another page
+	 */
   constructor(public popoverController: PopoverController,
 							public router: Router) { }
 
 
-	async presentPopover(ev: Event, data: any) {
+	/**
+	 * open popover and navigate if path returned
+	 * @param  ev		event to the popover, needed for controller
+	 * @param  data	the content to be displayed
+	 * @return Promise<void>
+	 */
+	async presentPopover(ev: Event, data: any): Promise<void> {
 		const popover = await this.popoverController.create({
 				component: PopoverPage,
 				event: ev,

@@ -9,31 +9,63 @@ import { Attacke } from "../interfaces/attacke"
 import { Typ } from '../interfaces/typ';
 import { DbTypenService } from './db-typen.service';
 
+/**
+ * db service for attacks and related topics
+ */
 @Injectable({
   providedIn: 'root'
 })
 export class DbAttackenService {
-
-	LIMIT: number = 25;
-	NUM_ATTACKEN: number = 0;
-
-	private lastAttacke: number = 0;
-	private filter_on: boolean = false;
-
+	/**
+	 * represents the actual database
+	 */
+	private db: SQLiteObject;
+	/**
+	 * signal if this service is done initializing
+	 */
 	private dbReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-	private db: SQLiteObject;
+	/**
+	 * amount of attacks loaded at max. at once
+	 */
+	LIMIT: number = 25;
+	/**
+	 * total amount of all monsters (also unloaded ones)
+	 */
+	NUM_ATTACKEN: number = 0;
+	/**
+	 * id of last attack loaded as bunch (due to infinite scroll)
+	 */
+	private lastAttacke: number = 0;
+	/**
+	 * stores all attack instances loaded sometime while the app is opened.
+	 * minimizes database access
+	 */
+	private allAttacken: BehaviorSubject<Attacke[]> = new BehaviorSubject([]);
+	/**
+	 * selection of allMonsters, may be a filtered subset. Publicised to subscriptors
+	 */
+	private attacken: BehaviorSubject<Attacke[]> = new BehaviorSubject([]);
 
-	private allAttacken = new BehaviorSubject([]);
-	private attacken = new BehaviorSubject([]);
-
+	/**
+	 * last known result of word search, is null if not searching
+	 */
 	private wordSearchList: Attacke[] = null;
+	/**
+	 * last known result of type search, is null if not searching
+	 */
 	private typSearchList: Attacke[] = null;
 
+	/**
+	 * init service
+	 * @param databaseService main db service to retrieve the db
+	 * @param db_typen        db for typs
+	 * @param messageService  to communicate to the user
+	 */
   constructor(private databaseService: DatabaseService,
 							private db_typen: DbTypenService,
-							private messageService: MessageService,
-						) {
+							private messageService: MessageService,) {
+								
 		this.databaseService.getDatabaseState().subscribe(rdy => {
 		if (rdy) {
 			// get db from DatabaseService
@@ -55,44 +87,47 @@ export class DbAttackenService {
 				while (i++ < this.NUM_ATTACKEN) {emptyList.push(null);}
 				this.allAttacken.next(emptyList);
 
-				// seed db and set this.dbReady to true
-				this.seedDatabase();
+				// use allAttacken internal, Attacken external
+				this.db_typen.getDatabaseState().subscribe(rdy => {
+					if (rdy) {
+						// use allMonsters internal, monsters external
+						this.allAttacken.asObservable().subscribe(allAtts => {
+
+							// if changes in 'loaded' part occured
+							if (this.attacken.getValue().length !== this.lastAttacke) {
+								let atts = allAtts.slice(0, this.lastAttacke);
+								this.attacken.next(atts);
+							}
+						});
+						this.dbReady.next(true);
+					}
+				});
 			});
 			}
 		});
 	}
 
-	private async seedDatabase() {
-		// use allAttacken internal, Attacken external
-		this.db_typen.getDatabaseState().subscribe(rdy => {
-			if (rdy) {
-				// use allMonsters internal, monsters external
-				this.allAttacken.asObservable().subscribe(allAtts => {
-
-					// if changes in 'loaded' part occured
-					if (this.attacken.getValue().length !== this.lastAttacke) {
-						let atts = allAtts.slice(0, this.lastAttacke);
-						this.attacken.next(atts);
-					}
-				});
-				this.dbReady.next(true);
-			}
-		});
-	}
-
-
+	/**
+	 * get information whether this service is ready
+	 * @return Observable<boolean>
+	 */
 	getDatabaseState(): Observable<boolean> {
 		return this.dbReady.asObservable();
 	}
 
-
+	/**
+	 * subscriptable to be notified on changes of attacks
+	 * @return Observable<boolean>
+	 */
 	observeAttacke(): Observable<Attacke[]> {
 		return this.attacken.asObservable();
 	}
 
 	/**
 	 * add input list of Attacken to this.attacken, access changes through ovservable
-	 * @param atts - contains all Attacken to be added
+	 * @param atts				contains all Attacken to be added
+	 * @param from_filter if true just set the atts-value, if false combine old with this new ones
+	 * @return void
 	 */
 	private updateAttacken(atts: Attacke[], from_filter: boolean=false): void {
 		let allAtts: Attacke[] = this.allAttacken.getValue();
@@ -109,9 +144,9 @@ export class DbAttackenService {
 	}
 
 	/**
-	 * only function to read Attacke entries from the db
-	 * @param  neededIds - look for Attacken with folliwing IDs
-	 * @return           - the Attacken found
+	 * only function to read Attacke entries from the db (and return found ones)
+	 * @param  neededIds	look for Attacken with folliwing IDs
+	 * @return Promise<Attacke[]>
 	 */
 	private async getAttackenByIds(neededIds: number[]): Promise<Attacke[]> {
 
@@ -156,7 +191,7 @@ export class DbAttackenService {
 					if (neededIds[neededIds.length-1] >= this.NUM_ATTACKEN) {return atts;}
 
 					if (atts.length != values.length) {
-						this.messageService.alert("Nicht alle Attacken gefunden", "in getAttackenByIds: could not get all atts with ids: ", values, " found: ", this.listIds(atts));
+						this.messageService.alert("Nicht alle Attacken gefunden", "in getAttackenByIds: could not get all atts with ids: ", values, " found: ", this.databaseService.listIds(atts));
 						return [];
 					}
 
@@ -167,6 +202,11 @@ export class DbAttackenService {
 			});
 	  }
 
+	/**
+	 * public wrapper around getAttackenByIds() for retrieving one attack
+	 * @param  id id of the searched attack
+	 * @return Promise<Attacke>
+	 */
 	async getAttacke(id: number): Promise<Attacke> {
 		return this.getAttackenByIds([id]).then(atts => {
 			if (!(atts && atts.length)) {
@@ -177,23 +217,46 @@ export class DbAttackenService {
 		});
 	}
 
+	/**
+	 * public wrapper for function getAttackenByList()
+	 * @param  ids ids of attacks to be found
+	 * @return Promise<Attacke[]>
+	 */
 	async getAttackenByList(ids: number[]): Promise<Attacke[]> {
 		return this.getAttackenByIds(ids).then(atts => {
 			return atts;
 		});
 	}
 
+	/**
+	 * public wrapper around getAttackenByIds() for retrieving one chunk attacks with size of LIMIT
+	 * @param  offset point where to start with ids
+	 * @return Promise<void>
+	 */
 	async getAttacken(offset: number): Promise<void> {
+
+		// gather needed ids
 		let idOffset = offset+1;	// monster ids start at 1, not 0
 		let neededList: number[] = [];
 		for (let i = idOffset; i < idOffset+this.LIMIT; i++) {neededList.push(i)}
+
+		// recieve attacks and call updateAttacken() with them
 		return this.getAttackenByIds(neededList).then(atts => {
 			this.lastAttacke += atts.length;
 			this.updateAttacken(atts);
 		});
 	}
 
-	async findAttacke(nameValue:string, callCombineAfterwards: boolean = true): Promise<void> {
+	/**
+	 * filter attacks by name or id and store them in wordSearchList.
+	 * If nameValue is empty, end the search
+	 * @param  nameValue             substring of a attacks' name or an id
+	 * @param  callCombineAfterwards if true combine search result with that of type search, if false not
+	 * @return Promise<void>
+	 */
+	async findbyWord(nameValue:string, callCombineAfterwards: boolean = true): Promise<void> {
+
+		// end search
 		if (nameValue === null || nameValue.length === 0) {
 			this.wordSearchList = null;
 
@@ -203,18 +266,32 @@ export class DbAttackenService {
 			return;
 		}
 
+		// construct query
 		let mask = "%"+nameValue+"%";
 		let query = `SELECT * FROM monster_attacke WHERE titel LIKE ? OR id=?`;
 
+		// search attacks
 		return this.db.executeSql(query, [mask, nameValue]).then(data => {
 			return this.dataToAttacke(data).then(atts => {
+
+				// save result
 				this.wordSearchList = atts;
 				if (callCombineAfterwards) {this.combineSearchLists();}
 			});
 		});
 	}
 
+	/**
+	 * filter attacks by typs and store them in typSearchList.
+	 * If typeIdList is empty, end the search
+	 * @param  typeIdList            list of type ids
+	 * @param  operandIsOr					 if true connect via OR (one type is sufficient), if false with AND (need all types)
+	 * @param  callCombineAfterwards if true combine search result with that of word search, if false not
+	 * @return Promise<void>
+	 */
 	async findByType(typeIdList: number[], operandIsOr: boolean, callCombineAfterwards: boolean = true): Promise<void>  {
+
+		// end search
 		if (!typeIdList || typeIdList.length === 0) {
 			this.typSearchList = null;
 			if (callCombineAfterwards) {this.combineSearchLists()};
@@ -249,7 +326,11 @@ export class DbAttackenService {
 		});
 	}
 
-	combineSearchLists() {
+	/**
+	 * combine results from both filtering methods, use their intersection
+	 * @return void
+	 */
+	combineSearchLists(): void {
 		if (this.typSearchList === null) {
 			// no filter set, return to normality
 			if (this.wordSearchList === null) {this.getAttacken(this.lastAttacke); return;}
@@ -261,28 +342,26 @@ export class DbAttackenService {
 		if (this.wordSearchList === null) {this.updateAttacken(this.typSearchList, true); return;}
 
 		// both filters set
-		let shorterIdList: number[];
-		let longerIdList: number[];
-		let referenceList: Attacke[];
+
+		// prepare lists to sort on
+		let wordIdList: number[] = this.databaseService.listIds(this.wordSearchList);
+		let typIdList: number[] = this.databaseService.listIds(this.typSearchList);
+		typIdList.sort((a, b) => {return a-b});
+
+		// collect intersection in this list
 		let combinedList: Attacke[] = [];
-
-		if (this.wordSearchList.length <= this.typSearchList.length) {
-			shorterIdList = this.listIds(this.wordSearchList);
-			longerIdList = this.listIds(this.typSearchList);
-			referenceList = this.wordSearchList;
-		} else {
-			shorterIdList = this.listIds(this.typSearchList);
-			longerIdList = this.listIds(this.wordSearchList);
-			referenceList = this.typSearchList;
+		for (let i = 0; i < this.wordSearchList.length; i++) {
+			if (typIdList.indexOf(wordIdList[i]) !== -1) {combinedList.push(this.wordSearchList[i]);}
 		}
-
-		for (let i = 0; i < shorterIdList.length; i++) {
-			if (longerIdList.indexOf(shorterIdList[i]) !== -1) {combinedList.push(referenceList[i]);}
-		}
+		// set as filtered value via updateMonsters()
 		this.updateAttacken(combinedList, true);
 	}
 
-
+	/**
+	 * convert db data result from select query with attacks to list of attack instances
+	 * @param  data db data
+	 * @return Promise<Attacke[]>
+	 */
 	private async dataToAttacke(data): Promise<Attacke[]> {
 		let attacken: Attacke[] = [];
 		let item;
@@ -290,6 +369,7 @@ export class DbAttackenService {
 		for (let i = 0; i < data.rows.length; i++) {
 			item = data.rows.item(i);
 
+			// get typs separately from another db table
 			typen = await this.db_typen.getAttackeTypen(item.id);
 
 			attacken.push({
@@ -303,6 +383,10 @@ export class DbAttackenService {
 		return attacken;
 	}
 
+	/**
+	 * get dummy attacke
+	 * @return Attacke
+	 */
 	defaultAttacke(): Attacke {
 		return {
 			id: 0,
@@ -314,28 +398,15 @@ export class DbAttackenService {
 	}
 
 	/**
-	 * helper function for debug output
-	 * @param  atts - list of Attacken
-	 * @return      - list of Attacken ids
+	 * get type icons as strings of attack with id attId (for rendering)
+	 * @param  attId id of an attack instance
+	 * @return string[]
 	 */
-	private listIds(atts: Attacke[]): number[] {
-		if (atts === null) {return null;}
-
-		let ids: number[] = [];
-		for (let i = 0; i < atts.length; i++) {
-			if (atts[i] === null || atts[i].id === 0) {
-				ids.push(0);
-			} else {
-				ids.push(atts[i].id);
-			}
-		}
-		return ids;
-	}
-
 	async typIcons(attId: number): Promise<string[]> {
 		return this.getAttacke(attId).then(att => {
-			let icons: string[] = [];
 
+			// collect icon strings
+			let icons: string[] = [];
 			for (let i = 0; i < att.typen.length; i++) {
 				icons.push(att.typen[i].icon);
 			}

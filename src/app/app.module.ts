@@ -9,8 +9,6 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { SqliteDbCopy } from '@ionic-native/sqlite-db-copy/ngx';
 import { SQLite } from "@ionic-native/sqlite/ngx";
-import { File } from '@ionic-native/file/ngx';
-import { WebView } from "@ionic-native/ionic-webview/ngx";
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -31,8 +29,6 @@ import { PopoverPageModule } from './pages/popover/popover.module';
     SplashScreen,
 		SqliteDbCopy,
 		SQLite,
-		File,
-		WebView,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
