@@ -491,7 +491,7 @@ export class DbMonsterService {
 				returnList.push(data.rows.item(i).mon_2);
 			}
 			return returnList;
-		}).catch(err => {console.log("error loading aehnliche formen of", monsId, err); return [];});
+		}).catch(err => {this.messageService.error("Konnte keine ähnlichen Formen zu dem Monster laden.", "error loading aehnliche formen of", monsId, err); return [];});
 	}
 
 	/**
@@ -508,7 +508,7 @@ export class DbMonsterService {
 				returnList.push(data.rows.item(i).mon_2);
 			}
 			return returnList;
-		}).catch(err => {console.log("error loading gegenteilmonster of", monsId, err); return [];});
+		}).catch(err => {this.messageService.error("Konnte keine Gegenteilmonster zu dem aktuellen Monster laden", "error loading gegenteilmonster of", monsId, err); return [];});
 	}
 
 	/**
@@ -582,6 +582,6 @@ export class DbMonsterService {
 				// update them as filtered
 				return this.updateMonsters(mons, true);
 			});
-		}).catch(err => {console.log("rang sort:", query, err)})
+		}).catch(err => {this.messageService.error("Konnte nicht nach Rang sortieren", "rang sort:", query, err)})
 	}
 }
