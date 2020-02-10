@@ -12,13 +12,13 @@ const routes: Routes = [
     path: 'tabs',
     component: TabsPage,
 		children: [
-			{ path: "", redirectTo: "list-monster"},
+			{ path: "", redirectTo: "tabs/list-monster", pathMatch: "full"},
 	  	{ path: 'list-monster', loadChildren: '../list-monster/list-monster.module#ListMonsterPageModule' },
 	  	{ path: 'list-attacken', loadChildren: '../list-attacken/list-attacken.module#ListAttackenPageModule' },
 		]
   },
 	{
-		path: "", redirectTo: "tabs"
+		path: "", redirectTo: "tabs/list-monster", pathMatch: "full"
 	}
 ];
 

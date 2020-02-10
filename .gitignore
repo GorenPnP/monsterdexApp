@@ -31,6 +31,7 @@ plugins/ios.json
 $RECYCLE.BIN/
 
 src/assets/monster_images/*
+documentation/
 
 .DS_Store
 Thumbs.db
