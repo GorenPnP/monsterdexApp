@@ -12,92 +12,90 @@ import { MinimalHeaderService } from './minimal-header.service';
   providedIn: 'root'
 })
 export class FullHeaderService {
-	/**
-	 * indicator if initializing done
-	 */
-	private initReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  /**
+   * indicator if initializing done
+   */
+  private initReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-	/**
-	 * list of all formatted typs for search
-	 */
-	private allTypen: Typ[] = [];
+  /**
+   * list of all formatted typs for search
+   */
+  private allTypen: Typ[] = [];
 
-	/**
-	 * initialize all needed fields
-	 * @param db_typen         db service for typs
-	 * @param minHeaderService extend functionalities of the minimal header service
-	 */
-  constructor(private db_typen: DbTypenService,
-							private minHeaderService: MinimalHeaderService) {
+  /**
+   * initialize all needed fields
+   * @param db_typen         db service for typs
+   * @param minHeaderService extend functionalities of the minimal header service
+   */
+  constructor(private dbTypen: DbTypenService,
+              private minHeaderService: MinimalHeaderService) {
 
-		this.db_typen.getDatabaseState().subscribe(rdy => {
-			if (rdy) {
-				// get all typen formatted
-				this.db_typen.getAllTypen().then(typen => {
-					this.allTypen = typen;
+    this.dbTypen.getDatabaseState().subscribe(rdy => {
+      if (rdy) {
+        // get all typen formatted
+        this.dbTypen.getAllTypen().then(typen => {
+          this.allTypen = typen;
 
-					this.initReady.next(true);
-				});
-			}
-		});
-	}
+          this.initReady.next(true);
+        });
+      }
+    });
+  }
 
-	/**
-	 * communicate if init is done
-	 * @return Observable<boolean>
-	 */
-	getInitState(): Observable<boolean> {
-		return this.initReady.asObservable();
-	}
+  /**
+   * communicate if init is done
+   * @return Observable<boolean>
+   */
+  getInitState(): Observable<boolean> {
+    return this.initReady.asObservable();
+  }
 
-	/**
-	 * get all formatted typs
-	 * @return [{"id": <number>, "icon": <string>, "set": <boolean>}, {}]
-	 */
-	allTypenFormatted(): any {
-		let formatted = [];
-		for (let i = 0; i < this.allTypen.length; i++) {
-			formatted.push({"id": this.allTypen[i].id, "icon": this.allTypen[i].icon, "set": false});
-		}
-		return formatted;
-	}
+  /**
+   * get all formatted typs
+   * @return [{"id": <number>, "icon": <string>, "set": <boolean>}, {}]
+   */
+  allTypenFormatted(): any {
+    const formatted = [];
+    for (const typ of this.allTypen) {
+      formatted.push({id: typ.id, icon: typ.icon, set: false});
+    }
+    return formatted;
+  }
 
-	/**
-	 * toggle setting of a typ
-	 * @param  id                id of typ to toggle
-	 * @param  searchTypen       list of typ-ids set for filtering
-	 * @param  allFormattedTypen list of formatted typs with selected y/n
-	 * @return the modified lists in a dictionary
-	 */
-	toggleTypSet(id: number, searchTypen: number[], allFormattedTypen: any) {
-		let typ = allFormattedTypen[id-1];
-		let newState = !typ["set"];
+  /**
+   * toggle setting of a typ
+   * @param  id                id of typ to toggle
+   * @param  searchTypen       list of typ-ids set for filtering
+   * @param  allFormattedTypen list of formatted typs with selected y/n
+   * @return the modified lists in a dictionary
+   */
+  toggleTypSet(id: number, searchTypen: number[], allFormattedTypen: any) {
+    const typ = allFormattedTypen[id - 1];
+    const newState = !typ.set;
 
-		if (newState) {
-			// add to list
-			searchTypen.push(id);
-		} else {
-			// remove from list
-			searchTypen.splice(searchTypen.indexOf(id), 1);
-		}
+    if (newState) {
+      // add to list
+      searchTypen.push(id);
+    } else {
+      // remove from list
+      searchTypen.splice(searchTypen.indexOf(id), 1);
+    }
 
-		typ["set"] = newState;
+    typ.set = newState;
 
-		if (searchTypen.length) {
-			// selection changed and valid for a search
-			//this.db_typen.getEfficiency(this.setFromTypen, this.setToTypen).then(eff => {
+    if (searchTypen.length) {
+      // selection changed and valid for a search
+      return {search: searchTypen, all: this.allTypen};
+    }
+  }
 
-			return {"search": searchTypen, "all": this.allTypen};
-		}
-	}
-
-	/**
-	 * open popover, using MinimalHeaderService
-	 * @param  ev		event to the popover, needed for controller
-	 * @param  data	the content to be displayed
-	 * @return Promise<void>
-	 */
-	async presentPopover(ev: Event, data: any): Promise<void> {
-		this.minHeaderService.presentPopover(ev, data);
-	}
+  /**
+   * open popover, using MinimalHeaderService
+   * @param  ev    event to the popover, needed for controller
+   * @param  data  the content to be displayed
+   * @return Promise<void>
+   */
+  async presentPopover(ev: Event, data: any): Promise<void> {
+    this.minHeaderService.presentPopover(ev, data);
+  }
 }

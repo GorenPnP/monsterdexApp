@@ -22,7 +22,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
   ],
   declarations: [
-		ListMonsterPage
-	]
+    ListMonsterPage
+  ]
 })
 export class ListMonsterPageModule {}

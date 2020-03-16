@@ -10,8 +10,8 @@ import { Component } from '@angular/core';
 })
 export class TabsPage {
 
-	/**
-	 * do nothing in particular
-	 */
+  /**
+   * do nothing in particular
+   */
   constructor() {}
 }

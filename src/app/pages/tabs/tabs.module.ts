@@ -11,15 +11,15 @@ const routes: Routes = [
   {
     path: 'tabs',
     component: TabsPage,
-		children: [
-			{ path: "", redirectTo: "tabs/list-monster", pathMatch: "full"},
-	  	{ path: 'list-monster', loadChildren: '../list-monster/list-monster.module#ListMonsterPageModule' },
-	  	{ path: 'list-attacken', loadChildren: '../list-attacken/list-attacken.module#ListAttackenPageModule' },
-		]
+    children: [
+      { path: '', redirectTo: 'tabs/list-monster', pathMatch: 'full'},
+      { path: 'list-monster', loadChildren: '../list-monster/list-monster.module#ListMonsterPageModule' },
+      { path: 'list-attacken', loadChildren: '../list-attacken/list-attacken.module#ListAttackenPageModule' },
+    ]
   },
-	{
-		path: "", redirectTo: "tabs/list-monster", pathMatch: "full"
-	}
+  {
+    path: '', redirectTo: 'tabs/list-monster', pathMatch: 'full'
+  }
 ];
 
 @NgModule({

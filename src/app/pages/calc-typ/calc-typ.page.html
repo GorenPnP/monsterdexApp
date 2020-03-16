@@ -1,61 +1,61 @@
 <ion-header>
   <ion-toolbar>
-		<ion-buttons slot="start">
-		 	<ion-back-button defaultHref="/list-monster"></ion-back-button>
-		 </ion-buttons>
+    <ion-buttons slot="start">
+       <ion-back-button defaultHref="/list-monster"></ion-back-button>
+     </ion-buttons>
 
-		<ion-buttons slot="end">
-			<ion-button (click)="presentPopover($event)">
-				<ion-icon name="information-circle-outline"></ion-icon>
-			</ion-button>
-		</ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="presentPopover($event)">
+        <ion-icon name="information-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
 
     <ion-title class="ion-text-wrap">Effektivitäts-Rechner</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-	<ion-list>
-		<ion-item lines="full">
-			<ion-note slot="start">
+  <ion-list>
+    <ion-item lines="full">
+      <ion-note slot="start">
 
-			<span *ngFor="let i of fromTypen">
-				<span  *ngIf="i.set">
-					<ion-button shape="round" color="success" (click)="toggleSet(i.id, true)">
-						<ion-icon [name]="i.icon"></ion-icon>
-					</ion-button>
-				</span>
+      <span *ngFor="let i of fromTypen">
+        <span  *ngIf="i.set">
+          <ion-button shape="round" color="success" (click)="toggleSet(i.id, true)">
+            <ion-icon [name]="i.icon"></ion-icon>
+          </ion-button>
+        </span>
 
-				<span  *ngIf="!i.set">
-					<ion-button shape="round" color="tertiary" (click)="toggleSet(i.id, true)">
-						<ion-icon [name]="i.icon"></ion-icon>
-					</ion-button>
-				</span>
-			</span>
+        <span  *ngIf="!i.set">
+          <ion-button shape="round" color="tertiary" (click)="toggleSet(i.id, true)">
+            <ion-icon [name]="i.icon"></ion-icon>
+          </ion-button>
+        </span>
+      </span>
 
-			</ion-note>
-		</ion-item>
+      </ion-note>
+    </ion-item>
 
-		<ion-item lines="full">
-			<ion-note slot="start">
+    <ion-item lines="full">
+      <ion-note slot="start">
 
-				<span *ngFor="let i of toTypen">
-					<span  *ngIf="i.set">
-						<ion-button shape="round" color="success" (click)="toggleSet(i.id, false)">
-							<ion-icon [name]="i.icon"></ion-icon>
-						</ion-button>
-					</span>
+        <span *ngFor="let i of toTypen">
+          <span  *ngIf="i.set">
+            <ion-button shape="round" color="success" (click)="toggleSet(i.id, false)">
+              <ion-icon [name]="i.icon"></ion-icon>
+            </ion-button>
+          </span>
 
-					<span *ngIf="!i.set">
-						<ion-button shape="round" color="tertiary" (click)="toggleSet(i.id, false)">
-							<ion-icon [name]="i.icon"></ion-icon>
-						</ion-button>
-					</span>
-				</span>
+          <span *ngIf="!i.set">
+            <ion-button shape="round" color="tertiary" (click)="toggleSet(i.id, false)">
+              <ion-icon [name]="i.icon"></ion-icon>
+            </ion-button>
+          </span>
+        </span>
 
-			</ion-note>
-		</ion-item>
+      </ion-note>
+    </ion-item>
 
-		<ion-item lines="none"><ion-text class="ion-text-wrap">{{ text_output }}</ion-text></ion-item>
-	</ion-list>
+    <ion-item lines="none"><ion-text class="ion-text-wrap">{{ textOutput }}</ion-text></ion-item>
+  </ion-list>
 </ion-content>

@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { DatabaseService } from './database.service';
+import { TypPopupService } from './typ-popup.service';
 
-describe('DatabaseService', () => {
+describe('TypPopupService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: DatabaseService = TestBed.get(DatabaseService);
+    const service: TypPopupService = TestBed.get(TypPopupService);
     expect(service).toBeTruthy();
   });
 });

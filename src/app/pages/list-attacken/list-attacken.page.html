@@ -1,71 +1,71 @@
 <ion-header>
-	<ion-toolbar *ngIf="header_expanded" [color]="header_color">
+  <ion-toolbar *ngIf="headerExpanded" [color]="headerColor">
 
-		<span *ngFor="let i of allTypen">
-			<span *ngIf="i.set">
-				<ion-button shape="round" size="small" color="success" (click)="toggleSet(i.id)">
-					<ion-icon [name]="i.icon"></ion-icon>
-				</ion-button>
-			</span>
+    <span *ngFor="let i of allTypen">
+      <span *ngIf="i.set">
+        <ion-button shape="round" size="small" color="success" (click)="toggleSet(i.id)">
+          <ion-icon [name]="i.icon"></ion-icon>
+        </ion-button>
+      </span>
 
-			<span *ngIf="!i.set">
-				<ion-button shape="round" size="small" color="tertiary" (click)="toggleSet(i.id)">
-					<ion-icon [name]="i.icon"></ion-icon>
-				</ion-button>
-			</span>
-		</span>
+      <span *ngIf="!i.set">
+        <ion-button shape="round" size="small" color="tertiary" (click)="toggleSet(i.id)">
+          <ion-icon [name]="i.icon"></ion-icon>
+        </ion-button>
+      </span>
+    </span>
 
-		<ion-button *ngIf="searchTypen.length > 1" fill="outline" shape="round" size="small" color="light" (click)="toggleOperator()">
-			{{ operatorTypenIsOr? 'ODER' : 'UND' }}
-		</ion-button>
+    <ion-button *ngIf="searchTypen.length > 1" fill="outline" shape="round" size="small" color="light" (click)="toggleOperator()">
+      {{ operatorTypenIsOr? 'ODER' : 'UND' }}
+    </ion-button>
 
-	</ion-toolbar>
+  </ion-toolbar>
 
-  <ion-toolbar [color]="header_color">
-		<ion-buttons slot="start">
-			<ion-button *ngIf="header_expanded" (click)="toggle_expand_header()">
-				<ion-icon name="arrow-dropdown"></ion-icon>
-			</ion-button>
+  <ion-toolbar [color]="headerColor">
+    <ion-buttons slot="start">
+      <ion-button *ngIf="headerExpanded" (click)="toggleExpandHeader()">
+        <ion-icon name="arrow-dropdown"></ion-icon>
+      </ion-button>
 
-			<ion-button *ngIf="!header_expanded" (click)="toggle_expand_header()">
-				<ion-icon name="arrow-dropright"></ion-icon>
-			</ion-button>
-		</ion-buttons>
+      <ion-button *ngIf="!headerExpanded" (click)="toggleExpandHeader()">
+        <ion-icon name="arrow-dropright"></ion-icon>
+      </ion-button>
+    </ion-buttons>
 
-		<ion-buttons slot="end">
-			<ion-button (click)="presentPopover($event)">
-				<ion-icon name="information-circle-outline"></ion-icon>
-			</ion-button>
-		</ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="presentPopover($event)">
+        <ion-icon name="information-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
 
-		<ion-searchbar
-			showCancelButton="focus"
-			placeholder="Name"
-			animated
-			[color]="header_color"
-			(ionChange)="onChangeSearch($event)"
-		>
-		</ion-searchbar>
+    <ion-searchbar
+      showCancelButton="focus"
+      placeholder="Name"
+      animated
+      [color]="headerColor"
+      (ionChange)="onChangeSearch($event)"
+    >
+    </ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
 
-	<ion-text *ngIf="list_items.length === 0" class="ion-text-center ion-text-wrap"><h2>Hier ist nichts</h2></ion-text>
+  <ion-text *ngIf="listItems.length === 0" class="ion-text-center ion-text-wrap"><h2>Hier ist nichts</h2></ion-text>
 
-	<ion-list>
-		<ion-item *ngFor="let i of list_items" detail [routerLink]="['/detail-attacke', i[0].id]" routerDirection="forward" color="light" lines="full">
-			<ion-label slot="start" class="ion-text-wrap">{{i[0].name}}</ion-label>
-			<ion-note>
-				<ion-button *ngFor="let icon of i[1]" size="small" shape="round" color="tertiary" disabled="true">
-					<ion-icon [name]="icon" slot="icon-only"></ion-icon>
-				</ion-button>
-			</ion-note>
-		</ion-item>
-	</ion-list>
+  <ion-list>
+    <ion-item *ngFor="let i of listItems" detail [routerLink]="['/detail-attacke', i[0].id]" routerDirection="forward" color="light" lines="full">
+      <ion-label slot="start" class="ion-text-wrap">{{i[0].name}}</ion-label>
+      <ion-note>
+        <ion-button *ngFor="let icon of i[1]" size="small" shape="round" color="tertiary" disabled="true">
+          <ion-icon [name]="icon" slot="icon-only"></ion-icon>
+        </ion-button>
+      </ion-note>
+    </ion-item>
+  </ion-list>
 
-	<ion-infinite-scroll (ionInfinite)="loadAttacken($event)">
+  <ion-infinite-scroll (ionInfinite)="loadAttacken($event)">
     <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Mehr sind auf dem Weg...">
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>

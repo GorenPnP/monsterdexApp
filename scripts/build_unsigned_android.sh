@@ -9,7 +9,7 @@ ng run app:ionic-cordova-build --platform=android
 cp /home/vanessa/Downloads/res_monsterdex/monster.db /home/vanessa/schreibtisch/monsterdex/www/monster.db
 
 # build new version (2)
-cordova build android
+ionic cordova build android
 
 # goto directory of new version
 cd ~/Schreibtisch/monsterdex/platforms/android/app/build/outputs/apk/release

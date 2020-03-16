@@ -1,23 +1,23 @@
 <p>
-	<ion-list class="shrink">
-		<div *ngFor="let section of header_popover" class="shrink">
+  <ion-list class="shrink">
+    <div *ngFor="let section of headerPopover" class="shrink">
 
-			<ion-item-divider class="shrink" style="margin: 0 auto;">
-				<ion-label class="ion-text-wrap" style="margin: 0 auto;">{{ section.topic }}</ion-label>
-			</ion-item-divider>
+      <ion-item-divider class="shrink" style="margin: 0 auto;">
+        <ion-label class="ion-text-wrap" style="margin: 0 auto;">{{ section.topic }}</ion-label>
+      </ion-item-divider>
 
-			<div *ngFor="let content of section.content; let last = last">
-				<ion-item *ngIf="!last" (click)="close(content.path)" class="shrink" lines="full">
-					<ion-icon slot="start" [name]="content.icon"></ion-icon>
-					<ion-label class="ion-text-wrap">{{ content.title }}</ion-label>
-				</ion-item>
+      <div *ngFor="let content of section.content; let last = last">
+        <ion-item *ngIf="!last" (click)="close(content.path)" class="shrink" lines="full">
+          <ion-icon slot="start" [name]="content.icon"></ion-icon>
+          <ion-label class="ion-text-wrap">{{ content.title }}</ion-label>
+        </ion-item>
 
-				<ion-item *ngIf="last" (click)="close(content.path)" class="shrink" lines="none">
-					<ion-icon slot="start" [name]="content.icon"></ion-icon>
-					<ion-label class="ion-text-wrap">{{ content.title }}</ion-label>
-				</ion-item>
-			</div>
+        <ion-item *ngIf="last" (click)="close(content.path)" class="shrink" lines="none">
+          <ion-icon slot="start" [name]="content.icon"></ion-icon>
+          <ion-label class="ion-text-wrap">{{ content.title }}</ion-label>
+        </ion-item>
+      </div>
 
-		</div>
-	</ion-list>
+    </div>
+  </ion-list>
 </p>
