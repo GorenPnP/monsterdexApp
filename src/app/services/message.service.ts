@@ -101,8 +101,8 @@ export class MessageService {
     // construct toast
     const toast = await this.toastCtrl.create({
       message: mStrings.join('| '),
-      showCloseButton: true,
-      closeButtonText: 'Schließen',
+      // showCloseButton: true,
+      // closeButtonText: 'Schließen',
       color: type,
       animated: true
     });
