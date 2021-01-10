@@ -6,7 +6,6 @@ import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
 
 import { BehaviorSubject, Observable } from 'rxjs';
 
-import { environment } from '../../environments/environment';
 import { MessageService } from './message.service';
 
 /**
@@ -36,76 +35,25 @@ export class DatabaseService {
    * @param dbCopy - reset db to one in www/ directory
    */
   constructor(private plt: Platform,
-              private sqlite: SQLite,
-              private dbCopy: SqliteDbCopy,
-              private messageService: MessageService) {
-
-    const willDelete = !environment.production;
-
-    // delete and copy db on debug
-    if (willDelete) {
-      // will delete db
-      this.deleteDB().then(_ => {
-        this.initDB();
-      });
-    } else {
-      this.initDB();
-    }
-  }
+              private messageService: MessageService) { this.initDB(); }
 
   /**
    * get database state as observable, so notify on change
    * @return observable of this.dbReady
    */
-  getDatabaseState(): Observable<boolean> {
-    return this.dbReady.asObservable();
-  }
+  getDatabaseState(): Observable<boolean> { return this.dbReady.asObservable(); }
 
   /**
    * get the actual database
    * @return - the database
    */
-  getDatabase(): SQLiteObject {
-    return this.database;
-  }
+  getDatabase(): SQLiteObject { return this.database; }
 
   /**
    * init and open db, set dbReady to true
    */
   private async initDB(): Promise<void> {
-
-    // copy even if none to delete found or sth.
-    await this.dbCopy.copy(this.dbName, 0).then(_ => {
-      // db is copied
-    }).catch((e) => {
-      if (e.code ===  516) {
-        // db already exists, did not copy
-        return;
-      }
-      this.messageService.error('Konnte die Datenbank nicht kopieren', 'ERROR: could not copy db: ', JSON.stringify(e));
-    });
-
-    // (create and) open db in file system
-    this.plt.ready().then(() => {
-      this.sqlite.create({
-        name: this.dbName,
-        location: 'default'
-      })
-        .then((db: SQLiteObject) => {
-          this.database = db;
-          this.dbReady.next(true);
-        });
-    });
-  }
-
-  /**
-   * delete db
-   * @async
-   */
-  private async deleteDB(): Promise<void> {
-    this.dbCopy.remove(this.dbName, 0).then(_ => {
-      // db is deleted
-    });
+    this.plt.ready().then(() => this.dbReady.next(true));
   }
 
   /**
@@ -114,17 +62,9 @@ export class DatabaseService {
    * @return number[]
    */
   listIds(instances: any[]): number[] {
-    // handle null
-    if (instances === null) { return null; }
 
-    const ids: number[] = [];
-    for (const instance of instances) {
-
-      // handle no given information
-      if (instance === null || instance.id === 0) { ids.push(null); continue; }
-
-      ids.push(instance.id);
-    }
-    return ids;
+    // return null if param is null
+    // return null as instance if it is null or its id is 0
+    return instances?.map(instance => (instance === null || instance.id === 0) ? null : instance.id);
   }
 }
