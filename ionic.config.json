@@ -1,0 +1,7 @@
+{
+  "name": "monsterdex",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

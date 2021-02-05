@@ -1,0 +1,87 @@
+<ion-toolbar #headerExpanded style="display: flex; padding: 16px">
+
+          <ion-note style="flex-basis: 70ch;">
+            <span *ngFor="let type of allTypes">
+              <ion-button shape="round" size="small" [color]="typeFilter.includes(type) ? 'success' : 'tertiary'" (click)="toggleType(type)">
+                <ion-icon [name]="type.icon"></ion-icon>
+              </ion-button>
+            </span>
+
+            <ion-button *ngIf="typeFilter.length > 1" fill="outline" shape="round" size="small" (click)="toggleOperator()">
+              {{ operatorTypesIsOr ? 'ODER' : 'UND' }}
+            </ion-button>
+          </ion-note>
+
+        <ion-item *ngIf="rankOrdering">
+          <ion-label position="stacked" color="light">Rang</ion-label>
+
+          <!-- TODO -->
+          <ion-button *ngIf="rankOrdering === RankOrdering.NONE" fill="outline" shape="round" size="small" (click)="sortByRank(RankOrdering.ASC)" color="light">
+            <ion-icon slot="start" name="charet-down"></ion-icon>
+            {{ rankOrdering }}
+          </ion-button>
+          <ion-button *ngIf="rankOrdering === RankOrdering.ASC" fill="outline" shape="round" size="small" (click)="sortByRank(RankOrdering.DESC)" color="light">
+            <ion-icon slot="start" name="charet-down"></ion-icon>
+            {{ rankOrdering }}
+          </ion-button>
+          <ion-button *ngIf="rankOrdering === RankOrdering.DESC" fill="outline" shape="round" size="small" (click)="sortByRank(RankOrdering.NONE)" color="light">
+            <ion-icon slot="start" name="caret-up"></ion-icon>
+            {{ rankOrdering }}
+          </ion-button>
+
+        </ion-item>
+      
+      <ion-spinner name="bubbles" *ngIf="loading"></ion-spinner>
+</ion-toolbar>
+
+<ion-toolbar #headerSticky>
+  <ion-buttons slot="start">
+    <ion-button (click)="headerIsExpanded = !this.headerIsExpanded">
+      <ion-icon [name]="headerIsExpanded ? 'caret-up' : 'caret-down'"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+
+  <ion-searchbar
+    showCancelButton="focus"
+    placeholder="Name oder Nummer"
+    animated
+    color="primary"
+    (ionChange)="onSearchChange($event)"
+  >
+  </ion-searchbar>
+
+  <ion-buttons slot="end">
+    <ion-button (click)="presentTypePopover($event)">
+      <ion-icon name="information-circle-outline"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+</ion-toolbar>
+
+<ion-content
+  fullscreen="full"
+  scrollEvents="true"
+  [appScrollHeader]="headerExpanded"
+  [appStickyHeader]="headerSticky">
+
+  <ion-text *ngIf="!monsters" class="ion-text-center ion-text-wrap"><h2>Hier ist nichts</h2></ion-text>
+
+  <ion-list>
+    <ion-item *ngFor="let monster of monsters" detail [routerLink]="['/monster-detail', monster.id]" routerDirection="forward" color="light" lines="full">
+      
+      <ion-avatar slot="start"><img [src]="monster.showThumbnail"></ion-avatar>
+      
+      <ion-label slot="start" class="ion-text-wrap">{{ monster.name }}</ion-label>
+      <ion-note>
+        <ion-button *ngFor="let type of monster.types" size="small" shape="round" color="tertiary" disabled="true">
+          <ion-icon [name]="type.icon" slot="icon-only"></ion-icon>
+        </ion-button>
+      </ion-note>
+    </ion-item>
+  </ion-list>
+
+  <ion-infinite-scroll (ionInfinite)="loadMonsters($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Mehr sind auf dem Weg...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+</ion-content>
