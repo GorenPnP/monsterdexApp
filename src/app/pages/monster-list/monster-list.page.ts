@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { MonsterService } from 'src/app/services/monster.service';
 import { TypeService } from 'src/app/services/type.service';
+import { Filter } from 'src/app/types/filter';
 import { Monster } from 'src/app/types/monster';
 import { RankOrdering } from 'src/app/types/rank-ordering';
 import { Type } from 'src/app/types/type';
@@ -19,10 +20,19 @@ export class MonsterListPage implements OnInit {
    */
   monsters: Monster[] = [];
 
-  /**
-   * offset for loading the next bundle of monsters (is index to the first one of them)
-   */
-  private offset: number = 0;
+  filter: Filter = {
+    pageNr: null,
+    typeAnd: true,
+    types: [],
+    name: '',
+    rankOrdering: RankOrdering.NONE
+  }
+
+  // /**
+  //  * number of page with next monsters to load.
+  //  * If pageNr === -1, all have been loaded
+  //  */
+  // private pageNr: number = 0;
 
   /********************* header functionality **********************/
   /**
@@ -32,34 +42,32 @@ export class MonsterListPage implements OnInit {
   
   private activeSearch: Observable<Monster[]> = null;
 
+  // /**
+  //  * operator in type search
+  //  * if true the operator to connect the types is OR, if false AND
+  //  */
+  // operatorTypesIsOr: boolean = false;
   /**
-   * operator in type search
-   * if true the operator to connect the types is OR, if false AND
-   */
-  operatorTypesIsOr: boolean = false;
-  /**
-   * all types, formatted for search
+   * all types for filtering in header
    */
   allTypes: Type[] = [];
+  // /**
+  //  * buffer for type search
+  //  */
+  // typeFilter: Type[] = [];
+  // /**
+  //  * latest in word search
+  //  */
+  // nameFilter: string = '';
+  // /**
+  //  * index to rankSorting
+  //  */
+  // rankOrdering: RankOrdering = RankOrdering.NONE;
   /**
-   * buffer for type search
+   * make enum RankOrdering accessible in html template
    */
-  typeFilter: Type[] = [];
-  /**
-   * latest in word search
-   */
-  nameFilter: string = '';
-
+  RankOrdering = RankOrdering;
   /****************************************************************/
-
-  /**
-   * text on button for rank sorting in header
-   */
-  rankSorting: string[] = Object.keys(RankOrdering);
-  /**
-   * index to rankSorting
-   */
-  rankOrdering: RankOrdering = RankOrdering.NONE;
 
   /**
    * initialize needed values for header
@@ -67,25 +75,15 @@ export class MonsterListPage implements OnInit {
    * @param headerService  handle header affairs
    */
   constructor(private monsterService: MonsterService,
-              private typeService: TypeService) {
-
-    // this.headerService.getInitState().subscribe(rdy => {
-    //   if (rdy) {
-    //     this.allTypes = headerService.allTypesFormatted();
-    //   }
-    // });
-  }
+              private typeService: TypeService) { }
 
   /**
    * initialize values
    * @return void
    */
   ngOnInit(): void {
-    this.monsterService.getAll(this.offset).subscribe(monsters => {
-      this.monsters = monsters;
-      this.offset += this.monsterService.limit;
-    });
-
+    this.filter.pageNr = 0;
+    this.updateMonsters();
     this.typeService.getAll().subscribe(types => this.allTypes = types);
   }
 
@@ -95,21 +93,22 @@ export class MonsterListPage implements OnInit {
    */
   private async updateMonsters(): Promise<void> {
 
+    // nothing new to load
+    if (this.filter.pageNr === -1) { return; }
+
     // // search and filter Monsters
     // if (this.activeSearch) {
     //   this.activeSearch.unsubscribe();
     // }
 
-    const id: number = parseInt(this.nameFilter);
+    this.activeSearch = this.monsterService.filter(this.filter);
+    return this.activeSearch.toPromise().then(monsters => {
 
-    this.activeSearch = this.monsterService.filter(
-      this.nameFilter,
-      id !== NaN ? id : null,
-      this.typeFilter.map(type => type.id),
-      !this.operatorTypesIsOr,
-      this.rankOrdering
-    );
-    this.activeSearch.subscribe(monsters => this.monsters = monsters);
+      // if first page (pageNr === 0), override this.monsters entirely.
+      // We don't want any old ones from another search, do we :) ?
+      this.monsters = this.filter.pageNr ? [...this.monsters, ...monsters] : monsters;
+      monsters.length === this.monsterService.limit ? this.filter.pageNr++ : this.filter.pageNr = -1;
+    });
   }
 
   /**
@@ -117,10 +116,8 @@ export class MonsterListPage implements OnInit {
    * @param event thrown on change of search field
    * @return void
    */
-  onSearchChange(event): void {
-
-    this.nameFilter = event.currentTarget.value;
-    console.log(this.nameFilter);
+  onSearchChanged(): void {
+    this.filter.pageNr = 0;
     this.updateMonsters();
   }
 
@@ -141,12 +138,13 @@ export class MonsterListPage implements OnInit {
   toggleType(type: Type): void {
     // this.headerService.toggleTypeSet(type.id, this.typeFilter.map(type => type.id), this.allTypes);
 
-    if (this.typeFilter.includes(type)) {
-      this.typeFilter = this.typeFilter.filter(t => t !== type);
+    if (this.filter.types.includes(type.id)) {
+      this.filter.types = this.filter.types.filter(t => t !== type.id);
     } else {
-      this.typeFilter.push(type);
+      this.filter.types.push(type.id);
     }
 
+    this.filter.pageNr = 0;
     this.updateMonsters();
   }
 
@@ -155,9 +153,10 @@ export class MonsterListPage implements OnInit {
    * @return void
    */
   toggleOperator(): void {
-    this.operatorTypesIsOr = !this.operatorTypesIsOr;
+    this.filter.typeAnd = !this.filter.typeAnd;
 
-    if (this.typeFilter.length > 1) {
+    if (this.filter.types.length > 1) {
+      this.filter.pageNr = 0;
       this.updateMonsters();
     }
   }
@@ -167,7 +166,8 @@ export class MonsterListPage implements OnInit {
    * @return void
    */
   sortByRank(newOrdering: RankOrdering): void {
-    this.rankOrdering = newOrdering;
+    this.filter.rankOrdering = newOrdering;
+    this.filter.pageNr = 0;
     this.updateMonsters();
   }
 
@@ -176,19 +176,13 @@ export class MonsterListPage implements OnInit {
    * @param event          event thrown on infinite scroll, complete target to stop spinner showing
    * @return void
    */
-  loadMonsters(event) {
+  async loadMonsters(event) {
 
-    // // had offset beginning with 0, num (or id) of monsters with 1
-    // if ( (this.offset + 1) >= this.db.NUM_MONSTER || this.rankSortIndex) {
-    //   if (event) { event.target.complete(); }
-    //   return;
-    // }
+    // if not loaded everything jet
+    if (this.filter.pageNr !== -1) {
+      await this.updateMonsters();
+    }
 
-    // // handled thorugh observable subscription
-    // this.db.getMonsters(this.offset).then(_ => {
-       if (event) { event.target.complete(); }
-
-    //   this.offset += this.db.LIMIT;
-    // });
+    if (event) { event.target.complete(); }
   }
 }

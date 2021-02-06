@@ -1,3 +1,7 @@
-ion-toolbar {
+.header--expanded {
     ion-item { --border-style: none; }
+}
+
+ion-list {
+    padding-bottom: 200px;
 }

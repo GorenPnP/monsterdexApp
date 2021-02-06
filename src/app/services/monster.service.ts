@@ -3,6 +3,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Attack } from '../types/attack';
+import { Filter } from '../types/filter';
 import { Monster } from '../types/monster';
 import { RankOrdering } from '../types/rank-ordering';
 import { getIonIcon, Type } from '../types/type';
@@ -55,42 +56,18 @@ export class MonsterService {
     })
   }
 
-  public get limit() {
+  public get limit(): number {
     return this._limit;
   }
 
-  public getAll(offset?: number): Observable<Monster[]> {
+  public filter(filter: Filter): Observable<Monster[]> {
 
-    const options: GetOptions = {
-      params: {
-        query: `{
-          monster {
-            thumbnail
-            id
-            name
-            types {
-              id
-            }
-          }
-        }`
-      }
-    }
-    return this.rest.get<{monster: Monster[]}>(options).pipe(map(res => this.cleanMonsters(res.monster)));
-  }
-
-  public filter(
-    name?: string,
-    id?: number[] | number,
-    types?: number[],
-    typeAnd: boolean = true,
-    rankOrdering?: RankOrdering): Observable<Monster[]> {
-
-      // construct filter
-      let filters: string[] = [`typeAnd: ${typeAnd}`];
-      if (name) { filters.push(`name: "${name}"`); }
-      if (id)   { filters.push(`id: [${id}]`); }
-      if (types.length) { filters.push(`types: [${types}]`); }
-      if (rankOrdering) { filters.push(`rankOrdering: ${rankOrdering}`); }
+      // stringify filter values
+      let filters: string[] = [`typeAnd: ${filter.typeAnd}`, `pageSize: ${this.limit}`];
+      if (filter.name) { filters.push(`name: "${filter.name}"`); }
+      if (filter.types.length) { filters.push(`types: [${filter.types}]`); }
+      if (filter.rankOrdering) { filters.push(`rankOrdering: ${filter.rankOrdering}`); }
+      if (filter.pageNr !== null) { filters.push(`pageNr: ${filter.pageNr}`); }
 
     
     const options: GetOptions = {
@@ -107,7 +84,6 @@ export class MonsterService {
         }`
       }
     }
-    console.log(options.params['query']);
     return this.rest.get<{monster: Monster[]}>(options).pipe(map(res => this.cleanMonsters(res.monster)));
   }
 
@@ -126,6 +102,7 @@ export class MonsterService {
             weight
             habitat
             hp
+            damagePrevention
             description
             types {
               id
