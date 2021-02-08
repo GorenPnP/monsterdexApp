@@ -21,21 +21,25 @@ export class MonsterService {
 
   private cleanMonsters(monsters: Monster[]): Monster[] {
     return monsters.map(monster => {
-        
+      
+      // thumbnail
       const showThumbnail = monster.thumbnail ?
         this.sanitizer.sanitize(SecurityContext.HTML, this.sanitizer.bypassSecurityTrustHtml('data:image/png;base64,' + monster.thumbnail)) :
         null;
 
+      // image
       const showImage = monster.image ?
         this.sanitizer.sanitize(SecurityContext.HTML, this.sanitizer.bypassSecurityTrustHtml('data:image/png;base64,' + monster.image)) :
         null;
 
+      // type icons
       const types: Type[] = monster.types?.map(type => ({
           ...type,
           icon: getIonIcon(type.id)
         })
       );
 
+      // types of attacks
       const attacks: Attack[] = monster.attacks?.map(attack => ({
         ...attack,
           types: attack?.types.map(type => ({

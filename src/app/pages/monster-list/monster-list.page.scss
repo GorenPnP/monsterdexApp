@@ -1,7 +1,45 @@
 .header--expanded {
+    display: flex;
+    padding: 16px;
+
     ion-item { --border-style: none; }
+    ion-note { flex-basis: 70ch; }
+}
+.header--sticky {
+    --ion-toolbar-color: rgb(73, 25, 25);
+
+    ion-searchbar { padding: 0; }
 }
 
 ion-list {
     padding-bottom: 200px;
+
+    .row {
+        --min-height: 90px;
+
+        ion-avatar {
+            height: 80px;
+            width: 80px;
+        }
+
+        img {
+            width: 80px;
+            max-width: 80px;
+        }
+
+        .row__center {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+
+            margin-top: 4px;
+            margin-bottom: 4px;
+            margin-left: 40px;
+        }
+
+        .row__types-container {
+            margin-top: 6px;
+            margin-left: -2px;
+        }
+    }
 }
