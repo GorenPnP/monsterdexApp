@@ -1,0 +1,32 @@
+<ion-toolbar class="header header--expanded">
+
+  <div class="container--types">
+    <ion-button *ngFor="let type of allTypes" shape="round" size="small" [color]="filter.types.includes(type.id) ? 'success' : 'tertiary'" (click)="typeToggled.emit(type)">
+      <ion-icon [name]="type.icon"></ion-icon>
+    </ion-button>
+  </div>
+
+  <div class="container--labelbtns">
+
+    <ion-item *ngIf="filter.types.length > 1">
+      <ion-label position="stacked">mit .. Typen</ion-label>
+
+      <ion-button fill="outline" shape="round" size="small" (click)="typeAndToggled.emit()">
+        {{ filter.typeAnd ? 'ALLEN' : 'EINEM' }}
+      </ion-button>
+    </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Rang-Sortierung</ion-label>
+
+    <ion-button fill="outline" shape="round" size="small" (click)="rankOrderingChanged.emit(filter.rankOrdering)">
+      <span *ngIf="filter.rankOrdering === RankOrdering.NONE;else rankOrderingArrow">keine</span>
+
+      <ng-template #rankOrderingArrow>
+        <ion-icon [name]="filter.rankOrdering === RankOrdering.ASC ? 'caret-down' : 'caret-up'"></ion-icon>
+      </ng-template>
+    </ion-button>
+
+  </ion-item>
+</div>
+</ion-toolbar>

@@ -1,0 +1,34 @@
+
+
+.list-row {
+    --min-height: 90px;
+    --avatar-size: 80px;
+    margin-left: 16px;
+
+    @media (max-width: 500px) { margin-left: 0; }
+
+
+    ion-avatar {
+        height: var(--avatar-size);
+        width: var(--avatar-size);
+    }
+    img {
+        width: var(--avatar-size);
+        max-width: var(--avatar-size);
+    }
+
+    .row__center {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+
+        margin-top: 4px;
+        margin-bottom: 4px;
+        margin-left: 40px;
+    }
+
+    .row__types-container {
+        margin-top: 6px;
+        margin-left: -2px;
+    }
+}

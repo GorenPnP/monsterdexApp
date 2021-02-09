@@ -1,0 +1,7 @@
+.header--sticky {
+    max-width: var(--max-content-width, 100%);
+    width: 100%;
+
+    --ion-toolbar-color: rgb(73, 25, 25);
+    ion-searchbar { padding: 0; }
+}

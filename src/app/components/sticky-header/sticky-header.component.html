@@ -1,0 +1,23 @@
+<ion-toolbar mode="md" class="header header--sticky">
+  <ion-buttons slot="start">
+    <ion-button (click)="headerIsExpanded = !headerIsExpanded">
+      <ion-icon [name]="headerIsExpanded ? 'caret-up' : 'caret-down'"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+
+  <ion-searchbar
+    showCancelButton="focus"
+    placeholder="Name"
+    animated
+    color="primary"
+    [value]="filter.name"
+    (ionChange)="searchbarChanged.emit($event.target.value)"
+  >
+  </ion-searchbar>
+
+  <ion-buttons slot="end">
+    <ion-button (click)="presentTypePopover($event)">
+      <ion-icon name="information-circle-outline"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+</ion-toolbar>

@@ -1,92 +1,29 @@
-<ion-toolbar #headerExpanded class="header--expanded">
+<app-expanded-header id="expanded-header"
+  [filter]="filter" [allTypes]="allTypes"
+  (typeToggled)="toggleType($event)"
+  (typeAndToggled)="toggleTypeAnd()"
+  (rankOrderingChanged)="sortByRank(nextOrderingOf($event))">
+</app-expanded-header>
 
-  <ion-note>
-    <span *ngFor="let type of allTypes">
-      <ion-button shape="round" size="small" [color]="filter.types.includes(type.id) ? 'success' : 'tertiary'" (click)="toggleType(type)">
-        <ion-icon [name]="type.icon"></ion-icon>
-      </ion-button>
-    </span>
-
-    <ion-button *ngIf="filter.types.length > 1" fill="outline" shape="round" size="small" (click)="toggleTypeAnd()">
-      {{ filter.typeAnd ? 'UND' : 'ODER' }}
-    </ion-button>
-  </ion-note>
-
-  <ion-item>
-    <ion-label position="stacked">Rang-Sortierung</ion-label>
-
-    <!-- TODO -->
-    <ion-button *ngIf="filter.rankOrdering === RankOrdering.NONE" fill="outline" shape="round" size="small" (click)="sortByRank(RankOrdering.ASC)">
-      keine
-    </ion-button>
-    <ion-button *ngIf="filter.rankOrdering === RankOrdering.ASC" fill="outline" shape="round" size="small" (click)="sortByRank(RankOrdering.DESC)">
-      <ion-icon name="caret-down"></ion-icon>
-    </ion-button>
-    <ion-button *ngIf="filter.rankOrdering === RankOrdering.DESC" fill="outline" shape="round" size="small" (click)="sortByRank(RankOrdering.NONE)">
-      <ion-icon name="caret-up"></ion-icon>
-    </ion-button>
-
-  </ion-item>
-</ion-toolbar>
-
-<ion-toolbar #headerSticky mode="md" class="header--sticky">
-  <ion-buttons slot="start">
-    <ion-button (click)="headerIsExpanded = !this.headerIsExpanded">
-      <ion-icon [name]="headerIsExpanded ? 'caret-up' : 'caret-down'"></ion-icon>
-    </ion-button>
-  </ion-buttons>
-
-  <ion-searchbar
-    showCancelButton="focus"
-    placeholder="Name"
-    animated
-    color="primary"
-    [(ngModel)]="filter.name"
-    (ionChange)="updateOnSearchChanged()"
-  >
-  </ion-searchbar>
-
-  <ion-buttons slot="end">
-    <ion-button (click)="presentTypePopover($event)">
-      <ion-icon name="information-circle-outline"></ion-icon>
-    </ion-button>
-  </ion-buttons>
-</ion-toolbar>
+<app-sticky-header id="sticky-header"
+  [filter]="filter"
+  (searchbarChanged)="updateOnSearchChanged($event)">
+</app-sticky-header>
 
 <ion-content
+  appScrollHeader
   fullscreen="full"
   scrollEvents="true"
-  [appScrollHeader]="headerExpanded"
-  [appStickyHeader]="headerSticky">
+  scrollHeaderId="expanded-header"
+  stickyHeaderId="sticky-header">
 
   <ion-text *ngIf="!monsters?.length" class="ion-text-center ion-text-wrap"><h2>Hier ist nichts</h2></ion-text>
 
-  <ion-list>
-    <ion-item
-      *ngFor="let monster of monsters"
-      class="row"
-      detail
-      [routerLink]="['/monster-detail', monster.id]"
-      routerDirection="forward"
-      lines="full">
-      
-      <ion-avatar>
-        <img [src]="monster.showThumbnail">
-      </ion-avatar>
-      
-      <div class="row__center">
-        <ion-text class="ion-text-wrap">{{ monster.name }}</ion-text>
-
-        <div class="row__types-container">
-          <ion-button *ngFor="let type of monster.types" size="small" shape="round" color="tertiary">
-            <ion-icon [name]="type.icon" slot="icon-only"></ion-icon>
-          </ion-button>
-        </div>
-      </div>
-    </ion-item>
+  <ion-list class="filtered-list">
+    <app-filter-list-item *ngFor="let monster of monsters" [item]="monster"></app-filter-list-item>
   </ion-list>
 
-  <ion-infinite-scroll (ionInfinite)="loadMonstersOnScroll($event)" [disabled]="allPagesLoaded()">
+  <ion-infinite-scroll (ionInfinite)="loadMoreOnScroll($event)" [disabled]="allPagesLoaded()">
     <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Mehr sind auf dem Weg...">
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>

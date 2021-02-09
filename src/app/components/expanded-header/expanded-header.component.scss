@@ -1,0 +1,18 @@
+.header--expanded {
+    display: flex;
+    padding: 16px;
+
+    ion-item { --border-style: none; }
+    ion-note { flex-basis: 70ch; }
+
+    .container--labelbtns {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        --ion-item-background: transparent;
+
+        ion-button {
+            margin-left: 0;
+        }
+    }
+}

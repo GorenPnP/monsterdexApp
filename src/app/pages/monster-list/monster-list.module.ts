@@ -7,7 +7,8 @@ import { IonicModule } from '@ionic/angular';
 import { MonsterListPageRoutingModule } from './monster-list-routing.module';
 
 import { MonsterListPage } from './monster-list.page';
-import { SharedDirectivesModule } from 'src/app/directives/shared-directives/shared-directives.module';
+import { SharedDirectivesModule } from 'src/app/directives/shared-directives.module';
+import { SharedComponentModule } from 'src/app/components/shared-component.module';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { SharedDirectivesModule } from 'src/app/directives/shared-directives/sha
     FormsModule,
     IonicModule,
     MonsterListPageRoutingModule,
-    SharedDirectivesModule
+    SharedDirectivesModule,
+    SharedComponentModule
   ],
   declarations: [MonsterListPage]
 })

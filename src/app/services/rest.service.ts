@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { observable, Observable } from 'rxjs';
+import { EMPTY, Observable } from 'rxjs';
+import { catchError, delay, map, retryWhen } from 'rxjs/operators';
 
 
 export interface GetOptions {
@@ -28,6 +29,22 @@ export class RestService {
 
   public get<ReturnType>(options: GetOptions): Observable<ReturnType> {
 
-    return this.http.get<ReturnType>(this.url, options);
+    return this.http.get<ReturnType>(this.url, options).pipe(
+      retryWhen(err => {
+        let remainingRetries: number = 3;
+
+        return err.pipe(
+          delay(1000),
+          map(error => {
+            if (remainingRetries--) { throw error; }
+            return error;
+          })
+        )
+      }),
+      catchError(err => {
+        console.error('Could not perform http-request:', err);
+        return EMPTY
+      })
+    )
   }
 }

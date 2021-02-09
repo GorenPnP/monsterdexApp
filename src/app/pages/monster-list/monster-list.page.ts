@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { LoadingController } from '@ionic/angular';
+
+import { OperatorFunction, Subscription } from 'rxjs';
+import { tap } from 'rxjs/operators';
+
 import { MonsterService } from 'src/app/services/monster.service';
 import { TypeService } from 'src/app/services/type.service';
+
 import { Filter } from 'src/app/types/filter';
 import { Monster } from 'src/app/types/monster';
 import { RankOrdering } from 'src/app/types/rank-ordering';
@@ -40,7 +46,7 @@ export class MonsterListPage implements OnInit {
    */
   RankOrdering = RankOrdering;
 
-  private activeSearch = null;
+  private activeSearch: Subscription = null;
 
   /**
    * initialize needed values for header
@@ -48,7 +54,8 @@ export class MonsterListPage implements OnInit {
    * @param typeService    db service to get all types for filter
    */
   constructor(private monsterService: MonsterService,
-              private typeService: TypeService) { }
+              private typeService: TypeService,
+              private loadingCtrl: LoadingController) { }
 
   /**
    * initialize values
@@ -70,28 +77,60 @@ export class MonsterListPage implements OnInit {
     this.filter.pageNr = -1;
   }
 
+  nextOrderingOf(ordering: RankOrdering): RankOrdering {
+    switch (ordering) {
+      case RankOrdering.NONE: return RankOrdering.ASC;
+      case RankOrdering.ASC: return RankOrdering.DESC;
+      default: return RankOrdering.NONE;
+    }
+  }
+
+  private async displayLoading(): Promise<HTMLIonLoadingElement> {
+    const loading = await this.loadingCtrl.create({
+      backdropDismiss: true,
+      keyboardClose: false,
+      message: '* nachdenk *',
+      spinner: 'bubbles',
+      duration: 5000
+    });
+    await loading.present();
+    return loading;
+  }
+
   /**
-   * sole point to change the monsters displayed by params of this.filter
-   * @return Promise<void>
+   * sole point to change the monsters displayed by params of this.filter.
+   * Updates Subscription in this.activeSearch
+   * @param {boolean} displayLoadingSpinner whether or not to display a loading spinner during data fetching
+   * @param {OperatorFunction<Monster[], Monster[]>} onLoaded
+   *   optional function that may be applied after the values have been retrieved from service.
+   *   Function will be applied last in an Observable<Monster[]>.pipe() - block.
+   * @return void
    */
-  private async updateMonsters(): Promise<void> {
+  private updateMonsters(
+      displayLoadingSpinner: boolean = true,
+      onLoaded: OperatorFunction<Monster[], Monster[]> = tap()): void {
 
     // nothing new to load
     if (this.allPagesLoaded()) { return; }
 
-    // // search and filter Monsters
-    // if (this.activeSearch) {
-    //   this.activeSearch.unsubscribe();
-    // }
+    // search and filter Monsters
+    if (this.activeSearch) { this.activeSearch.unsubscribe(); }
 
-    this.activeSearch = this.monsterService.filter(this.filter);
-    return this.activeSearch.toPromise().then(monsters => {
+    const loadingSpinner = displayLoadingSpinner ? this.displayLoading() : null;
+    this.activeSearch = this.monsterService.filter(this.filter).pipe(
 
-      // if first page (pageNr === 0), override this.monsters entirely.
-      // We don't want any old ones from another search, do we :) ?
-      this.monsters = this.filter.pageNr ? [...this.monsters, ...monsters] : monsters;
-      monsters.length === this.monsterService.limit ? this.filter.pageNr++ : this.setAllPagesLoaded();
-    });
+      // dismiss loading spinner
+      tap(() => { loadingSpinner?.then(spinner => spinner.dismiss()) }),
+
+      // execute custom operator function
+      onLoaded
+      ).subscribe(monsters => {
+
+        // if first page (pageNr === 0), override this.monsters entirely.
+        // We don't want any old ones from another search, do we :) ?
+        this.monsters = this.filter.pageNr ? [...this.monsters, ...monsters] : monsters;
+        monsters.length === this.monsterService.limit ? this.filter.pageNr++ : this.setAllPagesLoaded();
+      });
   }
 
   /**
@@ -99,9 +138,10 @@ export class MonsterListPage implements OnInit {
    * @param event thrown on change of search field
    * @return void
    */
-  updateOnSearchChanged(): Promise<void> {
+  updateOnSearchChanged(search: string): void {
+    this.filter.name = search;
     this.filter.pageNr = 0;
-    return this.updateMonsters();
+    this.updateMonsters();
   }
 
   /**
@@ -109,7 +149,7 @@ export class MonsterListPage implements OnInit {
    * @param type {Type} to be toggled
    * @return void
    */
-  toggleType(type: Type): Promise<void> {
+  toggleType(type: Type): void {
 
     if (this.filter.types.includes(type.id)) {
       this.filter.types = this.filter.types.filter(t => t !== type.id);
@@ -118,19 +158,19 @@ export class MonsterListPage implements OnInit {
     }
 
     this.filter.pageNr = 0;
-    return this.updateMonsters();
+    this.updateMonsters();
   }
 
   /**
    * toggle OR/AND for type search and search if needed
    * @return void
    */
-  toggleTypeAnd(): Promise<void> {
+  toggleTypeAnd(): void {
     this.filter.typeAnd = !this.filter.typeAnd;
 
     if (this.filter.types.length > 1) {
       this.filter.pageNr = 0;
-      return this.updateMonsters();
+      this.updateMonsters();
     }
   }
 
@@ -139,10 +179,10 @@ export class MonsterListPage implements OnInit {
    * @param newOrdering {RankOrdering} the new rankOrdering to use
    * @return void
    */
-  sortByRank(newOrdering: RankOrdering): Promise<void> {
+  sortByRank(newOrdering: RankOrdering): void {
     this.filter.rankOrdering = newOrdering;
     this.filter.pageNr = 0;
-    return this.updateMonsters();
+    this.updateMonsters();
   }
 
   /**
@@ -150,22 +190,18 @@ export class MonsterListPage implements OnInit {
    * @param event event thrown on infinite scroll, complete target to stop spinner showing
    * @return void
    */
-  loadMonstersOnScroll(event): Promise<void> {
+  async loadMoreOnScroll(event): Promise<void> {
 
-    // if not loaded everything jet
-    if (!this.allPagesLoaded()) {
-      return this.updateMonsters();
+    // if already loaded everything
+    if (this.allPagesLoaded()) {
+      event?.target.complete();
+      return;
     }
 
-    if (event) { event.target.complete(); }
-  }
+    // if not loaded everything jet
+    const onLoaded: OperatorFunction<Monster[], Monster[]> =
+      tap(() => event.target.complete());
 
-  /**
-   * open popover (navigation to type pages)
-   * @param ev event fired to set popover
-   * @return void
-   */
-  presentTypePopover(ev: Event): void {
-    //   this.headerService.presentPopover(ev, headerPopover);
+    this.updateMonsters(false, onLoaded);
   }
 }

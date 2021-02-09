@@ -1,4 +1,4 @@
-import { AfterViewInit, Directive, HostListener, Input, Renderer2 } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, HostListener, Input, Renderer2, ViewChild, ViewChildren } from '@angular/core';
 import { DomController } from '@ionic/angular';
 
 @Directive({
@@ -6,40 +6,47 @@ import { DomController } from '@ionic/angular';
 })
 export class ScrollHeaderDirective implements AfterViewInit {
 
-  @Input('appScrollHeader') private scrollHeader: any;
-  private children: any[];
+  // Cannot pass over the angular way (<div #stickyHeader></div> ...) because the used component is loaded after this directive.
+  // So pass html-ids to important elements and collect them in ngAfterViewInit(), when they exist
+  @Input() private stickyHeaderId: string;
+  @Input() private scrollHeaderId: string;
 
-  private headerHeight: number;
+  // Element (References) to be filled with the html-ids
+  private stickyHeader: any;
+  private scrollHeader: any;
 
-
-
-  @Input('appStickyHeader') private stickyHeader: any;
+  // other vals
+  private scrollHeaderChildren: any[];
 
   constructor(private renderer: Renderer2,
               private domCtrl: DomController) { }
 
 
+  /**
+   * get all needed elements
+   */
   ngAfterViewInit(): void {
+    this.stickyHeader = document.querySelector(`#${this.stickyHeaderId}`);
+    this.scrollHeader = document.querySelector(`#${this.scrollHeaderId}`);
 
-    this.scrollHeader = this.scrollHeader.el;
-    this.children = Array.from(this.scrollHeader.children);
-    this.headerHeight = this.scrollHeader.clientHeight;
-
-    this.stickyHeader = this.stickyHeader.el;
+    this.scrollHeaderChildren = Array.from(this.scrollHeader.children);
   }
 
   @HostListener('ionScroll', ['$event']) onIonContentScroll($event: any) {
 
-    this.headerHeight = this.scrollHeader.clientHeight;
+    // get conditions (in px)
+    const scrollHeaderHeight = this.scrollHeader.clientHeight;
     const scrollTop: number = $event.detail.scrollTop;
 
-    const newPosition = -scrollTop < -this.headerHeight ? -this.headerHeight : -scrollTop;
-    const opacity = 1 - (newPosition / -this.headerHeight);
+    // calc new position & opacity
+    const newPosition = scrollTop >= scrollHeaderHeight ? -scrollHeaderHeight : -scrollTop; // in px
+    const opacity = 1 + (newPosition / scrollHeaderHeight); // between 0 and 1
 
+    // set it
     this.domCtrl.write(() => {
       this.renderer.setStyle(this.scrollHeader, 'top', `${newPosition}px`);
       this.renderer.setStyle(this.stickyHeader, 'top', `${newPosition}px`);
-      this.children.forEach(child => this.renderer.setStyle(child, 'opacity', opacity));
+      this.scrollHeaderChildren.forEach(child => this.renderer.setStyle(child, 'opacity', opacity));
     })
   }
 }
