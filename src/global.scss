@@ -24,3 +24,6 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+/* need toimport styles for popovers globally since ther routing & rendering is different */
+@import "./app/components/type-popover/type-popover.component.scss";

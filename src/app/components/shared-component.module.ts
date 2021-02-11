@@ -5,6 +5,7 @@ import { StickyHeaderComponent } from './sticky-header/sticky-header.component';
 import { FilterListItemComponent } from './filter-list-item/filter-list-item.component';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
+import { TypePopoverComponent } from './type-popover/type-popover.component';
 
 
 
@@ -12,7 +13,8 @@ import { RouterModule } from '@angular/router';
   declarations: [
     ExpandedHeaderComponent,
     StickyHeaderComponent,
-    FilterListItemComponent
+    FilterListItemComponent,
+    TypePopoverComponent
   ],
   imports: [
     CommonModule,
@@ -22,7 +24,8 @@ import { RouterModule } from '@angular/router';
   exports: [
     ExpandedHeaderComponent,
     StickyHeaderComponent,
-    FilterListItemComponent
+    FilterListItemComponent,
+    TypePopoverComponent
   ]
 })
 export class SharedComponentModule { }

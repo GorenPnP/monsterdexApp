@@ -110,7 +110,6 @@ export class MonsterService {
             description
             types {
               id
-              name
             }
             attacks {
               id

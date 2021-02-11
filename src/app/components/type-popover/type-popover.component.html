@@ -1,0 +1,42 @@
+<div class="minimal-info">
+
+  <div class="info-own-type">
+    <ion-button size="small" shape="round" color="tertiary" style="margin: 0 8px 0" disabled>
+      <ion-icon [name]="type.icon" slot="icon-only"></ion-icon>
+    </ion-button>
+  
+    <span>{{ type.name }}</span>
+  </div>
+
+  <ion-button size="small" fill="clear" style="margin: 0 0 0 8px" (click)="displayEfficiencies = !displayEfficiencies; showDetails()">
+    <ion-icon name="information" slot="icon-only"></ion-icon>
+  </ion-button>
+</div>
+
+<div *ngIf="displayEfficiencies">
+  <hr>
+
+  <ul *ngFor="let eff of Object.entries(efficienciesAsFrom).sort()">
+    {{ eff[0] }}
+    <li *ngFor="let type of eff[1]" class="efficiency-item" >
+      <ion-button class="icon" size="small" shape="round" color="tertiary" disabled>
+        <ion-icon [name]="type.icon" slot="icon-only"></ion-icon>
+      </ion-button>
+    
+      <span>{{ type.name }}</span>
+    </li>
+  </ul>
+
+  <hr>
+
+  <ul *ngFor="let eff of Object.entries(efficienciesAsTo).sort()">
+    {{ eff[0] }}
+    <li *ngFor="let type of eff[1]" class="efficiency-item">
+      <ion-button class="icon" size="small" shape="round" color="tertiary" disabled>
+        <ion-icon [name]="type.icon" slot="icon-only"></ion-icon>
+      </ion-button>
+    
+      <span>{{ type.name }}</span>
+    </li>
+  </ul>
+</div>

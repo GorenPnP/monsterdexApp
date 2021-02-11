@@ -1,0 +1,33 @@
+.type-popover {
+
+    // allow scrolling of overlay as one (backdrop & popover-content)
+     overflow-y: auto;
+     --max-height: unset !important;
+    ion-backdrop { bottom: -2000px; }
+
+
+    .minimal-info {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px;
+    
+        .info-own-type {
+            display: flex;
+            align-items: center;
+        }
+    }
+
+    hr {
+        background-color: black;
+        width: 85%;
+    }
+
+    .efficiency-item {
+        display: flex;
+        align-items: center;
+        padding: 4px 0;
+
+        .icon { margin: 0 8px 0; }
+    }
+}

@@ -11,7 +11,7 @@ import { Type } from 'src/app/types/type';
 })
 export class MonsterDetailPage implements OnInit {
 
-  private monster: Monster;
+  monster: Monster;
 
   constructor(private route: ActivatedRoute,
               private monsterService: MonsterService) { }
@@ -24,10 +24,28 @@ export class MonsterDetailPage implements OnInit {
   }
 
   typeInfo(type: Type) {
-    
+    console.log(type);
+    // TODO
   }
 
   presentTypePopover(ev: Event) {
+    console.log(ev);
+    // TODO
+  }
 
+  /**
+   * 
+   * @param event click-event fired
+   * @param type  the type to display information for
+   */
+  openTypeDescription(event: Event, type: Type) {
+
+    // stop routing to detail page
+    event.preventDefault();
+    event.stopImmediatePropagation();
+
+    // open popover with type information
+    // TODO
+    console.log(event, type)
   }
 }
