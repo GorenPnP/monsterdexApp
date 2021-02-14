@@ -1,0 +1,15 @@
+<ion-header class="container">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title *ngIf="item?.name" class="ion-text-wrap">{{ item.name }}</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="openTypeOverview($event)">
+        <ion-icon name="list"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>

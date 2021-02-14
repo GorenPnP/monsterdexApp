@@ -8,8 +8,8 @@ import { RouterModule } from '@angular/router';
 import { TypePopoverComponent } from './type-popover/type-popover.component';
 import { TypeComponent } from './type/type.component';
 import { TypeOverviewComponent } from './type-overview/type-overview.component';
-
-
+import { ListToppingComponent } from './list-topping/list-topping.component';
+import { NamedHeaderComponent } from'./named-header/named-header.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +18,9 @@ import { TypeOverviewComponent } from './type-overview/type-overview.component';
     FilterListItemComponent,
     TypePopoverComponent,
     TypeComponent,
-    TypeOverviewComponent
+    TypeOverviewComponent,
+    ListToppingComponent,
+    NamedHeaderComponent
   ],
   imports: [
     CommonModule,
@@ -31,7 +33,9 @@ import { TypeOverviewComponent } from './type-overview/type-overview.component';
     FilterListItemComponent,
     TypePopoverComponent,
     TypeComponent,
-    TypeOverviewComponent
+    TypeOverviewComponent,
+    ListToppingComponent,
+    NamedHeaderComponent
   ]
 })
 export class SharedComponentModule { }

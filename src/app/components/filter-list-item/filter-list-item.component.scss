@@ -1,12 +1,6 @@
-
-
 .list-row {
     --min-height: 90px;
     --avatar-size: 80px;
-    margin-left: 16px;
-
-    @media (max-width: 500px) { margin-left: 0; }
-
 
     ion-avatar {
         height: var(--avatar-size);

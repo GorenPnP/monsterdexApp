@@ -1,19 +1,19 @@
 <ion-item
-    class="list-row"
-    detail
-    lines="full"
-    [routerLink]="routerLink"
-    routerDirection="forward">
-    
-    <ion-avatar *ngIf="item.showThumbnail">
-      <img [src]="item.showThumbnail">
-    </ion-avatar>
-    
-    <div class="row__center">
-      <ion-text class="ion-text-wrap">{{ item.name }}</ion-text>
+  class="list-row"
+  detail
+  lines="full"
+  [routerLink]="routerLink"
+  routerDirection="forward">
+  
+  <ion-avatar *ngIf="item.showThumbnail">
+    <img [src]="item.showThumbnail">
+  </ion-avatar>
+  
+  <div class="row__center">
+    <ion-text class="ion-text-wrap">{{ item.name }}</ion-text>
 
-      <div class="row__types-container">
-        <app-type *ngFor="let type of item.types" [type]="type" class="type-btn"></app-type>
-      </div>
+    <div class="row__types-container">
+      <app-type *ngFor="let type of item.types" [type]="type" class="type-btn"></app-type>
     </div>
-  </ion-item>
+  </div>
+</ion-item>

@@ -1,153 +1,121 @@
-<ion-header>
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/"></ion-back-button>
-    </ion-buttons>
-
-    <ion-title *ngIf="monster" class="ion-text-wrap">{{ monster.name }}</ion-title>
-
-    <ion-buttons slot="end">
-      <ion-button (click)="openTypeOverview($event)">
-        <ion-icon name="information"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
+<app-named-header [item]="monster"></app-named-header>
 
 <ion-content *ngIf="monster">
-  <ion-img [src]="monster.showImage" style="height: 500px"></ion-img>
-  <app-type *ngFor="let type of monster.types" [type]="type"></app-type>
 
-  <ion-list>
-    <!-- Allgemeines -->
-    <ion-item-group>
-      <ion-item-divider sticky="true">
-        <ion-item slot="end" color="secondary" class="topic">
-          <ion-label class="ion-text-wrap">Allgemeines</ion-label>
-        </ion-item>
-      </ion-item-divider>
-
-      <ion-item *ngFor="let field of generalFields" lines="full">
-        <ion-label>
-          <p class="label ion-text-wrap">{{ field }}</p>
-          <h2 class="value ion-text-wrap">{{ monster[field] }}</h2>
-        </ion-label>
-      </ion-item>
-    </ion-item-group>
-  </ion-list>
-
-<!--   <ion-list>
-    <!-- Typen -->
-<!--        <ion-item-group topic>
-      <ion-item-divider sticky="true">
-        <ion-item slot="end" color="secondary" class="topic">
-          <ion-label class="ion-text-wrap">Effektivitäten</ion-label>
-        </ion-item>
-      </ion-item-divider>
-
-      <ion-item *ngIf="effectiveAgainst.length" lines="full">
-        <ion-label slot="start" class="ion-text-wrap">sehr anfällig</ion-label>
-        <ion-note>
-          <app-type *ngFor="let type of effectiveAgainst" [type]="type"></app-type>
-        </ion-note>
-      </ion-item>
-
-      <ion-item *ngIf="weakAgainst.length" lines="full">
-        <ion-label slot="start" class="ion-text-wrap">widerstandsfähig</ion-label>
-        <ion-note>
-          <app-type *ngFor="let type of weakAgainst" [type]="type"></app-type>
-        </ion-note>
-      </ion-item>
-
-      <ion-item *ngIf="noEffectAgainst.length" lines="full">
-        <ion-label slot="start" class="ion-text-wrap">wird nicht getroffen</ion-label>
-        <ion-note>
-          <app-type *ngFor="let type of noEffectAgainst" [type]="type"></app-type>
-        </ion-note>
-      </ion-item>
-    </ion-item-group>
-  </ion-list>-->
-
-  <ion-list>
-    <!-- Attacken -->
-    <ion-item-group>
-      <ion-item-divider sticky="true">
-        <ion-item slot="end" color="secondary" class="topic">
-          <ion-label class="ion-text-wrap">Attacken</ion-label>
-        </ion-item>
-      </ion-item-divider>
-
-      <app-filter-list-item 
-        *ngFor="let attack of monster.attacks"
-        [item]="attack"
-        [routerLink]="['/attack-detail', attack.id]">
-      </app-filter-list-item>
-
-    </ion-item-group>
-  </ion-list>
+  <main class="container">
+    <ion-img [src]="monster.showImage" class="cover-image"></ion-img>
+    <div class="types">
+      <app-type *ngFor="let type of monster.types" [type]="type"></app-type>
+    </div>
   
-  <ion-list>
-    <!-- Entwicklung -->
-    <ion-item-group *ngIf="monster.preMonsters?.length || monster.afterMonsters?.length">
-      <ion-item-divider topic sticky="true">
-        <ion-item slot="end" color="secondary" class="topic">
-          <ion-label class="ion-text-wrap">Entwicklung</ion-label>
+    <ion-list>
+      <!-- Allgemeines -->
+      <ion-item-group>
+        <app-list-topping title="Allgemeines"></app-list-topping>
+  
+        <ion-item *ngFor="let field of generalFields" lines="full">
+          <ion-label>
+            <p class="label ion-text-wrap">{{ field }}</p>
+            <h2 class="value ion-text-wrap">{{ monster[field] }}</h2>
+          </ion-label>
         </ion-item>
-      </ion-item-divider>
-
-      <app-filter-list-item 
-        *ngFor="let mon of monster.preMonsters"
-        [item]="mon"
-        [routerLink]="['/monster-detail', mon.id]">
-      </app-filter-list-item>
-
-      <ion-item color="medium" lines="full">
-        <ion-label slot="start" class="ion-text-wrap">{{ monster.name }}</ion-label>
-      </ion-item>
-
-      <app-filter-list-item 
-        *ngFor="let mon of monster.afterMonsters"
-        [item]="mon"
-        [routerLink]="['/monster-detail', mon.id]">
-      </app-filter-list-item>
-
-    </ion-item-group>
-  </ion-list>
-
-  <ion-list>
-    <!-- gegenteilmonster -->
-    <ion-item-group *ngIf="monster.oppositeMonsters?.length">
-      <ion-item-divider topic sticky="true">
-        <ion-item slot="end" color="secondary" class="topic">
-          <ion-label class="ion-text-wrap">Gegeteilmonster</ion-label>
+      </ion-item-group>
+    </ion-list>
+  
+  <!--   <ion-list>
+      <!-- Typen -->
+  <!--        <ion-item-group topic>
+        <app-list-topping title="Effektivitäten"></app-list-topping>
+  
+        <ion-item *ngIf="effectiveAgainst.length" lines="full">
+          <ion-label slot="start" class="ion-text-wrap">sehr anfällig</ion-label>
+          <ion-note>
+            <app-type *ngFor="let type of effectiveAgainst" [type]="type"></app-type>
+          </ion-note>
         </ion-item>
-      </ion-item-divider>
-
-      <app-filter-list-item 
-        *ngFor="let mon of monster.oppositeMonsters"
-        [item]="mon"
-        [routerLink]="['/monster-detail', mon.id]">
-      </app-filter-list-item>
-
-    </ion-item-group>
-  </ion-list>
-
-  <ion-list>
-    <!-- aehnliche Formen -->
-    <ion-item-group *ngIf="monster.formMonsters?.length">
-
-      <ion-item-divider topic sticky="true">
-        <ion-item slot="end" color="secondary" class="topic">
-          <ion-label class="ion-text-wrap">ähnliche Formen</ion-label>
+  
+        <ion-item *ngIf="weakAgainst.length" lines="full">
+          <ion-label slot="start" class="ion-text-wrap">widerstandsfähig</ion-label>
+          <ion-note>
+            <app-type *ngFor="let type of weakAgainst" [type]="type"></app-type>
+          </ion-note>
         </ion-item>
-      </ion-item-divider>
-
-      <app-filter-list-item 
-        *ngFor="let mon of monster.formMonsters"
-        [item]="mon"
-        [routerLink]="['/monster-detail', mon.id]">
-      </app-filter-list-item>
-
-    </ion-item-group>
-  </ion-list>
+  
+        <ion-item *ngIf="noEffectAgainst.length" lines="full">
+          <ion-label slot="start" class="ion-text-wrap">wird nicht getroffen</ion-label>
+          <ion-note>
+            <app-type *ngFor="let type of noEffectAgainst" [type]="type"></app-type>
+          </ion-note>
+        </ion-item>
+      </ion-item-group>
+    </ion-list>-->
+  
+    <ion-list>
+      <!-- Attacken -->
+      <ion-item-group>
+        <app-list-topping title="Attacken"></app-list-topping>
+  
+        <app-filter-list-item 
+          *ngFor="let attack of monster.attacks"
+          [item]="attack"
+          [routerLink]="['/attack-detail', attack.id]">
+        </app-filter-list-item>
+  
+      </ion-item-group>
+    </ion-list>
+    
+    <ion-list>
+      <!-- Entwicklung -->
+      <ion-item-group *ngIf="monster.preMonsters?.length || monster.afterMonsters?.length">
+        <app-list-topping title="Entwicklung"></app-list-topping>
+  
+        <app-filter-list-item 
+          *ngFor="let mon of monster.preMonsters"
+          [item]="mon"
+          [routerLink]="['/monster-detail', mon.id]">
+        </app-filter-list-item>
+  
+        <app-filter-list-item class="evolution--this"
+          [item]="monster"
+          [routerLink]="">
+        </app-filter-list-item>
+  
+        <app-filter-list-item 
+          *ngFor="let mon of monster.afterMonsters"
+          [item]="mon"
+          [routerLink]="['/monster-detail', mon.id]">
+        </app-filter-list-item>
+  
+      </ion-item-group>
+    </ion-list>
+  
+    <ion-list>
+      <!-- gegenteilmonster -->
+      <ion-item-group *ngIf="monster.oppositeMonsters?.length">
+        <app-list-topping title="Gegeteilmonster"></app-list-topping>
+  
+        <app-filter-list-item 
+          *ngFor="let mon of monster.oppositeMonsters"
+          [item]="mon"
+          [routerLink]="['/monster-detail', mon.id]">
+        </app-filter-list-item>
+  
+      </ion-item-group>
+    </ion-list>
+  
+    <ion-list>
+      <!-- aehnliche Formen -->
+      <ion-item-group *ngIf="monster.formMonsters?.length">
+  
+        <app-list-topping title="ähnliche Formen"></app-list-topping>
+  
+        <app-filter-list-item 
+          *ngFor="let mon of monster.formMonsters"
+          [item]="mon"
+          [routerLink]="['/monster-detail', mon.id]">
+        </app-filter-list-item>
+  
+      </ion-item-group>
+    </ion-list>
+  </main>
 </ion-content>

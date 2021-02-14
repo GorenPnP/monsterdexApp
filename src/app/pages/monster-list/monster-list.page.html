@@ -1,11 +1,11 @@
-<app-expanded-header id="expanded-header"
+<app-expanded-header id="expanded-header" class="container"
   [filter]="filter" [allTypes]="allTypes"
   (typeToggled)="toggleType($event)"
   (typeAndToggled)="toggleTypeAnd()"
   (rankOrderingChanged)="sortByRank(nextOrderingOf($event))">
 </app-expanded-header>
 
-<app-sticky-header id="sticky-header"
+<app-sticky-header id="sticky-header" class="container"
   [filter]="filter"
   (searchbarChanged)="updateOnSearchChanged($event)">
 </app-sticky-header>
@@ -19,7 +19,7 @@
 
   <ion-text *ngIf="!monsters?.length" class="ion-text-center ion-text-wrap"><h2>Hier ist nichts</h2></ion-text>
 
-  <ion-list class="filtered-list">
+  <ion-list class="filtered-list container">
     <app-filter-list-item *ngFor="let monster of monsters" [item]="monster"></app-filter-list-item>
   </ion-list>
 

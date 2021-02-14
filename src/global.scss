@@ -25,6 +25,19 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
-/* need toimport styles for popovers globally since ther routing & rendering is different */
+/* need toimport styles for popovers globally since their routing & rendering is different */
 @import "./app/components/type-popover/type-popover.component.scss";
 @import "./app/components/type-overview/type-overview.component.scss";
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;700&display=swap');
+ion-app { --ion-font-family: 'Montserrat', sans-serif; }
+
+// set max width & center view horizontally
+.container {
+    margin-left: auto;
+    margin-right: auto;
+
+    display: block;
+    width: 100%;
+    max-width: 500px;
+}
