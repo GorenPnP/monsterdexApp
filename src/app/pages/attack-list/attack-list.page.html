@@ -1,9 +1,30 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>attackList</ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-expanded-header id="expanded-header"
+  [filter]="filter" [allTypes]="allTypes" [displayRankOrdering]="false"
+  (typeToggled)="toggleType($event)"
+  (typeAndToggled)="toggleTypeAnd()">
+</app-expanded-header>
 
-<ion-content>
+<app-sticky-header id="sticky-header"
+  [filter]="filter"
+  (searchbarChanged)="updateOnSearchChanged($event)">
+</app-sticky-header>
+
+<ion-content
+  appScrollHeader
+  fullscreen="full"
+  scrollEvents="true"
+  scrollHeaderId="expanded-header"
+  stickyHeaderId="sticky-header">
+
+  <ion-text *ngIf="!attacks?.length" class="ion-text-center ion-text-wrap"><h2>Hier ist nichts</h2></ion-text>
+
+  <ion-list class="filtered-list">
+    <app-filter-list-item *ngFor="let attack of attacks" [item]="attack" [routerLink]="['/attack-detail', attack.id]"></app-filter-list-item>
+  </ion-list>
+
+  <ion-infinite-scroll (ionInfinite)="loadMoreOnScroll($event)" [disabled]="allPagesLoaded()">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Mehr sind auf dem Weg...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 
 </ion-content>

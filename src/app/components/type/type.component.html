@@ -1,0 +1,9 @@
+<ion-button
+  size="small" shape="round"
+  class="type-btn"
+  [color]="color"
+  [style]="style"
+  [disabled]="disabled"
+  (click)="showTooltip && openTypeDescription($event, type); clicked.emit(type)">
+  <ion-icon [name]="type.icon" slot="icon-only"></ion-icon>
+</ion-button>

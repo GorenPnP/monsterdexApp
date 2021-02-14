@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { AttackDetailPageRoutingModule } from './attack-detail-routing.module';
 
 import { AttackDetailPage } from './attack-detail.page';
+import { SharedComponentModule } from 'src/app/components/shared-component.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    AttackDetailPageRoutingModule
+    AttackDetailPageRoutingModule,
+    SharedComponentModule
   ],
   declarations: [AttackDetailPage]
 })

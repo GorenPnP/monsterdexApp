@@ -1,10 +1,7 @@
 <div class="minimal-info">
 
   <div class="info-own-type">
-    <ion-button size="small" shape="round" color="tertiary" style="margin: 0 8px 0" disabled>
-      <ion-icon [name]="type.icon" slot="icon-only"></ion-icon>
-    </ion-button>
-  
+    <app-type [type]="type" style="margin: 0 8px" [disabled]="true"></app-type>
     <span>{{ type.name }}</span>
   </div>
 
@@ -19,10 +16,7 @@
   <ul *ngFor="let eff of Object.entries(efficienciesAsFrom).sort()">
     {{ eff[0] }}
     <li *ngFor="let type of eff[1]" class="efficiency-item" >
-      <ion-button class="icon" size="small" shape="round" color="tertiary" disabled>
-        <ion-icon [name]="type.icon" slot="icon-only"></ion-icon>
-      </ion-button>
-    
+      <app-type class="icon" [type]="type" [disabled]="true"></app-type>
       <span>{{ type.name }}</span>
     </li>
   </ul>
@@ -32,10 +26,7 @@
   <ul *ngFor="let eff of Object.entries(efficienciesAsTo).sort()">
     {{ eff[0] }}
     <li *ngFor="let type of eff[1]" class="efficiency-item">
-      <ion-button class="icon" size="small" shape="round" color="tertiary" disabled>
-        <ion-icon [name]="type.icon" slot="icon-only"></ion-icon>
-      </ion-button>
-    
+      <app-type class="icon" [type]="type" [disabled]="true"></app-type>
       <span>{{ type.name }}</span>
     </li>
   </ul>

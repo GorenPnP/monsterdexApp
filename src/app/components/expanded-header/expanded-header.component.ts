@@ -12,11 +12,10 @@ export class ExpandedHeaderComponent {
 
   @Input() filter: Filter;
   @Input() allTypes: Type[];
+  @Input() displayRankOrdering: boolean = true;
   
   @Output() typeToggled = new EventEmitter<Type>();
   @Output() typeAndToggled = new EventEmitter<null>();
   @Output() rankOrderingChanged = new EventEmitter<RankOrdering>();
   RankOrdering = RankOrdering; // make enum RankOrdering visible in html template
-
-  constructor() { }
 }

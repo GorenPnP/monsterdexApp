@@ -6,6 +6,8 @@ import { FilterListItemComponent } from './filter-list-item/filter-list-item.com
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 import { TypePopoverComponent } from './type-popover/type-popover.component';
+import { TypeComponent } from './type/type.component';
+import { TypeOverviewComponent } from './type-overview/type-overview.component';
 
 
 
@@ -14,7 +16,9 @@ import { TypePopoverComponent } from './type-popover/type-popover.component';
     ExpandedHeaderComponent,
     StickyHeaderComponent,
     FilterListItemComponent,
-    TypePopoverComponent
+    TypePopoverComponent,
+    TypeComponent,
+    TypeOverviewComponent
   ],
   imports: [
     CommonModule,
@@ -25,7 +29,9 @@ import { TypePopoverComponent } from './type-popover/type-popover.component';
     ExpandedHeaderComponent,
     StickyHeaderComponent,
     FilterListItemComponent,
-    TypePopoverComponent
+    TypePopoverComponent,
+    TypeComponent,
+    TypeOverviewComponent
   ]
 })
 export class SharedComponentModule { }

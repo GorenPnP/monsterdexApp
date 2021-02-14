@@ -1,39 +1,18 @@
-import { Component, Input } from '@angular/core';
-import { PopoverController } from '@ionic/angular';
+import { Component, Input, OnInit } from '@angular/core';
 import { Type } from 'src/app/types/type';
-import { TypePopoverComponent } from '../type-popover/type-popover.component';
 
 @Component({
   selector: 'app-filter-list-item',
   templateUrl: './filter-list-item.component.html',
   styleUrls: ['./filter-list-item.component.scss'],
 })
-export class FilterListItemComponent {
+export class FilterListItemComponent implements OnInit {
 
-  @Input() item;
+  @Input() item: {id: number, name: string, showThumbnail?: string, types: Type[]};
+  @Input() routerLink: (string | number)[];
 
-  constructor(private popoverCtrl: PopoverController) {}
-
-  /**
-   * 
-   * @param event click-event fired
-   * @param type  the type to display information for
-   */
-  async openTypeDescription(event: Event, type: Type): Promise<void> {
-
-    // stop routing to detail page
-    event.preventDefault();
-    event.stopImmediatePropagation();
-
-    // open popover with type information
-    const popover = await this.popoverCtrl.create({
-      component: TypePopoverComponent,
-      componentProps: {type},
-      cssClass: 'type-popover',
-      event: event,
-      keyboardClose: false,
-      translucent: true
-    });
-    return popover.present();
+  ngOnInit() {
+    // set default here, because this.item has to be set first
+    this.routerLink = this.routerLink || ['/monster-detail', this.item.id];
   }
 }

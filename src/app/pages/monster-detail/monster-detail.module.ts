@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { MonsterDetailPageRoutingModule } from './monster-detail-routing.module';
 
 import { MonsterDetailPage } from './monster-detail.page';
+import { SharedComponentModule } from 'src/app/components/shared-component.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    MonsterDetailPageRoutingModule
+    MonsterDetailPageRoutingModule,
+    SharedComponentModule
   ],
   declarations: [MonsterDetailPage]
 })

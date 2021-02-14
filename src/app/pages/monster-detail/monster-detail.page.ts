@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { PopoverController } from '@ionic/angular';
+import { TypeOverviewComponent } from 'src/app/components/type-overview/type-overview.component';
 import { MonsterService } from 'src/app/services/monster.service';
 import { Monster } from 'src/app/types/monster';
-import { Type } from 'src/app/types/type';
 
 @Component({
   selector: 'app-monster-detail',
@@ -13,39 +14,40 @@ export class MonsterDetailPage implements OnInit {
 
   monster: Monster;
 
+  generalFields = [
+    'id',
+    'rank',
+    'height',
+    'weight',
+    'hp',
+    'damagePrevention',
+    'habitat',
+    'description'
+  ]
+
   constructor(private route: ActivatedRoute,
+              private popoverCtrl: PopoverController,
               private monsterService: MonsterService) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     const id: number = parseInt(this.route.snapshot.paramMap.get('id'));
-    this.monsterService.get(id).subscribe(monster => {
-      this.monster = monster;
-    });
-  }
-
-  typeInfo(type: Type) {
-    console.log(type);
-    // TODO
-  }
-
-  presentTypePopover(ev: Event) {
-    console.log(ev);
-    // TODO
+    this.monsterService.get(id).subscribe(monster => this.monster = monster);
   }
 
   /**
    * 
    * @param event click-event fired
-   * @param type  the type to display information for
    */
-  openTypeDescription(event: Event, type: Type) {
-
-    // stop routing to detail page
-    event.preventDefault();
-    event.stopImmediatePropagation();
+  async openTypeOverview(event: Event): Promise<void> {
 
     // open popover with type information
-    // TODO
-    console.log(event, type)
+    const popover = await this.popoverCtrl.create({
+      component: TypeOverviewComponent,
+      cssClass: 'type-overview-popover',
+      event: event,
+      keyboardClose: false,
+      translucent: true
+    });
+    return popover.present();
   }
 }

@@ -1,5 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { PopoverController } from '@ionic/angular';
 import { Filter } from 'src/app/types/filter';
+import { TypeOverviewComponent } from '../type-overview/type-overview.component';
 
 @Component({
   selector: 'app-sticky-header',
@@ -13,10 +15,22 @@ export class StickyHeaderComponent {
 
   headerIsExpanded = true;
 
-  constructor() { }
+  constructor(private popoverCtrl: PopoverController) { }
 
-  presentTypePopover(ev) {
-    // TODO
-    console.log(ev)
+  /**
+   * 
+   * @param event click-event fired
+   */
+  async openTypeOverview(event: Event): Promise<void> {
+
+    // open popover with type information
+    const popover = await this.popoverCtrl.create({
+      component: TypeOverviewComponent,
+      cssClass: 'type-overview-popover',
+      event: event,
+      keyboardClose: false,
+      translucent: true
+    });
+    return popover.present();
   }
 }

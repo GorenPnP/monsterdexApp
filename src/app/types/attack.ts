@@ -1,3 +1,4 @@
+import { Monster } from './monster';
 import { Type } from './type';
 
 /**
@@ -24,4 +25,9 @@ export type Attack = {
    * list of all types
    */
   types: Type[];
+  /**
+   * list of all IDs of monsters capable of this attack
+   */
+  monsters: number[];
+  showMonsters: Monster[];
 }

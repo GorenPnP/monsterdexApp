@@ -9,13 +9,13 @@ export type Monster = {
   /**
    * size suited for thumbnails, is a base64 png image
    */
-  thumbnail: string;
-  showThumbnail: SafeUrl;
+  thumbnail?: string;
+  showThumbnail?: SafeUrl;
   /**
    * size suited for larger formats, is a base64 png image
    */
-  image: string;
-  showImage: SafeUrl;
+  image?: string;
+  showImage?: SafeUrl;
   /**
    * id; same as the one in db; used for default sorting an fetching
    */
@@ -23,57 +23,61 @@ export type Monster = {
   /**
    * name of the monster species
    */
-  name: string;
+  name?: string;
   /**
    * rank; th higher the (absolute) value; the stronger
    */
-  rank: number;
+  rank?: number;
   /**
    * body height as decimal in meters
    */
-  height: number;
+  height?: number;
   /**
    * body weight as decimal in kilograms
    */
-  weight: number;
+  weight?: number;
   /**
    * (max) health
    */
-  hp: number;
+  hp?: number;
   /**
    * typical location where the species would be met
    */
-  habitat: string;
+  habitat?: string;
   /**
    * resistance against attacks
    */
-  damagePrevention: string;
+  damagePrevention?: string;
   /**
    * note on the monster
    */
-  description: string;
+  description?: string;
   /**
    * list of all types
    */
-  types: Type[];
+  types?: Type[];
   /**
    * list of all ids of attacks of the monster
    */
-  attacks: Attack[];
+  attacks?: Attack[];
   /**
    * list of all 'Gegenteilmonsters' to a monster
    */
-  opposite: number[];
+  opposite?: number[];
+  oppositeMonsters?: Monster[];
   /**
    * similar forms between which the monster can switch at will
    */
-  forms: number[];
+  forms?: number[];
+  formMonsters?: Monster[];
   /**
    * ids of monsters this one could have developed from
    */
-  evolutionPre: number[];
+  evolutionPre?: number[];
+  preMonsters?: Monster[];
   /**
    * ids of monsters this one can develop into
    */
-  evolutionAfter: number[];
+  evolutionAfter?: number[];
+  afterMonsters?: Monster[];
 }

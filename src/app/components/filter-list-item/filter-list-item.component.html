@@ -2,10 +2,10 @@
     class="list-row"
     detail
     lines="full"
-    [routerLink]="['/monster-detail', item.id]"
+    [routerLink]="routerLink"
     routerDirection="forward">
     
-    <ion-avatar>
+    <ion-avatar *ngIf="item.showThumbnail">
       <img [src]="item.showThumbnail">
     </ion-avatar>
     
@@ -13,13 +13,7 @@
       <ion-text class="ion-text-wrap">{{ item.name }}</ion-text>
 
       <div class="row__types-container">
-        <ion-button
-          *ngFor="let type of item.types"
-          size="small" shape="round" color="tertiary"
-          class="type-btn"
-          (click)="openTypeDescription($event, type)">
-          <ion-icon [name]="type.icon" slot="icon-only"></ion-icon>
-        </ion-button>
+        <app-type *ngFor="let type of item.types" [type]="type" class="type-btn"></app-type>
       </div>
     </div>
   </ion-item>
