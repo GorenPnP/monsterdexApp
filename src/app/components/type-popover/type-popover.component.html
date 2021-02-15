@@ -13,8 +13,11 @@
 <div *ngIf="displayEfficiencies">
   <hr>
 
+  <b class="direction-heading">{{ 'type-popover.directionAsFrom' | translate:{'type': type.name } }}</b>
   <ul *ngFor="let eff of Object.entries(efficienciesAsFrom).sort()">
-    {{ eff[0] }}
+
+    <span class="efficiency-tag">{{ ('type-popover.' + eff[0]) | translate }}</span>
+
     <li *ngFor="let type of eff[1]" class="efficiency-item" >
       <app-type class="icon" [type]="type" [disabled]="true"></app-type>
       <span>{{ type.name }}</span>
@@ -23,8 +26,11 @@
 
   <hr>
 
+  <b class="direction-heading">{{ 'type-popover.directionAsTo' | translate:{'type': type.name} }}</b>
   <ul *ngFor="let eff of Object.entries(efficienciesAsTo).sort()">
-    {{ eff[0] }}
+
+    <span class="efficiency-tag">{{ ('type-popover.' + eff[0]) | translate }}</span>
+
     <li *ngFor="let type of eff[1]" class="efficiency-item">
       <app-type class="icon" [type]="type" [disabled]="true"></app-type>
       <span>{{ type.name }}</span>

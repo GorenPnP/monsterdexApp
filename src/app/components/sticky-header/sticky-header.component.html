@@ -7,9 +7,10 @@
 
   <ion-searchbar
     showCancelButton="focus"
-    placeholder="Name"
+    placeholder="{{ 'sticky-header.search-placeholder' | translate }}"
     animated
     color="primary"
+    class="ion-text-capitalize"
     [value]="filter.name"
     (ionChange)="searchbarChanged.emit($event.target.value)"
   >

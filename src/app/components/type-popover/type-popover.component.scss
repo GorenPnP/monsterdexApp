@@ -18,9 +18,25 @@
         }
     }
 
+    ul {
+        padding: 0;
+
+        .efficiency-tag {
+            margin-left: 10px;
+            text-transform: uppercase;
+            font-size: small;
+        }
+    }
+
     hr {
         background-color: black;
         width: 85%;
+        margin: 24px auto;
+    }
+
+    .direction-heading {
+        display: block;
+        text-align: center;
     }
 
     .efficiency-item {

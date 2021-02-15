@@ -1,7 +1,7 @@
 import { Injectable, SecurityContext } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { combineLatest, forkJoin, Observable, of, pipe, UnaryFunction } from 'rxjs';
-import { catchError, concatAll, map, pluck, tap } from 'rxjs/operators';
+import { catchError, concatAll, map, pluck, switchMap, tap } from 'rxjs/operators';
 import { Attack } from '../types/attack';
 import { Filter } from '../types/filter';
 import { Monster } from '../types/monster';
@@ -114,12 +114,14 @@ export class MonsterService {
    */
   private addRequestFields$(): UnaryFunction<Observable<Monster[]>, Observable<Monster[]>> {
     return pipe(
-      map<Monster[], Observable<Monster[]>>(monsters =>
-        combineLatest(    // takes each Observable<Monster> ( from monsters.map(...) ) and puts them into one Observable<Monster[]>
+      map<Monster[], Observable<Monster[]>>(monsters => {
+        if (!monsters.length) { return of(monsters); }
+
+        return combineLatest(    // takes each Observable<Monster> ( from monsters.map(...) ) and puts them into one Observable<Monster[]>
           monsters.map<Observable<Monster>>(monster =>
             this.addRequestFields(monster))   // adds missing fields on Monster, returns it as Observable<Monster>
         )
-      ),
+      }),
       concatAll()   // flattens Observable like this: Observable<Observable<Monster[]>> -> Observable<Monster[]>
     )
   }

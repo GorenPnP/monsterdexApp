@@ -1,0 +1,65 @@
+{
+    "monster": "Monster",
+    "monsters": "Monster",
+
+    "attack": "Attacke",
+    "attacks": "Attacken",
+
+    "type": "Typ",
+    "types": "Typen",
+
+    "list": {
+        "nothingFound": "Hier ist nichts",
+        "loading": "* nackdenk *",
+        "infinite-scroll-loading": "Mehr sind auf dem Weg..."
+    },
+    "monster-detail": {
+        "topics": {
+            "general": "Allgemein",
+            "evolution": "Entwicklung",
+            "opposite": "Gegenteilmonster",
+            "forms": "andere Formen"
+        },
+        "fields": {
+            "id": "ID",
+            "rank": "Rang",
+            "height": "Größe",
+            "weight": "Gewicht",
+            "hp": "HP",
+            "damagePrevention": "Schadensverhinderung",
+            "habitat": "Habitat",
+            "description": "Beschreibung"
+        }
+    },
+    "attack-detail": {
+        "topics": {
+            "general": "Allgemein"
+        },
+        "fields": {
+            "name": "Name",
+            "damage": "Schaden",
+            "description": "Beschreibung"
+        }
+    },
+    "expanded-header": {
+        "type": {
+            "and": "mit .. Typen",
+            "all": "allen",
+            "one": "einem"
+        },
+        "rank": {
+            "ordering": "Rang-Sortierung",
+            "none": "keine"
+        }
+    },
+    "sticky-header": {
+        "search-placeholder": "name"
+    },
+    "type-popover": {
+        "directionAsFrom": "{{ type }} gegen Typ",
+        "directionAsTo": "Typ gegen {{ type }}",
+        "DOES_NOT_HIT": "trifft nicht",
+        "NOT_EFFECTIVE": "nicht sehr effektiv",
+        "VERY_EFFECTIVE": "sehr effektiv"
+    }
+}

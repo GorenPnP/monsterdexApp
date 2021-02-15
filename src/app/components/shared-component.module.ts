@@ -10,6 +10,7 @@ import { TypeComponent } from './type/type.component';
 import { TypeOverviewComponent } from './type-overview/type-overview.component';
 import { ListToppingComponent } from './list-topping/list-topping.component';
 import { NamedHeaderComponent } from'./named-header/named-header.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { NamedHeaderComponent } from'./named-header/named-header.component';
   imports: [
     CommonModule,
     IonicModule,
-    RouterModule
+    RouterModule,
+    TranslateModule
   ],
   exports: [
     ExpandedHeaderComponent,

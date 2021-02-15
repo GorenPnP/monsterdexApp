@@ -3,6 +3,7 @@ import { LoadingController } from '@ionic/angular';
 import { OperatorFunction, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { AttackService } from 'src/app/services/attack.service';
+import { LanguageService } from 'src/app/services/language.service';
 import { TypeService } from 'src/app/services/type.service';
 import { Attack } from 'src/app/types/attack';
 import { Filter } from 'src/app/types/filter';
@@ -46,6 +47,7 @@ export class AttackListPage implements OnInit {
    */
   constructor(private attackService: AttackService,
               private typeService: TypeService,
+              private language: LanguageService,
               private loadingCtrl: LoadingController) { }
 
   /**
@@ -72,7 +74,7 @@ export class AttackListPage implements OnInit {
     const loading = await this.loadingCtrl.create({
       backdropDismiss: true,
       keyboardClose: false,
-      message: '* nachdenk *',
+      message: this.language.translateByKey('list.loading'),
       spinner: 'bubbles',
       duration: 5000
     });

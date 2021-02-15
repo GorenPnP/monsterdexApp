@@ -75,12 +75,14 @@ export class AttackService {
    */
   private addRequestFields$(): UnaryFunction<Observable<Attack[]>, Observable<Attack[]>> {
     return pipe(
-      map<Attack[], Observable<Attack[]>>(attacks =>
-        combineLatest(    // takes each Observable<Attack> ( from attacks.map(...) ) and puts them into one Observable<Attack[]>
+      map<Attack[], Observable<Attack[]>>(attacks => {
+        if (!attacks.length) { return of(attacks); }
+
+        return combineLatest(    // takes each Observable<Attack> ( from attacks.map(...) ) and puts them into one Observable<Attack[]>
           attacks.map<Observable<Attack>>(attack =>
             this.addRequestFields(attack))   // adds missing fields on Attack, returns it as Observable<Attack>
         )
-      ),
+      }),
       concatAll()   // flattens Observable like this: Observable<Observable<Attack[]>> -> Observable<Attack[]>
     )
   }

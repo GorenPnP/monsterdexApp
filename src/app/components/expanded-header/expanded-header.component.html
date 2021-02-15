@@ -11,18 +11,20 @@
   <div class="container--labelbtns">
 
     <ion-item *ngIf="filter.types.length > 1">
-      <ion-label position="stacked">mit .. Typen</ion-label>
+      <ion-label position="stacked">{{ 'expanded-header.type.and' | translate }}</ion-label>
 
       <ion-button fill="outline" shape="round" size="small" (click)="typeAndToggled.emit()">
-        {{ filter.typeAnd ? 'ALLEN' : 'EINEM' }}
+        {{ ('expanded-header.type.' + (filter.typeAnd ? 'all' : 'one')) | translate }}
       </ion-button>
     </ion-item>
 
   <ion-item *ngIf="displayRankOrdering">
-    <ion-label position="stacked">Rang-Sortierung</ion-label>
+    <ion-label position="stacked">{{ 'expanded-header.rank.ordering' | translate }}</ion-label>
 
     <ion-button fill="outline" shape="round" size="small" (click)="rankOrderingChanged.emit(filter.rankOrdering)">
-      <span *ngIf="filter.rankOrdering === RankOrdering.NONE;else rankOrderingArrow">keine</span>
+      <span *ngIf="filter.rankOrdering === RankOrdering.NONE;else rankOrderingArrow">
+        {{ 'expanded-header.rank.none' | translate }}
+      </span>
 
       <ng-template #rankOrderingArrow>
         <ion-icon [name]="filter.rankOrdering === RankOrdering.ASC ? 'caret-down' : 'caret-up'"></ion-icon>

@@ -9,6 +9,7 @@ import { MonsterListPageRoutingModule } from './monster-list-routing.module';
 import { MonsterListPage } from './monster-list.page';
 import { SharedDirectivesModule } from 'src/app/directives/shared-directives.module';
 import { SharedComponentModule } from 'src/app/components/shared-component.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { SharedComponentModule } from 'src/app/components/shared-component.modul
     FormsModule,
     IonicModule,
     MonsterListPageRoutingModule,
+    TranslateModule,
     SharedDirectivesModule,
     SharedComponentModule
   ],

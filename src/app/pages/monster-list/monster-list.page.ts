@@ -3,6 +3,7 @@ import { LoadingController } from '@ionic/angular';
 
 import { OperatorFunction, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { LanguageService } from 'src/app/services/language.service';
 
 import { MonsterService } from 'src/app/services/monster.service';
 import { TypeService } from 'src/app/services/type.service';
@@ -55,6 +56,7 @@ export class MonsterListPage implements OnInit {
    */
   constructor(private monsterService: MonsterService,
               private typeService: TypeService,
+              private language: LanguageService,
               private loadingCtrl: LoadingController) { }
 
   /**
@@ -89,7 +91,7 @@ export class MonsterListPage implements OnInit {
     const loading = await this.loadingCtrl.create({
       backdropDismiss: true,
       keyboardClose: false,
-      message: '* nachdenk *',
+      message: this.language.translateByKey('list.loading'),
       spinner: 'bubbles',
       duration: 5000
     });
