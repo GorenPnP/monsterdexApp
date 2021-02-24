@@ -1,13 +1,24 @@
 {
     "monster": "Monster",
     "monsters": "Monster",
-
+    
     "attack": "Attacke",
     "attacks": "Attacken",
-
+    
     "type": "Typ",
     "types": "Typen",
-
+    
+    "efficiency": "Wirkung",
+    "efficiencies": "Wirkungen",
+    
+    "type-efficiency": {
+        "VERY_EFFECTIVE": "sehr effektiv",
+        "NOT_EFFECTIVE": "nicht effektiv",
+        "DOES_NOT_HIT": "trifft nicht",
+        "NORMAL_EFFECTIVE": "normal",
+        "directionAsFrom": "{{ type }} gegen Typ",
+        "directionAsTo": "Typ gegen {{ type }}"
+    },
     "list": {
         "nothingFound": "Hier ist nichts",
         "loading": "* nackdenk *",
@@ -41,6 +52,13 @@
             "description": "Beschreibung"
         }
     },
+    "type-sidecard": {
+        "overview": "Übersicht",
+
+        "reset": "Zurücksetzen",
+        "target": "Ziel",
+        "valuesMissing": "Werte fehlen"
+    },
     "expanded-header": {
         "type": {
             "and": "mit .. Typen",
@@ -54,12 +72,5 @@
     },
     "sticky-header": {
         "search-placeholder": "name"
-    },
-    "type-popover": {
-        "directionAsFrom": "{{ type }} gegen Typ",
-        "directionAsTo": "Typ gegen {{ type }}",
-        "DOES_NOT_HIT": "trifft nicht",
-        "NOT_EFFECTIVE": "nicht sehr effektiv",
-        "VERY_EFFECTIVE": "sehr effektiv"
     }
 }

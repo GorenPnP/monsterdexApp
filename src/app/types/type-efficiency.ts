@@ -7,8 +7,8 @@ export enum Efficiency {
 }
 
 export interface TypeEfficiency {
-    fromType: number;
-    toType: number;
-    efficiency?: Efficiency;
-    efficiencyValue?: number;
+    readonly fromType: number;
+    readonly toType: number;
+    readonly efficiency?: Efficiency;
+    readonly efficiencyValue?: number;
   }

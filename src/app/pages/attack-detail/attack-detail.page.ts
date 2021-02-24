@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 import { AttackService } from 'src/app/services/attack.service';
 import { Attack } from 'src/app/types/attack';
+import { Type } from 'src/app/types/type';
 
 @Component({
   selector: 'app-attack-detail',
@@ -11,6 +13,7 @@ import { Attack } from 'src/app/types/attack';
 export class AttackDetailPage implements OnInit {
 
   attack: Attack;
+  types: BehaviorSubject<Type[]> = new BehaviorSubject<Type[]>(null);
 
   generalFields = [
     'name',
@@ -23,6 +26,9 @@ export class AttackDetailPage implements OnInit {
 
   ngOnInit(): void {
     const id: number = parseInt(this.route.snapshot.paramMap.get('id'));
-    this.attackService.get(id).subscribe(attack => this.attack = attack);
+    this.attackService.get(id).subscribe(attack => {
+      this.attack = attack;
+      this.types.next(attack.types);
+    });
   }
 }

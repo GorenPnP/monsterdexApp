@@ -23,7 +23,7 @@ export interface GetOptions {
 })
 export class RestService {
 
-  private url = 'http://localhost:5000/' // 'https://vstein.pythonanywhere.com/';
+  private url = 'https://vstein.pythonanywhere.com/';
 
   constructor(private http: HttpClient) {}
 

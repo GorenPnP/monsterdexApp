@@ -5,11 +5,11 @@ export type Type = {
   /**
    * id, same as the one in db, used for default sorting an fetching
    */
-  id: number;
+  readonly id: number;
   /**
    * name of type
    */
-  name: string;
+  readonly name: string;
   /**
    * icon string to represent a uniform ion-icon throughout the app
    */

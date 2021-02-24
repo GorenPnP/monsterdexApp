@@ -24,37 +24,13 @@
       </ion-item-group>
     </ion-list>
 
-  <!--   <ion-list>
+    <ion-list>    
       <!-- Typen -->
-  <!--        <ion-item-group topic>
-        <ion-item-divider sticky="true">
-          <ion-item slot="end" color="secondary" class="topic">
-            <ion-label class="ion-text-wrap">Effektivitäten</ion-label>
-          </ion-item>
-        </ion-item-divider>
-
-        <ion-item *ngIf="effectiveAgainst.length" lines="full">
-          <ion-label slot="start" class="ion-text-wrap">sehr anfällig</ion-label>
-          <ion-note>
-            <app-type *ngFor="let type of effectiveAgainst" [type]="type"></app-type>
-          </ion-note>
-        </ion-item>
-
-        <ion-item *ngIf="weakAgainst.length" lines="full">
-          <ion-label slot="start" class="ion-text-wrap">widerstandsfähig</ion-label>
-          <ion-note>
-            <app-type *ngFor="let type of weakAgainst" [type]="type"></app-type>
-          </ion-note>
-        </ion-item>
-
-        <ion-item *ngIf="noEffectAgainst.length" lines="full">
-          <ion-label slot="start" class="ion-text-wrap">wird nicht getroffen</ion-label>
-          <ion-note>
-            <app-type *ngFor="let type of noEffectAgainst" [type]="type"></app-type>
-          </ion-note>
-        </ion-item>
+      <ion-item-group>
+        <app-list-topping title="{{ 'efficiencies' | translate }}"></app-list-topping>
+        <app-efficiencies [types]="types" [showAsTo]="false"></app-efficiencies>
       </ion-item-group>
-    </ion-list>-->
+    </ion-list>
 
     <ion-list>
       <!-- Monster -->

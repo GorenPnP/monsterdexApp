@@ -5,35 +5,9 @@
     <span>{{ type.name }}</span>
   </div>
 
-  <ion-button size="small" fill="clear" style="margin: 0 0 0 8px" (click)="displayEfficiencies = !displayEfficiencies; showDetails()">
+  <ion-button size="small" fill="clear" style="margin: 0 0 0 8px" (click)="displayEfficiencies = !displayEfficiencies">
     <ion-icon name="information" slot="icon-only"></ion-icon>
   </ion-button>
 </div>
 
-<div *ngIf="displayEfficiencies">
-  <hr>
-
-  <b class="direction-heading">{{ 'type-popover.directionAsFrom' | translate:{'type': type.name } }}</b>
-  <ul *ngFor="let eff of Object.entries(efficienciesAsFrom).sort()">
-
-    <span class="efficiency-tag">{{ ('type-popover.' + eff[0]) | translate }}</span>
-
-    <li *ngFor="let type of eff[1]" class="efficiency-item" >
-      <app-type class="icon" [type]="type" [disabled]="true"></app-type>
-      <span>{{ type.name }}</span>
-    </li>
-  </ul>
-
-  <hr>
-
-  <b class="direction-heading">{{ 'type-popover.directionAsTo' | translate:{'type': type.name} }}</b>
-  <ul *ngFor="let eff of Object.entries(efficienciesAsTo).sort()">
-
-    <span class="efficiency-tag">{{ ('type-popover.' + eff[0]) | translate }}</span>
-
-    <li *ngFor="let type of eff[1]" class="efficiency-item">
-      <app-type class="icon" [type]="type" [disabled]="true"></app-type>
-      <span>{{ type.name }}</span>
-    </li>
-  </ul>
-</div>
+<app-efficiencies *ngIf="displayEfficiencies" [types]="types$"></app-efficiencies>

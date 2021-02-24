@@ -1,21 +1,22 @@
 <ion-split-pane contentId="types" when="lg">
-  <ion-menu contentId="types" side="end">
+  <ion-menu contentId="types" side="end" [swipeGesture]="!(!displayTab || displayTab === 'overview')">
     <ion-header>
       <ion-toolbar>
-        <ion-title>Types</ion-title>
+        <ion-title>{{ 'types' | translate }}</ion-title>
       </ion-toolbar>
-      <ion-segment (ionChange)="segmentChanged($event)" [(ngModel)]="displayTab">
+      <ion-segment [(ngModel)]="displayTab">
         <ion-segment-button value="overview">
-          <ion-label>Overview</ion-label>
+          <ion-label>{{ 'type-sidecard.overview' | translate }}</ion-label>
         </ion-segment-button>
         <ion-segment-button value="calc">
-          <ion-label>Calculator</ion-label>
+          <ion-label>{{ 'efficiencies' | translate }}</ion-label>
         </ion-segment-button>
       </ion-segment>
     </ion-header>
       
-    <app-type-overview *ngIf="!displayTab || displayTab === 'overview'"></app-type-overview>
-    <app-type-calc *ngIf="displayTab === 'calc'"></app-type-calc>
+    <!-- don't use ngIf here to save state between load/unload cycles -->
+    <app-type-overview [style.display]="(!displayTab || displayTab === 'overview') ? 'block' : 'none'"></app-type-overview>
+    <app-type-calc [style.display]="displayTab === 'calc' ? 'block' : 'none'"></app-type-calc>
     
   </ion-menu>
 

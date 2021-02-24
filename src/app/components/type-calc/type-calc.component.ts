@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { TypeService } from 'src/app/services/type.service';
 import { Type } from 'src/app/types/type';
+import { Efficiency } from 'src/app/types/type-efficiency';
 
 @Component({
   selector: 'app-type-calc',
@@ -23,16 +24,18 @@ export class TypeCalcComponent {
   setToTypes: Type[] = [];
 
   /**
-   * some text as output on effectiveness
+   * some text as output on efficiency
    */
-  textOutput: string = 'Werte fehlen.';
+  efficiency: Efficiency;
+  efficiencyFactor: string = '';
+  Efficiency = Efficiency;
 
   /**
    * gather all types for attacking and attacked part
    * @param typesService      DB service to receive typ information
    */
   constructor(private typeService: TypeService) {
-    this.typeService.getAll().subscribe(types => this.allTypes = types);
+    this.typeService.getMultiple([]).subscribe(types => this.allTypes = types);
   }
 
   /**
@@ -65,7 +68,7 @@ export class TypeCalcComponent {
     
     // if none in from and/or to is not set
     if (!this.setFromTypes.length || !this.setToTypes.length) {
-      this.textOutput = 'Werte fehlen.';
+      this.efficiency = undefined;
       return;
     }
   
@@ -73,25 +76,33 @@ export class TypeCalcComponent {
     this.typeService.getEfficiency(this.setFromTypes, this.setToTypes, true).subscribe(efficiencies => {
 
       const eff = efficiencies.reduce((sum, efficiency) => {
-        return sum + efficiency.efficiencyValue
+        return sum * efficiency.efficiencyValue
       }, 1.0);
+      this.efficiencyFactor = '';
 
-      if (eff === 0) {this.textOutput = 'wirkungslos'; return;}
+      if (eff === 0) {this.efficiency = Efficiency.DOES_NOT_HIT; return;}
 
-      if (eff === 1) {this.textOutput = 'normaleffektiv'; return;}
+      if (eff === 1) {this.efficiency = Efficiency.NORMAL_EFFECTIVE; return;}
 
       if (eff < 1) {
-        this.textOutput = `nicht sehr effektiv. 1/${Math.pow(2, eff).toString()} x`;
+        this.efficiency = Efficiency.NOT_EFFECTIVE;
+        this.efficiencyFactor = `1/${Math.log2(eff) * -2} x`;
         return;
       }
 
       // if eff > 2
-      this.textOutput = `sehr effektiv. ${eff.toString()} x`;
+      this.efficiency = Efficiency.VERY_EFFECTIVE;
+      this.efficiencyFactor = `${eff} x`;
     });
   }
 
   clearAll() {
     this.setFromTypes = [];
     this.setToTypes = [];
+    this.updateTypes();
+  }
+
+  getNames(types: Type[]): string {
+    return types.map(type => type.name).join(', ');
   }
 }

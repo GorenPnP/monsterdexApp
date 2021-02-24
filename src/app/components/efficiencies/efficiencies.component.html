@@ -1,0 +1,31 @@
+<div *ngIf="plainTypes?.length" class="efficiency-container">
+  <div *ngIf="showAsFrom">
+    <hr>
+    
+    <b class="direction-heading">{{ 'type-efficiency.directionAsFrom' | translate:{'type': getNames(plainTypes) } }}</b>
+    <ul *ngFor="let eff of Object.entries(efficienciesAsFrom).sort()">
+  
+      <span class="efficiency-tag">{{ ('type-efficiency.' + eff[0]) | translate }}</span>
+  
+      <li *ngFor="let type of eff[1]" class="efficiency-item" >
+        <app-type class="icon" [type]="type" [disabled]="true"></app-type>
+        <span>{{ type.name }}</span>
+      </li>
+    </ul>
+  </div>
+
+  <div *ngIf="showAsTo">
+    <hr>
+  
+    <b class="direction-heading">{{ 'type-efficiency.directionAsTo' | translate:{'type': getNames(plainTypes) } }}</b>
+    <ul *ngFor="let eff of Object.entries(efficienciesAsTo).sort()">
+  
+      <span class="efficiency-tag">{{ ('type-efficiency.' + eff[0]) | translate }}</span>
+  
+      <li *ngFor="let type of eff[1]" class="efficiency-item">
+        <app-type class="icon" [type]="type" [disabled]="true"></app-type>
+        <span>{{ type.name }}</span>
+      </li>
+    </ul>
+  </div>
+</div>

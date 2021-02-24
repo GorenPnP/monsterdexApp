@@ -8,12 +8,14 @@ import { TypeSplitpanePageRoutingModule } from './type-splitpane-routing.module'
 
 import { TypeSplitpanePage } from './type-splitpane.page';
 import { SharedComponentModule } from 'src/app/components/shared-component.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    TranslateModule,
     TypeSplitpanePageRoutingModule,
     SharedComponentModule,
   ],

@@ -8,26 +8,26 @@ export type Attack = {
   /**
    * id; same as the one in db; used for default sorting an fetching
    */
-  id: number;
+  readonly id: number;
   /**
    * name of the attack
    */
-  name: string;
+  readonly name: string;
   /**
    * damage dealt
    */
-  damage: string;
+  readonly damage: string;
   /**
    * note on i.e. side effects
    */
-  description: string;
+  readonly description: string;
   /**
    * list of all types
    */
-  types: Type[];
+  readonly types: Type[];
   /**
    * list of all IDs of monsters capable of this attack
    */
-  monsters: number[];
+  readonly monsters: number[];
   showMonsters: Monster[];
 }

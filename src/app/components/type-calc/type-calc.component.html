@@ -1,10 +1,10 @@
 <ion-button [disabled]="setFromTypes.length + setToTypes.length === 0" fill="clear" (click)="clearAll()">
   <ion-icon name="close"></ion-icon>
-  <ion-label>Zurücksetzen</ion-label>
+  <ion-label>{{ 'type-sidecard.reset' | translate }}</ion-label>
 </ion-button>
 
 <div>
-  <h4>Attacke</h4>
+  <h4>{{ 'attack' | translate }}</h4>
   <app-type
     *ngFor="let type of allTypes" [type]="type" [showTooltip]="false"
     [color]="setFromTypes.includes(type) ? 'success' : 'tertiary'"
@@ -13,7 +13,7 @@
 </div>
 
 <div>
-  <h4>Ziel</h4> 
+  <h4>{{ 'type-sidecard.target' | translate }}</h4> 
 
   <app-type
     *ngFor="let type of allTypes" [type]="type" [showTooltip]="false"
@@ -22,4 +22,22 @@
   </app-type>
 </div>
 
-<ion-text class="ion-text-wrap element" class="display: block">{{ textOutput }}</ion-text>
+<ion-text class="ion-text-wrap element" class="display: block">
+  <p>
+    <b>{{ 'attack' | translate }}:</b>
+    <span> {{ getNames(setFromTypes) || '-' }}</span>
+  </p>
+
+  <p>
+    <b>{{ 'type-sidecard.target' | translate }}:</b>
+    <span> {{ getNames(setToTypes) || '-' }}</span>
+  </p>
+
+  <p [ngSwitch]="efficiency">
+    <span *ngSwitchCase="Efficiency.VERY_EFFECTIVE">{{ 'type-efficiency.VERY_EFFECTIVE' | translate }} {{ efficiencyFactor }}</span>
+    <span *ngSwitchCase="Efficiency.NOT_EFFECTIVE">{{ 'type-efficiency.NOT_EFFECTIVE' | translate }} {{ efficiencyFactor }}</span>
+    <span *ngSwitchCase="Efficiency.DOES_NOT_HIT">{{ 'type-efficiency.DOES_NOT_HIT' | translate }}</span>
+    <span *ngSwitchCase="Efficiency.NORMAL_EFFECTIVE">{{ 'type-efficiency.NORMAL_EFFECTIVE' | translate }}</span>
+    <span *ngSwitchDefault>{{ 'type-sidecard.valuesMissing' | translate }}</span>
+  </p>
+</ion-text>

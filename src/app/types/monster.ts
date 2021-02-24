@@ -9,49 +9,49 @@ export type Monster = {
   /**
    * size suited for thumbnails, is a base64 png image
    */
-  thumbnail?: string;
+  readonly thumbnail?: string;
   showThumbnail?: SafeUrl;
   /**
    * size suited for larger formats, is a base64 png image
    */
-  image?: string;
+  readonly image?: string;
   showImage?: SafeUrl;
   /**
    * id; same as the one in db; used for default sorting an fetching
    */
-  id: number;
+  readonly id: number;
   /**
    * name of the monster species
    */
-  name?: string;
+  readonly name?: string;
   /**
    * rank; th higher the (absolute) value; the stronger
    */
-  rank?: number;
+  readonly rank?: number;
   /**
    * body height as decimal in meters
    */
-  height?: number;
+  readonly height?: number;
   /**
    * body weight as decimal in kilograms
    */
-  weight?: number;
+  readonly weight?: number;
   /**
    * (max) health
    */
-  hp?: number;
+  readonly hp?: number;
   /**
    * typical location where the species would be met
    */
-  habitat?: string;
+  readonly habitat?: string;
   /**
    * resistance against attacks
    */
-  damagePrevention?: string;
+  readonly damagePrevention?: string;
   /**
    * note on the monster
    */
-  description?: string;
+  readonly description?: string;
   /**
    * list of all types
    */
@@ -59,25 +59,25 @@ export type Monster = {
   /**
    * list of all ids of attacks of the monster
    */
-  attacks?: Attack[];
+  readonly attacks?: Attack[];
   /**
    * list of all 'Gegenteilmonsters' to a monster
    */
-  opposite?: number[];
+  readonly opposite?: number[];
   oppositeMonsters?: Monster[];
   /**
    * similar forms between which the monster can switch at will
    */
-  forms?: number[];
+  readonly forms?: number[];
   formMonsters?: Monster[];
   /**
    * ids of monsters this one could have developed from
    */
-  evolutionPre?: number[];
+  readonly evolutionPre?: number[];
   preMonsters?: Monster[];
   /**
    * ids of monsters this one can develop into
    */
-  evolutionAfter?: number[];
+  readonly evolutionAfter?: number[];
   afterMonsters?: Monster[];
 }

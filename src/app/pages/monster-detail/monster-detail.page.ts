@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 import { MonsterService } from 'src/app/services/monster.service';
 import { Monster } from 'src/app/types/monster';
+import { Type } from 'src/app/types/type';
 
 @Component({
   selector: 'app-monster-detail',
@@ -11,6 +13,7 @@ import { Monster } from 'src/app/types/monster';
 export class MonsterDetailPage implements OnInit {
 
   monster: Monster;
+  types: BehaviorSubject<Type[]> = new BehaviorSubject<Type[]>(null);
 
   generalFields = [
     'id',
@@ -28,6 +31,9 @@ export class MonsterDetailPage implements OnInit {
 
   ngOnInit(): void {
     const id: number = parseInt(this.route.snapshot.paramMap.get('id'));
-    this.monsterService.get(id).subscribe(monster => this.monster = monster);
+    this.monsterService.get(id).subscribe(monster => {
+      this.monster = monster;
+      this.types.next(monster.types);
+    });
   }
 }

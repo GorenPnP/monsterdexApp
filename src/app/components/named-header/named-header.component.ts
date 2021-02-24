@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { PopoverController } from '@ionic/angular';
-import { TypeOverviewComponent } from '../type-overview/type-overview.component';
+import { SIZE_TO_MEDIA } from '@ionic/core/dist/collection/utils/media';
 
 @Component({
   selector: 'app-named-header',
@@ -11,22 +10,16 @@ export class NamedHeaderComponent {
 
   @Input() item: {name: string};
 
-  constructor(private popoverCtrl: PopoverController) { }
-
   /**
    * 
    * @param event click-event fired
    */
-  async openTypeOverview(event: Event): Promise<void> {
+  openTypeOverview(): void {
 
-    // open popover with type information
-    const popover = await this.popoverCtrl.create({
-      component: TypeOverviewComponent,
-      cssClass: 'type-overview-popover',
-      event: event,
-      keyboardClose: false,
-      translucent: true
-    });
-    return popover.present();
+    const splitPane = document.querySelector('ion-split-pane');
+    
+    if (window.matchMedia(SIZE_TO_MEDIA[splitPane.when] || splitPane.when).matches) {
+      splitPane.classList.toggle('split-pane-visible');
+    }
   }
 }
