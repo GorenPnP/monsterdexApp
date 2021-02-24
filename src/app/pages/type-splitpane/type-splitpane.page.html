@@ -1,0 +1,23 @@
+<ion-split-pane contentId="types" when="lg">
+  <ion-menu contentId="types" side="end">
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Types</ion-title>
+      </ion-toolbar>
+      <ion-segment (ionChange)="segmentChanged($event)" [(ngModel)]="displayTab">
+        <ion-segment-button value="overview">
+          <ion-label>Overview</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="calc">
+          <ion-label>Calculator</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </ion-header>
+      
+    <app-type-overview *ngIf="!displayTab || displayTab === 'overview'"></app-type-overview>
+    <app-type-calc *ngIf="displayTab === 'calc'"></app-type-calc>
+    
+  </ion-menu>
+
+  <ion-router-outlet id="types"></ion-router-outlet>
+</ion-split-pane>

@@ -1,21 +1,10 @@
 import { Injectable } from '@angular/core';
-import { EMPTY, Observable } from 'rxjs';
-import { catchError, filter, map, pluck } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { getIonIcon, Type } from '../types/type';
+import { TypeEfficiency } from '../types/type-efficiency';
 import { RestService, GetOptions } from './rest.service';
 
-
-export enum Efficiency {
-  VERY_EFFECTIVE,
-  NOT_EFFECTIVE,
-  DOES_NOT_HIT,
-  NORMAL_EFFECTIVE
-}
-export interface TypeEfficiency {
-  fromType: number;
-  toType: number;
-  efficiency: Efficiency;
-}
 @Injectable({
   providedIn: 'root'
 })
@@ -66,7 +55,7 @@ export class TypeService {
     return this.rest.get<{type: Type[]}>(options).pipe(map(res => this.cleanTypes(res.type)));
   }
 
-  public getEfficiency(from: Type[] = null, to: Type[] = null): Observable<TypeEfficiency[]> {
+  public getEfficiency(from: Type[] = null, to: Type[] = null, getValues=false): Observable<TypeEfficiency[]> {
 
     const filters: string[] = [];
     if (from?.length) { filters.push(`fromTypes: [${from.map(type => type.id)}]`); }
@@ -78,7 +67,7 @@ export class TypeService {
           typeEfficiency (${filters.join(',')}) {
             fromType
             toType
-            efficiency
+            ${getValues ? 'efficiencyValue' : 'efficiency'}
           }
         }`
       }

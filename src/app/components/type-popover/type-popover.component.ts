@@ -1,9 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Observable, zip } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Efficiency, TypeEfficiency, TypeService } from 'src/app/services/type.service';
+import { TypeService } from 'src/app/services/type.service';
 
 import { Type } from 'src/app/types/type';
+import { Efficiency, TypeEfficiency } from 'src/app/types/type-efficiency';
 
 @Component({
   selector: 'app-type-popover',
@@ -78,7 +79,7 @@ export class TypePopoverComponent implements OnInit {
   private zip(efficiencies: TypeEfficiency[], selectFromType: boolean): Observable<{[efficiency: number]: Type[]}> {
     const eff: {efficiency: Efficiency, type_id: number}[] = efficiencies.map(eff => ({
           type_id: selectFromType ? eff.fromType : eff.toType,
-          ...eff
+          efficiency: eff.efficiency
         })
     );
     return zip(this.getTypes(eff.map(e => e.type_id)), this.sortEfficiencies(eff)).pipe(

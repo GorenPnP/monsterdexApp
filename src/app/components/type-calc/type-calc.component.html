@@ -1,0 +1,25 @@
+<ion-button [disabled]="setFromTypes.length + setToTypes.length === 0" fill="clear" (click)="clearAll()">
+  <ion-icon name="close"></ion-icon>
+  <ion-label>Zurücksetzen</ion-label>
+</ion-button>
+
+<div>
+  <h4>Attacke</h4>
+  <app-type
+    *ngFor="let type of allTypes" [type]="type" [showTooltip]="false"
+    [color]="setFromTypes.includes(type) ? 'success' : 'tertiary'"
+    (clicked)="toggleFrom(type)">
+  </app-type>
+</div>
+
+<div>
+  <h4>Ziel</h4> 
+
+  <app-type
+    *ngFor="let type of allTypes" [type]="type" [showTooltip]="false"
+    [color]="setToTypes.includes(type) ? 'success' : 'tertiary'"
+    (clicked)="toggleTo(type)">
+  </app-type>
+</div>
+
+<ion-text class="ion-text-wrap element" class="display: block">{{ textOutput }}</ion-text>

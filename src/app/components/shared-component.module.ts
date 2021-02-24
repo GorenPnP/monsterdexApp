@@ -11,6 +11,7 @@ import { TypeOverviewComponent } from './type-overview/type-overview.component';
 import { ListToppingComponent } from './list-topping/list-topping.component';
 import { NamedHeaderComponent } from'./named-header/named-header.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { TypeCalcComponent } from './type-calc/type-calc.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,10 @@ import { TranslateModule } from '@ngx-translate/core';
     FilterListItemComponent,
     TypePopoverComponent,
     TypeComponent,
+
     TypeOverviewComponent,
+    TypeCalcComponent,
+
     ListToppingComponent,
     NamedHeaderComponent
   ],
@@ -35,7 +39,10 @@ import { TranslateModule } from '@ngx-translate/core';
     FilterListItemComponent,
     TypePopoverComponent,
     TypeComponent,
+
     TypeOverviewComponent,
+    TypeCalcComponent,
+
     ListToppingComponent,
     NamedHeaderComponent
   ]

@@ -17,8 +17,10 @@
   </ion-searchbar>
 
   <ion-buttons slot="end">
-    <ion-button (click)="openTypeOverview($event)">
-      <ion-icon name="list"></ion-icon>
-    </ion-button>
+    <ion-menu-toggle autoHide="false">
+      <ion-button (click)="openTypeOverview()">
+        <ion-icon name="list" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-menu-toggle>
   </ion-buttons>
 </ion-toolbar>
