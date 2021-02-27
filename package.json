@@ -9,7 +9,10 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "generateIcons": "ngx-pwa-icons --icon .\\src\\assets\\icon\\favicon.png || npm i -g ngx-pwa-icons && ngx-pwa-icons --icon .\\src\\assets\\icon\\favicon.png",
+    "deploy": "ionic build --prod && firebase deploy",
+    "start-sw": " http-server -p 8080 -c-1 -P https://localhost:8080 www"
   },
   "private": true,
   "dependencies": {
@@ -19,6 +22,7 @@
     "@angular/platform-browser": "~10.0.0",
     "@angular/platform-browser-dynamic": "~10.0.0",
     "@angular/router": "~10.0.0",
+    "@angular/service-worker": "~10.0.0",
     "@capacitor/android": "^2.4.6",
     "@capacitor/core": "2.4.6",
     "@ionic-native/core": "^5.0.0",

@@ -8,6 +8,11 @@ const routes: Routes = [
     component: TabsPage,
     children: [
       {
+        path: '',
+        redirectTo: 'monster-list',
+        pathMatch: 'full'
+      },
+      {
         path: 'monster-list',
         loadChildren: () => import('../pages/monster-list/monster-list.module').then( m => m.MonsterListPageModule)
       },
@@ -15,11 +20,6 @@ const routes: Routes = [
         path: 'attack-list',
         loadChildren: () => import('../pages/attack-list/attack-list.module').then( m => m.AttackListPageModule)
       },
-      {
-        path: '',
-        redirectTo: 'monster-list',
-        pathMatch: 'full'
-      }
     ]
   },
   {

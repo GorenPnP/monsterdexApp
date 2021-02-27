@@ -26,7 +26,7 @@ export class TypeComponent {
    * @param event click-event fired
    * @param type  the type to display information for
    */
-  private async openTypeDescription(event: Event, type: Type): Promise<void> {
+  async openTypeDescription(event: Event, type: Type): Promise<void> {
 
     // stop routing to detail page
     event.preventDefault();

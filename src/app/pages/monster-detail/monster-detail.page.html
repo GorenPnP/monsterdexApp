@@ -3,7 +3,7 @@
 <ion-content *ngIf="monster">
 
   <main class="container">
-    <ion-img [src]="monster.showImage" class="cover-image"></ion-img>
+    <ion-img [src]="monster.showImage" [alt]="monster.name" class="cover-image"></ion-img>
     <div class="types">
       <app-type *ngFor="let type of monster.types" [type]="type"></app-type>
     </div>
