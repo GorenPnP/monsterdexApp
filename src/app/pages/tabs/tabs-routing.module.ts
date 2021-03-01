@@ -14,11 +14,11 @@ const routes: Routes = [
       },
       {
         path: 'monster-list',
-        loadChildren: () => import('../pages/monster-list/monster-list.module').then( m => m.MonsterListPageModule)
+        loadChildren: () => import('../monster-list/monster-list.module').then( m => m.MonsterListPageModule)
       },
       {
         path: 'attack-list',
-        loadChildren: () => import('../pages/attack-list/attack-list.module').then( m => m.AttackListPageModule)
+        loadChildren: () => import('../attack-list/attack-list.module').then( m => m.AttackListPageModule)
       },
     ]
   },

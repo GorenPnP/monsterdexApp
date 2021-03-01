@@ -7,9 +7,9 @@ import { IonicModule } from '@ionic/angular';
 import { MonsterListPageRoutingModule } from './monster-list-routing.module';
 
 import { MonsterListPage } from './monster-list.page';
-import { SharedDirectivesModule } from 'src/app/directives/shared-directives.module';
-import { SharedComponentModule } from 'src/app/components/shared-component.module';
 import { TranslateModule } from '@ngx-translate/core';
+import { ListComponentsModule } from 'src/app/components/list-components/list-components.module';
+import { BaseComponentsModule } from 'src/app/components/base-components/base-components.module';
 
 @NgModule({
   imports: [
@@ -18,8 +18,8 @@ import { TranslateModule } from '@ngx-translate/core';
     IonicModule,
     MonsterListPageRoutingModule,
     TranslateModule,
-    SharedDirectivesModule,
-    SharedComponentModule
+    BaseComponentsModule,
+    ListComponentsModule
   ],
   declarations: [MonsterListPage]
 })

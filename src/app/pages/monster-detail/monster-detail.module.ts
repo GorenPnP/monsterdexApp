@@ -7,8 +7,9 @@ import { IonicModule } from '@ionic/angular';
 import { MonsterDetailPageRoutingModule } from './monster-detail-routing.module';
 
 import { MonsterDetailPage } from './monster-detail.page';
-import { SharedComponentModule } from 'src/app/components/shared-component.module';
 import { TranslateModule } from '@ngx-translate/core';
+import { DetailComponentsModule } from 'src/app/components/detail-components/detail-components.module';
+import { BaseComponentsModule } from 'src/app/components/base-components/base-components.module';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import { TranslateModule } from '@ngx-translate/core';
     IonicModule,
     MonsterDetailPageRoutingModule,
     TranslateModule,
-    SharedComponentModule
+    BaseComponentsModule,
+    DetailComponentsModule
   ],
   declarations: [MonsterDetailPage]
 })

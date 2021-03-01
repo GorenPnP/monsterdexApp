@@ -7,8 +7,9 @@ import { IonicModule } from '@ionic/angular';
 import { TypeSplitpanePageRoutingModule } from './type-splitpane-routing.module';
 
 import { TypeSplitpanePage } from './type-splitpane.page';
-import { SharedComponentModule } from 'src/app/components/shared-component.module';
 import { TranslateModule } from '@ngx-translate/core';
+import { SplitPaneComponentsModule } from 'src/app/components/split-pane-components/split-pane-components.module';
+import { BaseComponentsModule } from 'src/app/components/base-components/base-components.module';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import { TranslateModule } from '@ngx-translate/core';
     IonicModule,
     TranslateModule,
     TypeSplitpanePageRoutingModule,
-    SharedComponentModule,
+    BaseComponentsModule,
+    SplitPaneComponentsModule
   ],
   declarations: [TypeSplitpanePage]
 })

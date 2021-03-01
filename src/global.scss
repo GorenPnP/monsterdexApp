@@ -26,8 +26,8 @@
 @import "~@ionic/angular/css/flex-utils.css";
 
 /* need to import styles for popovers globally since their routing & rendering is different */
-@import "./app/components/type-popover/type-popover.component.scss";
-@import "./app/components/type-overview/type-overview.component.scss";
+@import "./app/components/base-components/type-popover/type-popover.component.scss";
+@import "./app/components/split-pane-components/type-overview/type-overview.component.scss";
 
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;700&display=swap');
 ion-app { --ion-font-family: 'Montserrat', sans-serif; }
