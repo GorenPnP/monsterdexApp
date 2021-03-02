@@ -1,10 +1,10 @@
 import { AfterViewInit, Component, Input } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, OperatorFunction } from 'rxjs';
 import { zip } from 'rxjs/internal/observable/zip';
-import { concatAll, map } from 'rxjs/operators';
+import { concatAll, map, tap } from 'rxjs/operators';
 import { TypeService } from 'src/app/services/type.service';
 import { Type } from 'src/app/types/type';
-import { Efficiency, TypeEfficiency } from 'src/app/types/type-efficiency';
+import { Efficiency, efficiencyFromValue, TypeEfficiency } from 'src/app/types/type-efficiency';
 
 @Component({
   selector: 'app-efficiencies',
@@ -59,59 +59,77 @@ export class EfficienciesComponent implements AfterViewInit {
     );
   }
 
+
+
   /**
-   * Transforms list of {efficiency: Efficiency, type_id: number}[] into {[Efficiency]: type_id[]} dict.
-   * Data format changes, content stays the same.
-   * @param efficiencies the efficiencies to write as dict
-   * @returns dict in an Observable
+   * Calculates cumulative efficiencyValues of each type_id.
+   * @param selectFromType if true, use fromType, else use toType of TypeEfficiency
+   * @returns mentioned dict in an Observable (format: {[type_id: number]: efficiencyValue as number})
    */
-  private sortEfficiencies(efficiencies: {efficiency: Efficiency, type_id: number}[]): Observable<{[efficiency: number]: number[]}> {
-    return new Observable(
-      obs => obs.next(
-        efficiencies.reduce(
-          (eff_dict, efficiency) => {
-            const type_ids: number[] = eff_dict[efficiency.efficiency] || [];
-            eff_dict[efficiency.efficiency] = [...type_ids, efficiency.type_id];
-            return eff_dict;
-          }, {}
-        )
-      )
-    );
+  private reformatEfficiencies(returnFromType: boolean): OperatorFunction<TypeEfficiency[], {[type_id: number]: number}> {
+    
+    return (source: Observable<TypeEfficiency[]>) => {
+      return source.pipe(
+        map(efficiencies => {
+
+          // reduce efficiency representation to essentials: type_id, efficiencyValue
+          const eff: {efficiencyValue: number, type_id: number}[] = efficiencies.map(eff => ({
+              type_id: returnFromType ? eff.fromType : eff.toType,
+              efficiencyValue: eff.efficiencyValue
+            })
+          );
+          
+          // calc type efficiencies by multiplying if multiple entries exist (may be because of multiple types as fromTypes or toTypes)
+          return eff.reduce((acc, e) => {
+            acc[e.type_id] = acc[e.type_id] ? acc[e.type_id] * e.efficiencyValue : e.efficiencyValue;
+            return acc;
+          }, {});
+        })
+      );
+    }
   }
 
 
-
   /**
-   * Uses this.getTypes() & this.sortEfficiencies().
-   * Takes Types of this.getTypes() and replaces the type_ids of this.sortEfficiencies() with them.
-   * @param efficiencies to be transformed into a dict of form {[efficiency: Efficiency]: Type[]}
-   * @param selectFromType if true, use fromType, else use toType of TypeEfficiency
-   * @returns mentioned dict in an Observable
+   * Takes Types of this.getTypes() and replaces the type_ids with them.
+   * @returns mentioned dict in an Observable (format: {[efficiency: number]: Type[]})
    */
-  private zip(efficiencies: TypeEfficiency[], returnFromType: boolean): Observable<{[efficiency: number]: Type[]}> {
-    const eff: {efficiency: Efficiency, type_id: number}[] = efficiencies.map(eff => ({
-          type_id: returnFromType ? eff.fromType : eff.toType,
-          efficiency: eff.efficiency
-        })
-    );
-    return zip(this.getTypes(eff.map(e => e.type_id)), this.sortEfficiencies(eff)).pipe(
-      map(([types, sorting]) => {
+  private replaceTypeIdWithType(): OperatorFunction<{[type_id: number]: number}, {[efficiency: number]: Type[]}> {
 
-        return Object.entries(sorting).reduce((final, [efficiency, type_ids]) => {
-          final[efficiency] = type_ids.map(id => types[id]);
-          return final;
-        }, {})
-      })
-    )
+    return (source: Observable<{[type_id: number]: number}>) => {
+      
+      return source.pipe(
+        map(typeEfficiencies => {
+          const type_ids: number[] = Object.keys(typeEfficiencies) as any as number[];
+          
+          // fetch full types from mere type_ids
+          return this.getTypes(type_ids).pipe(
+            map(types => {
+    
+              // replace type_ids with their types
+              return Object.entries(typeEfficiencies).reduce((acc, [type_id, efficiencyValue]) => {
+                const efficiency = efficiencyFromValue(efficiencyValue);
+    
+                acc[efficiency] = acc[efficiency] ? [...acc[efficiency], types[type_id]] : [types[type_id]];
+                return acc;
+              }, {})
+            })
+          );
+        }),
+
+        // Observable<Observable<..>> to Observable<...>
+        concatAll()
+      );
+    }
   }
 
     
   private getAsFrom(types: Type[]) {
 
     // .. as from-types
-    return this.typeService.getEfficiency(types, null).pipe(
-      map(efficiencies => this.zip(efficiencies, false)),
-      concatAll()
+    return this.typeService.getEfficiency(types, null, true).pipe(
+      this.reformatEfficiencies(false),
+      this.replaceTypeIdWithType()
     );
   }
 
@@ -119,9 +137,9 @@ export class EfficienciesComponent implements AfterViewInit {
   private getAsTo(types: Type[]) {
 
     // .. as to-types
-    return this.typeService.getEfficiency(null, types).pipe(
-      map(efficiencies => this.zip(efficiencies, true)),
-      concatAll()
+    return this.typeService.getEfficiency(null, types, true).pipe(
+      this.reformatEfficiencies(true),
+      this.replaceTypeIdWithType()
     );
   }
 

@@ -4,6 +4,7 @@ import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { LanguageService } from './services/language.service';
+import { NetworkService } from './services/network.service';
 
 @Component({
   selector: 'app-root',
@@ -15,9 +16,11 @@ export class AppComponent {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private language: LanguageService
+    private language: LanguageService,
+    private n: NetworkService
   ) {
     this.initializeApp();
+    this.n.isOnline().subscribe();
   }
 
   initializeApp() {

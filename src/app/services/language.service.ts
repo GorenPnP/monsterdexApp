@@ -10,7 +10,7 @@ export class LanguageService {
 
   public setInitialLanguage(): void {
     const language = this.translate.getBrowserLang();
-    console.log(language);
+    console.log('language:', language);
     this.translate.setDefaultLang(language);
   }
 

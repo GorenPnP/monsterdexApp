@@ -1,0 +1,76 @@
+{
+    "monster": "Monster",
+    "monsters": "Monsters",
+    
+    "attack": "Attack",
+    "attacks": "Attacks",
+    
+    "type": "Type",
+    "types": "Types",
+    
+    "efficiency": "Effect",
+    "efficiencies": "Effects",
+    
+    "type-efficiency": {
+        "VERY_EFFECTIVE": "very effective",
+        "NOT_EFFECTIVE": "not effective",
+        "DOES_NOT_HIT": "does not hit",
+        "NORMAL_EFFECTIVE": "normal",
+        "directionAsFrom": "{{ type }} against type",
+        "directionAsTo": "Type against {{ type }}"
+    },
+    "list": {
+        "nothingFound": "Here goes nothing",
+        "loading": "* thinking *",
+        "infinite-scroll-loading": "Loading more..."
+    },
+    "monster-detail": {
+        "topics": {
+            "general": "General",
+            "evolution": "Evolution",
+            "opposite": "Opposite Monster",
+            "forms": "other forms"
+        },
+        "fields": {
+            "id": "ID",
+            "rank": "Rank",
+            "height": "Height",
+            "weight": "Weight",
+            "hp": "HP",
+            "damagePrevention": "Damage prevention",
+            "habitat": "Habitat",
+            "description": "Description"
+        }
+    },
+    "attack-detail": {
+        "topics": {
+            "general": "General"
+        },
+        "fields": {
+            "name": "Name",
+            "damage": "Damage",
+            "description": "Description"
+        }
+    },
+    "type-sidecard": {
+        "overview": "Overview",
+
+        "reset": "Reset",
+        "target": "target",
+        "valuesMissing": "Values are missing"
+    },
+    "expanded-header": {
+        "type": {
+            "and": "has .. type(s)",
+            "all": "all",
+            "one": "one"
+        },
+        "rank": {
+            "ordering": "rank ordering",
+            "none": "none"
+        }
+    },
+    "sticky-header": {
+        "search-placeholder": "name"
+    }
+}
