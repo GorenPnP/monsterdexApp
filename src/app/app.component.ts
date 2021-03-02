@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { Platform } from '@ionic/angular';
+import { Platform, ToastController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { LanguageService } from './services/language.service';
@@ -20,10 +20,22 @@ export class AppComponent {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private language: LanguageService,
-    network: NetworkService
+    private network: NetworkService,
+    private toastCtrl: ToastController
   ) {
     this.initializeApp();
-    network.isOnline().subscribe(online => this.offline = !online);
+    network.isOnline().subscribe(online => {
+      this.offline = !online;
+
+      if (this.offline) {
+        this.toastCtrl.create({
+          message: 'Offline :(',
+          position: 'bottom',
+          duration: 5000,
+          color: 'danger'
+        }).then(toast => toast.present())
+      }
+    });
   }
 
   initializeApp() {
