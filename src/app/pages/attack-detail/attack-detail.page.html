@@ -9,11 +9,7 @@
     <ion-list>
       <!-- Allgemeines -->
       <ion-item-group>
-        <ion-item-divider sticky="true">
-          <ion-item slot="end" color="secondary" class="topic">
-            <ion-label class="ion-text-wrap">{{ 'attack-detail.topics.general' | translate }}</ion-label>
-          </ion-item>
-        </ion-item-divider>
+        <app-list-topping title="{{ 'attack-detail.topics.general' | translate }}"></app-list-topping>
 
         <ion-item *ngFor="let field of generalFields" lines="full">
           <ion-label>
@@ -35,11 +31,7 @@
     <ion-list>
       <!-- Monster -->
       <ion-item-group>
-        <ion-item-divider sticky="true">
-          <ion-item slot="end" color="secondary" class="topic">
-            <ion-label class="ion-text-wrap">{{ 'monsters' | translate }}</ion-label>
-          </ion-item>
-        </ion-item-divider>
+        <app-list-topping title="{{ 'monsters' | translate }}"></app-list-topping>
 
         <app-filter-list-item 
           *ngFor="let monster of attack.showMonsters"

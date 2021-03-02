@@ -74,7 +74,7 @@ export class AttackListPage implements OnInit {
     const loading = await this.loadingCtrl.create({
       backdropDismiss: true,
       keyboardClose: false,
-      message: this.language.translateByKey('list.loading'),
+      message: await this.language.translateByKey('list.loading'),
       spinner: 'bubbles',
       duration: 5000
     });

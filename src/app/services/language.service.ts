@@ -18,7 +18,7 @@ export class LanguageService {
     this.translate.use(language);
   }
 
-  public translateByKey(key: string): string {
-    return this.translate.instant(key);
+  public translateByKey(key: string): Promise<string> {
+    return this.translate.get(key).toPromise();
   }
 }

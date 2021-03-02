@@ -7,7 +7,7 @@
   <h4>{{ 'attack' | translate }}</h4>
   <app-type
     *ngFor="let type of allTypes" [type]="type" [showTooltip]="false"
-    [color]="setFromTypes.includes(type) ? 'success' : 'tertiary'"
+    [color]="setFromTypes.includes(type) ? 'success' : 'primary'"
     (clicked)="toggleFrom(type)">
   </app-type>
 </div>
@@ -17,7 +17,7 @@
 
   <app-type
     *ngFor="let type of allTypes" [type]="type" [showTooltip]="false"
-    [color]="setToTypes.includes(type) ? 'success' : 'tertiary'"
+    [color]="setToTypes.includes(type) ? 'success' : 'primary'"
     (clicked)="toggleTo(type)">
   </app-type>
 </div>

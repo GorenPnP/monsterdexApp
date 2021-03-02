@@ -3,7 +3,7 @@
   <div class="container--types">
     <app-type
       *ngFor="let type of allTypes" [type]="type" [showTooltip]="false"
-      [color]="filter.types.includes(type.id) ? 'success' : 'tertiary'"
+      [color]="filter.types.includes(type.id) ? 'success' : 'primary'"
       (clicked)="typeToggled.emit(type)">
     </app-type>
   </div>

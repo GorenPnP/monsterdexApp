@@ -13,7 +13,7 @@ export class TypeComponent {
   @Input() type: Type;
   @Input() showTooltip: boolean = true;
 
-  @Input() color: string = 'tertiary';
+  @Input() color: string = 'primary';
   @Input() style: string = '';
   @Input() disabled: boolean = false;
 

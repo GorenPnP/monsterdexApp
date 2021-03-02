@@ -12,15 +12,18 @@ import { NetworkService } from './services/network.service';
   styleUrls: ['app.component.scss']
 })
 export class AppComponent {
+
+  offline = false;
+
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private language: LanguageService,
-    private n: NetworkService
+    network: NetworkService
   ) {
     this.initializeApp();
-    this.n.isOnline().subscribe();
+    network.isOnline().subscribe(online => this.offline = !online);
   }
 
   initializeApp() {
