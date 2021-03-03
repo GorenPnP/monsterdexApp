@@ -1,0 +1,76 @@
+{
+    "monster": "モンスタア",
+    "monsters": "モンスタア",
+    
+    "attack": "攻撃",
+    "attacks": "攻撃",
+    
+    "type": "タイプ",
+    "types": "タイプ",
+    
+    "efficiency": "効果",
+    "efficiencies": "効果",
+    
+    "type-efficiency": {
+        "VERY_EFFECTIVE": "凄く効く",
+        "NOT_EFFECTIVE": "あまり効かない",
+        "DOES_NOT_HIT": "全然効かない",
+        "NORMAL_EFFECTIVE": "効く",
+        "directionAsFrom": "{{ type }} に対する",
+        "directionAsTo": "タイプ対 {{ type }}"
+    },
+    "list": {
+        "nothingFound": "何もない",
+        "loading": "*考えている。。。*",
+        "infinite-scroll-loading": "数秒を待ってください"
+    },
+    "monster-detail": {
+        "topics": {
+            "general": "一般的",
+            "evolution": "進化形",
+            "opposite": "逆モンスター",
+            "forms": "他の形"
+        },
+        "fields": {
+            "id": "ID",
+            "rank": "位",
+            "height": "大きさ",
+            "weight": "体重",
+            "hp": "HP",
+            "damagePrevention": "被害防止",
+            "habitat": "生息地",
+            "description": "記述"
+        }
+    },
+    "attack-detail": {
+        "topics": {
+            "general": "一般的"
+        },
+        "fields": {
+            "name": "名",
+            "damage": "被害",
+            "description": "記述"
+        }
+    },
+    "type-sidecard": {
+        "overview": "概要",
+
+        "reset": "レセット",
+        "target": "敵",
+        "valuesMissing": "価値を入力"
+    },
+    "expanded-header": {
+        "type": {
+            "and": "と...タイプ",
+            "all": "全て",
+            "one": "一つだけ"
+        },
+        "rank": {
+            "ordering": "位順",
+            "none": "何もない"
+        }
+    },
+    "sticky-header": {
+        "search-placeholder": "名"
+    }
+}
