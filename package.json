@@ -44,7 +44,7 @@
     "cordova-sqlite-storage": "^3.3.0",
     "core-js": "^2.5.4",
     "native-run": "^1.2.2",
-    "postcss": "^8.1.7",
+    "postcss": "^8.2.10",
     "qs": "^6.9.4",
     "rxjs": "^6.6.3",
     "tslib": "^1.14.1",
