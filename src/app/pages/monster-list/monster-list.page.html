@@ -1,5 +1,5 @@
 <app-expanded-header id="expanded-header" class="container"
-  [filter]="filter" [allTypes]="allTypes"
+  [filter]="filter" [allTypes]="allTypes" [style.display]="headerIsExpanded ? 'block' : 'none'"
   (typeToggled)="toggleType($event)"
   (typeAndToggled)="toggleTypeAnd()"
   (rankOrderingChanged)="sortByRank(nextOrderingOf($event))">
@@ -7,15 +7,11 @@
 
 <app-sticky-header id="sticky-header" class="container"
   [filter]="filter"
+  [(headerIsExpanded)]="headerIsExpanded"
   (searchbarChanged)="updateOnSearchChanged($event)">
 </app-sticky-header>
 
-<ion-content
-  appScrollHeader
-  fullscreen="full"
-  scrollEvents="true"
-  scrollHeaderId="expanded-header"
-  stickyHeaderId="sticky-header">
+<ion-content>
 
   <ion-text *ngIf="!monsters?.length" class="ion-text-center ion-text-wrap">
     <h2>{{ 'list.nothingFound' | translate }}</h2>

@@ -13,6 +13,12 @@ export class TypeOverviewComponent implements OnInit {
   types: BehaviorSubject<Type[]> = new BehaviorSubject<Type[]>(null);
   allTypes: Type[] = [];
 
+  sliderOpts = {
+    freeMode: true,
+    freeModeMomentumRatio: 0.5,
+    slidesPerView: 2.5,
+  };
+
   constructor(private typeService: TypeService) { }
 
   /**

@@ -9,12 +9,7 @@
   (searchbarChanged)="updateOnSearchChanged($event)">
 </app-sticky-header>
 
-<ion-content
-  appScrollHeader
-  fullscreen="full"
-  scrollEvents="true"
-  scrollHeaderId="expanded-header"
-  stickyHeaderId="sticky-header">
+<ion-content>
 
   <ion-text *ngIf="!attacks?.length" class="ion-text-center ion-text-wrap">
     <h2>{{ 'list.nothingFound' | translate }}</h2>
