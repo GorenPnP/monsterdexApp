@@ -39,7 +39,7 @@
   "dataGroups": [
     {
       "name": "monsterdex-backend",
-      "urls": ["https://vstein.pythonanywhere.com**"],
+      "urls": ["https://monsterdex-backend.herokuapp.com**"],
       "cacheConfig": {
         "strategy": "performance",
         "timeout": "5s",

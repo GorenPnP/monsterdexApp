@@ -23,7 +23,7 @@ export interface GetOptions {
 })
 export class RestService {
 
-  private url = 'https://vstein.pythonanywhere.com/';
+  private url = 'https://monsterdex-backend.herokuapp.com/';
 
   constructor(private http: HttpClient) {}
 
