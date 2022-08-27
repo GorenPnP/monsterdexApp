@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { IonContent } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
 import { MonsterService } from 'src/app/services/monster.service';
 import { Monster } from 'src/app/types/monster';
@@ -10,7 +11,8 @@ import { Type } from 'src/app/types/type';
   templateUrl: './monster-detail.page.html',
   styleUrls: ['./monster-detail.page.scss'],
 })
-export class MonsterDetailPage implements OnInit {
+export class MonsterDetailPage implements OnInit, AfterViewInit {
+  @ViewChild(IonContent) content: IonContent;
 
   monster: Monster;
   types: BehaviorSubject<Type[]> = new BehaviorSubject<Type[]>(null);
@@ -35,5 +37,9 @@ export class MonsterDetailPage implements OnInit {
       this.monster = monster;
       this.types.next(monster.types);
     });
+  }
+
+  ngAfterViewInit() {
+    this.content.scrollToTop();
   }
 }

@@ -1,7 +1,7 @@
 <app-named-header [item]="attack"></app-named-header>
 
-<ion-content *ngIf="attack">
-  <main class="container">
+<ion-content>
+  <main class="container" *ngIf="attack">
     <div class="types">
       <app-type *ngFor="let type of attack.types" [type]="type"></app-type>
     </div>

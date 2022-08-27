@@ -1,8 +1,8 @@
 <app-named-header [item]="monster"></app-named-header>
 
-<ion-content *ngIf="monster">
+<ion-content>
 
-  <main class="container">
+  <main class="container" *ngIf="monster">
     <ion-img [src]="monster.showImage" [alt]="monster.name" class="cover-image"></ion-img>
     <div class="types">
       <app-type *ngFor="let type of monster.types" [type]="type"></app-type>

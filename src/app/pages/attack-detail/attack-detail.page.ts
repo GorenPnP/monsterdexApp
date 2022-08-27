@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { IonContent } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
 import { AttackService } from 'src/app/services/attack.service';
 import { Attack } from 'src/app/types/attack';
@@ -10,7 +11,8 @@ import { Type } from 'src/app/types/type';
   templateUrl: './attack-detail.page.html',
   styleUrls: ['./attack-detail.page.scss'],
 })
-export class AttackDetailPage implements OnInit {
+export class AttackDetailPage implements OnInit, AfterViewInit {
+  @ViewChild(IonContent) content: IonContent;
 
   attack: Attack;
   types: BehaviorSubject<Type[]> = new BehaviorSubject<Type[]>(null);
@@ -30,5 +32,9 @@ export class AttackDetailPage implements OnInit {
       this.attack = attack;
       this.types.next(attack.types);
     });
+  }
+
+  ngAfterViewInit() {
+    this.content.scrollToTop();
   }
 }
