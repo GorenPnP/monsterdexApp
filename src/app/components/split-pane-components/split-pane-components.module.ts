@@ -5,6 +5,7 @@ import { TypeOverviewComponent } from './type-overview/type-overview.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { BaseComponentsModule } from '../base-components/base-components.module';
 import { IonicModule } from '@ionic/angular';
+import { SwiperModule } from 'swiper/angular';
 
 
 
@@ -17,7 +18,9 @@ import { IonicModule } from '@ionic/angular';
     CommonModule,
     IonicModule,
     TranslateModule,
-    BaseComponentsModule
+    BaseComponentsModule,
+    // for TypeOverviewComponent
+    SwiperModule
   ],
   exports: [
     TypeCalcComponent,

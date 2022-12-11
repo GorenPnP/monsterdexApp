@@ -1,10 +1,11 @@
 <aside class="type-overview-popover">
-  <ion-slides [options]="sliderOpts">
-    <ion-slide *ngFor="let t of allTypes">
+
+  <swiper>
+    <ng-template swiperSlide *ngFor="let t of allTypes">
       <app-type [type]="t" [showTooltip]="false" [color]="types.value.includes(t) ? 'success' : 'primary'" (click)="toggleType(t)"></app-type>
       <ion-note class="typename">{{ t.name }}</ion-note>
-    </ion-slide>
-  </ion-slides>
+    </ng-template>
+  </swiper>
 
   <app-efficiencies [types]="types"></app-efficiencies>
 </aside>

@@ -1,13 +1,14 @@
 .type-overview-popover {
 
-    ion-slides {
+    .swiper {
         margin-top: 16px;
 
-        ion-slide {
+        .swiper-slide {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            width: 100px !important;
         }
     }
 }

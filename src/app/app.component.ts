@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 
 import { Platform, ToastController } from '@ionic/angular';
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { SplashScreen } from '@capacitor/splash-screen';
 import { LanguageService } from './services/language.service';
 import { NetworkService } from './services/network.service';
 
@@ -17,8 +16,6 @@ export class AppComponent {
 
   constructor(
     private platform: Platform,
-    private splashScreen: SplashScreen,
-    private statusBar: StatusBar,
     private language: LanguageService,
     private network: NetworkService,
     private toastCtrl: ToastController
@@ -40,8 +37,7 @@ export class AppComponent {
 
   initializeApp() {
     this.platform.ready().then(() => {
-      this.statusBar.styleDefault();
-      this.splashScreen.hide();
+      SplashScreen.hide();
       this.language.setInitialLanguage();
     });
   }
