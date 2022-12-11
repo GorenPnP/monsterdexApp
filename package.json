@@ -11,7 +11,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "generateIcons": "ngx-pwa-icons --icon .\\src\\assets\\icon\\favicon.png || npm i -g ngx-pwa-icons && ngx-pwa-icons --icon .\\src\\assets\\icon\\favicon.png",
-    "deploy": "ionic build --prod"
+    "deploy": "ionic build --prod && firebase deploy"
   },
   "private": true,
   "dependencies": {
@@ -44,6 +44,7 @@
     "@capacitor/cli": "^4.0.0",
     "@ionic/angular-toolkit": "^7.0.0",
     "@types/node": "^18.11.13",
+    "firebase-tools": "^11.17.0",
     "ts-node": "^10.9.1",
     "tslint": "^6.1.3",
     "typescript": "^4.8.2"

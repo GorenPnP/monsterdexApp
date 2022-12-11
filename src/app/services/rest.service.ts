@@ -23,7 +23,7 @@ export interface GetOptions {
 })
 export class RestService {
 
-  private url = 'http://monsterdex-backend:5000/';
+  private url = 'https://pnp.eu.pythonanywhere.com/';
 
   constructor(private http: HttpClient) {}
 
