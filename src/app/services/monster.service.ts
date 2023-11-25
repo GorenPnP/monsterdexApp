@@ -1,7 +1,7 @@
 import { Injectable, SecurityContext } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { combineLatest, forkJoin, Observable, of, pipe, UnaryFunction } from 'rxjs';
-import { catchError, concatAll, map, pluck, switchMap, tap } from 'rxjs/operators';
+import { catchError, concatAll, map, pluck } from 'rxjs/operators';
 import { Attack } from '../types/attack';
 import { Filter } from '../types/filter';
 import { Monster } from '../types/monster';
@@ -144,7 +144,7 @@ export class MonsterService {
   public filter(filter: Filter): Observable<Monster[]> {
     
     // stringify filter values
-    let filters: string[] = [`pageSize: ${this.limit}`];
+    const filters: string[] = [`pageSize: ${this.limit}`];
     if (filter.typeAnd !== undefined) filters.push(`typeAnd: ${filter.typeAnd}`);
     if (filter.name) { filters.push(`name: "${filter.name}"`); }
     if (filter.types?.length) { filters.push(`types: [${filter.types}]`); }

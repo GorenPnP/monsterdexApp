@@ -33,7 +33,7 @@ export class TypeOverviewComponent implements OnInit {
   }
 
   toggleType(t: Type): void {
-    let types = this.types.value;
+    const types = this.types.value;
 
     if (types.includes(t)) {
       this.types.next(types.filter(type => type !== t));

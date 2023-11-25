@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 
 import { Platform, ToastController } from '@ionic/angular';
-import { SplashScreen } from '@capacitor/splash-screen';
 import { LanguageService } from './services/language.service';
 import { NetworkService } from './services/network.service';
 
@@ -37,7 +36,6 @@ export class AppComponent {
 
   initializeApp() {
     this.platform.ready().then(() => {
-      SplashScreen.hide();
       this.language.setInitialLanguage();
     });
   }
