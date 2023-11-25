@@ -13,7 +13,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 // Sentry
 import { APP_INITIALIZER, ErrorHandler } from "@angular/core";
 import { Router } from "@angular/router";
-import * as Sentry from "@sentry/angular";
+import * as Sentry from "@sentry/angular-ivy";
 
 
 export function createTranslateLoader(http: HttpClient) {
@@ -22,7 +22,6 @@ export function createTranslateLoader(http: HttpClient) {
 
 @NgModule({
   declarations: [AppComponent],
-  entryComponents: [],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
