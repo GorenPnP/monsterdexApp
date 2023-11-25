@@ -1,10 +1,9 @@
 import { AfterViewInit, Component, Input } from '@angular/core';
 import { Observable, OperatorFunction } from 'rxjs';
-import { zip } from 'rxjs/internal/observable/zip';
-import { concatAll, map, tap } from 'rxjs/operators';
+import { concatAll, map } from 'rxjs/operators';
 import { TypeService } from 'src/app/services/type.service';
 import { Type } from 'src/app/types/type';
-import { Efficiency, efficiencyFromValue, TypeEfficiency } from 'src/app/types/type-efficiency';
+import { efficiencyFromValue, TypeEfficiency } from 'src/app/types/type-efficiency';
 
 @Component({
   selector: 'app-efficiencies',
@@ -100,8 +99,8 @@ export class EfficienciesComponent implements AfterViewInit {
       
       return source.pipe(
         map(typeEfficiencies => {
-          const type_ids: number[] = Object.keys(typeEfficiencies) as any as number[];
-          
+          const type_ids: number[] = Object.keys(typeEfficiencies).map(id => parseInt(id));
+
           // fetch full types from mere type_ids
           return this.getTypes(type_ids).pipe(
             map(types => {
